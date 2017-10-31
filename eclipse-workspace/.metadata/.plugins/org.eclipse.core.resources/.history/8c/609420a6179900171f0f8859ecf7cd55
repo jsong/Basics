@@ -1,0 +1,16 @@
+import java.util.HashMap;
+
+public class Solution {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	public int majorityElement2(int[] nums) {
+		HashMap<Integer, Integer> myMap = new HashMap<Integer, Integer>();
+		
+	}
+
+	
+
+}

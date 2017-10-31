@@ -1,0 +1,11 @@
+
+
+public class LinkedListUtility {
+
+}
+
+public LinkedList partition(LinkedListNode node,int x) {
+	
+	
+	
+}

@@ -1,0 +1,17 @@
+import java.util.LinkedList;
+
+public class LinkedListUtility {
+	public LinkedList partition(LinkedList node,int x) {
+		LinkedList beforeStart = null;
+		LinkedList afterStart = null;
+		
+		
+		
+		
+		
+		
+		return node;
+	}
+	
+}
+
