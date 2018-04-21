@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.PriorityQueue;
 
 public class Solution {
 
@@ -43,6 +44,12 @@ public class Solution {
 		// new ArrayList<String>("hot","dot","dog","lot","log","cog");
 		int length = sl.ladderLength(beginWord, endWord, wordList);
 		System.out.println("Length: " + length);
+		
+		String[] strings = {"z", "x", "z"};
+			//{"za","zb","ca","cb"}; 
+			//{"wrt","wrf","er","ett","rftt"};
+		String res = sl.alienOrder(strings);
+		System.out.println("alien:" + res);
 	}
 
 	public void stackQueueCompare() {
@@ -66,10 +73,112 @@ public class Solution {
 
 	// 269. Alien Dictionary
 	// Company: Google Facebook Twitter SnapChat.
-	// Description: According to the alien sequence in dictionary derive or infer whether input
+	// Description: According to the alien sequence in dictionary derive or infer
+	// whether input
 	// is valid, if not just return "", otherwise return any words should be fine.
 	public String alienOrder(String[] words) {
+		if (words == null || words.length == 0) {
+			return "";
+		}
 
+		// construct graph
+		HashMap<Character, HashSet<Character>> graph = constructGraph(words);
+
+		// construct indegree
+		HashMap<Character, Integer> indegree = indegree(graph);
+
+		// topological sort
+		String res = topSort(graph, indegree);
+		return res;
+	}
+
+	private HashMap<Character, HashSet<Character>> constructGraph(String[] words) {
+		HashMap<Character, HashSet<Character>> graph = new HashMap<>();
+
+		// find all nodes.
+		for (int i = 0; i < words.length; i++) {
+			for (int j = 0; j < words[i].length(); j++) {
+				Character c = words[i].charAt(j);
+				if (!graph.containsKey(c)) {
+					graph.put(c, new HashSet<Character>());
+				}
+			}
+		}
+
+		// connect all edges
+		for (int i = 0; i < words.length - 1; i++) {
+			int length = Math.min(words[i].length(), words[i + 1].length());
+			for (int j = 0; j < length; j++) {
+				Character c1 = words[i].charAt(j);
+				Character c2 = words[i + 1].charAt(j);
+				// here will have issue, like za -> zb, ca -> cb. The a -> b order 
+				// is hard to tell.
+				// Solution if it has been added, then just break;
+				if (c1 != c2) {
+//					if (!graph.get(c2).contains(c1)) {
+						graph.get(c1).add(c2);
+						break;
+//					}
+				}
+			}
+		}
+
+		return graph;
+	}
+
+	private HashMap<Character, Integer> indegree(HashMap<Character, HashSet<Character>> graph) {
+		HashMap<Character, Integer> indegree = new HashMap<>();
+		Set<Character> keys = graph.keySet();
+		for (Character c : keys) {
+			HashSet<Character> set = graph.get(c);
+			if (!indegree.containsKey(c)) {
+				indegree.put(c, 1);
+			} else {
+				indegree.put(c, indegree.get(c) + 1);
+			}
+
+			for (Character s : set) {
+				if (indegree.containsKey(s)) {
+					indegree.put(s, indegree.get(s) + 1);
+				} else {
+					indegree.put(s, 1);
+				}
+			}
+		}
+
+		return indegree;
+	}
+
+	private String topSort(HashMap<Character, HashSet<Character>> graph, HashMap<Character, Integer> indegree) {
+		StringBuilder builder = new StringBuilder();
+		Queue<Character> queue = new PriorityQueue<>();
+
+		for (Character c : indegree.keySet()) {
+			if (indegree.get(c) == 1) {
+				queue.offer(c);
+			}
+		}
+
+		while (!queue.isEmpty()) {
+			Character c = queue.poll();
+			builder.append(c);
+			HashSet<Character> neighbors = graph.get(c);
+			for (Character s: neighbors) {
+				if (indegree.containsKey(s)) {
+					indegree.put(s, indegree.get(s) - 1);
+					
+					if (indegree.get(s) == 1) {
+						queue.offer(s);
+					}
+				}
+			}
+		}
+		System.out.println("builder:" + builder.length() + "\nindegree:" + indegree.size());
+		if (builder.length() != indegree.size()) {
+			return "";
+		}
+		
+		return builder.toString();
 	}
 
 	// 127 Topological sorting. LintCode
