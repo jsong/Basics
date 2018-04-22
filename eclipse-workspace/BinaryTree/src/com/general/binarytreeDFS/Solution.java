@@ -13,18 +13,63 @@ public class Solution {
 
 	}
 
+	// 597. Maximum average of subtree. LintCode
+	// Description: find the subtree who has the maximum average.
+	// Solution: Use custom type to record size, sum, divide and conquer
+	// calculate the maximum.
+	class ResultType {
+		TreeNode node;
+		int sum;
+		int size;
+
+		public ResultType(TreeNode node, int sum, int size) {
+			this.node = node;
+			this.sum = sum;
+			this.size = size;
+		}
+	}
+
+	private ResultType result;
+
+	public TreeNode findSubtree2(TreeNode root) {
+		if (root == null) {
+			return null;
+		}
+		
+		ResultType type = maxSubHelper(root);
+		return type.node;
+	}
+	
+	private ResultType maxSubHelper(TreeNode node) {
+		if (node == null) {
+			return new ResultType(null, 0, 0);
+		}
+		
+		ResultType leftResult = maxSubHelper(node.left);
+		ResultType rightResult = maxSubHelper(node.right);
+		
+		ResultType curResult = new ResultType(node, leftResult.sum + rightResult.sum + node.val, leftResult.size + rightResult.size + 1);
+	
+		if (result == null || curResult.sum / curResult.size > result.sum / result.size) {
+			result = curResult;
+		}
+		
+		return curResult;
+	}
+
 	// 108. Convert Sorted Array to Binary Search Tree
 	// Company: airbnb
 	// Description:
-	// Solution use binary search recursion, question how is time BigO and space BigO? 
+	// Solution use binary search recursion, question how is time BigO and space
+	// BigO?
 	public TreeNode sortedArrayToBST(int[] nums) {
 		if (nums == null || nums.length == 0) {
 			return null;
 		}
-		
+
 		return BSTHelper(nums, 0, nums.length - 1);
 	}
-	
+
 	private TreeNode BSTHelper(int[] nums, int left, int right) {
 		if (left > right) {
 			return null;
@@ -33,10 +78,10 @@ public class Solution {
 		TreeNode node = new TreeNode(nums[mid]);
 		node.left = BSTHelper(nums, left, mid - 1);
 		node.right = BSTHelper(nums, mid + 1, right);
-		
+
 		return node;
 	}
-	
+
 	// 250. Count Univalue Subtrees
 	// Company: N/A
 	// Description: count how much subnodes has the same value.
