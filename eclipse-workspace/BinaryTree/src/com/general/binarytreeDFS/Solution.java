@@ -13,6 +13,88 @@ public class Solution {
 
 	}
 
+	// 108. Convert Sorted Array to Binary Search Tree
+	// Company: airbnb
+	// Description:
+	public TreeNode sortedArrayToBST(int[] nums) {
+
+	}
+
+	// 250. Count Univalue Subtrees
+	// Company: N/A
+	// Description: count how much subnodes has the same value.
+	// find the subtree and do the count
+	int count;
+
+	public int countUnivalSubtrees(TreeNode root) {
+		count = 0;
+		uniHelper(root);
+		return count;
+	}
+
+	private boolean uniHelper(TreeNode node) {
+		if (node == null) {
+			return true;
+		}
+		boolean left = uniHelper(node.left);
+		boolean right = uniHelper(node.right);
+
+		if (left && right) {
+			if (node.left != null && node.left.val != node.val) {
+				return false;
+			}
+
+			if (node.right != null && node.right.val != node.val) {
+				return false;
+			}
+			count++;
+			return true;
+		}
+
+		return false;
+	}
+
+	// 236. Lowest Common Ancestor of a Binary Tree
+	// Company: Facebook, Amazon, LinkedIn, Apple
+	// Description: Given a binary tree, find the lowest common ancestor (LCA) of
+	// two given nodes in the tree.
+	// Solution Recursion, find the leaf first,
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		if (root == null || root == p || root == q) {
+			return root;
+		}
+
+		TreeNode left = lowestCommonAncestor(root.left, p, q);
+		TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+		if (left != null && right != null) {
+			return root;
+		}
+
+		return left == null ? right : left;
+	}
+
+	// 235. Lowest Common Ancestor of a Binary Search Tree
+	// Company: Facebook Amazon Twitter Microsoft
+	// Description: Given a BST find the common parent node. Common node can be
+	// itself.
+	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+		// lowest ancestor on the left.
+		if (root.val > p.val && root.val > q.val) {
+			return lowestCommonAncestor2(root.left, p, q);
+		} else if (root.val < p.val && root.val < q.val) { // lowest ancestor on the right.
+			return lowestCommonAncestor2(root.right, p, q);
+		} else {
+			return root;
+		}
+		// else if (root.val > p.val && root.val < q.val || root.val < p.val && root.val
+		// > q.val) {
+		// return root;
+		// } else {
+		// return null;
+		// }
+	}
+
 	// 112. Path Sum
 	// Company: Microsoft
 	// Description: Find whether there are path from root to leaf which can sum up
@@ -72,10 +154,10 @@ public class Solution {
 			return res;
 		}
 		pathSumHelper(root, sum, res, new ArrayList<Integer>());
-		
+
 		return res;
 	}
-	
+
 	private void pathSumHelper(TreeNode root, int sum, List<List<Integer>> res, List<Integer> list) {
 		if (root == null) {
 			return;
@@ -86,15 +168,15 @@ public class Solution {
 				res.add(new ArrayList<Integer>(list));
 			}
 		}
-		
+
 		if (root.left != null) {
 			pathSumHelper(root.left, sum - root.val, res, list);
 		}
-		
+
 		if (root.right != null) {
 			pathSumHelper(root.right, sum - root.val, res, list);
 		}
-		
+
 		list.remove(res.size() - 1);
 	}
 
