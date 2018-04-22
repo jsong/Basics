@@ -16,10 +16,27 @@ public class Solution {
 	// 108. Convert Sorted Array to Binary Search Tree
 	// Company: airbnb
 	// Description:
+	// Solution use binary search recursion, question how is time BigO and space BigO? 
 	public TreeNode sortedArrayToBST(int[] nums) {
-
+		if (nums == null || nums.length == 0) {
+			return null;
+		}
+		
+		return BSTHelper(nums, 0, nums.length - 1);
 	}
-
+	
+	private TreeNode BSTHelper(int[] nums, int left, int right) {
+		if (left > right) {
+			return null;
+		}
+		int mid = left + (right - left) / 2;
+		TreeNode node = new TreeNode(nums[mid]);
+		node.left = BSTHelper(nums, left, mid - 1);
+		node.right = BSTHelper(nums, mid + 1, right);
+		
+		return node;
+	}
+	
 	// 250. Count Univalue Subtrees
 	// Company: N/A
 	// Description: count how much subnodes has the same value.
