@@ -13,6 +13,61 @@ public class Solution {
 
 	}
 
+	// 85. Insert Node in a Binary Search Tree
+	// Company: N/A
+	// Description: insert a node into existing BST
+	// Solution 1. Recursion, 2. Iteration.
+	
+	public TreeNode insertNode(TreeNode root, TreeNode node) {
+		if (root == null) {
+			return node;
+		}
+		
+		if (root.val < node.val) {
+			root.right = insertNode(root.right, node);
+		}
+		
+		if (root.val > node.val) {
+			root.left = insertNode(root.left, node);
+		}
+		
+		return root;
+	}
+	
+	// 11. Search Range in Binary Search Tree LintCode
+	// Company: N/A
+	// Description given a k1 and k2 find the values in between them on BST.
+	// Solution: Recursion check k1 < val || k1 < val < k2 || k2 > val
+
+	public List<Integer> searchRange(TreeNode root, int k1, int k2) {
+		// write your code here
+		List<Integer> res = new ArrayList<>();
+		if (root == null) {
+			return res;
+		}
+
+		rangeHelper(res, root, k1, k2);
+		return res;
+	}
+
+	private void rangeHelper(List<Integer> res, TreeNode node, int k1, int k2) {
+		if (node == null) {
+			return;
+		}
+
+		if (k1 < node.val) {
+			rangeHelper(res, node.left, k1, k2);
+		}
+
+		if (k1 <= node.val && k2 >= node.val) {
+			res.add(node.val);
+		}
+
+		if (k2 > node.val) {
+			rangeHelper(res, node.right, k1, k2);
+		}
+	}
+
 	// 366. Find Leaves of Binary Tree
 	// Company: Linkedin
 	// Description: Collect all the leaves and remove the leaves, repeat.
@@ -22,9 +77,9 @@ public class Solution {
 		if (root == null) {
 			return res;
 		}
-		
+
 		leafHelper(res, root);
-		
+
 		return res;
 	}
 
@@ -32,20 +87,21 @@ public class Solution {
 		if (node == null) {
 			return -1;
 		}
-		
+
 		int left = leafHelper(list, node.left);
 		int right = leafHelper(list, node.right);
 		int level = Math.max(left, right) + 1;
-		
+
 		if (list.size() == level) {
 			list.add(new ArrayList<>());
 		}
-		
+
 		list.get(level).add(node.val);
 		node.left = null;
 		node.right = null;
 		return level;
 	}
+
 	// 230. Kth Smallest Element in a BST
 	// Company: Google Uber
 	// Description: Find the kth smallest number in BST.
