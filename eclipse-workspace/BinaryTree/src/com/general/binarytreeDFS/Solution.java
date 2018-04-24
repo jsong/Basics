@@ -13,14 +13,48 @@ public class Solution {
 
 	}
 
+	// 366. Find Leaves of Binary Tree
+	// Company: Linkedin
+	// Description: Collect all the leaves and remove the leaves, repeat.
+	// Solution: Backtracking using the postorder traversal and level to add value;
+	public List<List<Integer>> findLeaves(TreeNode root) {
+		List<List<Integer>> res = new ArrayList<>();
+		if (root == null) {
+			return res;
+		}
+		
+		leafHelper(res, root);
+		
+		return res;
+	}
+
+	private int leafHelper(List<List<Integer>> list, TreeNode node) {
+		if (node == null) {
+			return -1;
+		}
+		
+		int left = leafHelper(list, node.left);
+		int right = leafHelper(list, node.right);
+		int level = Math.max(left, right) + 1;
+		
+		if (list.size() == level) {
+			list.add(new ArrayList<>());
+		}
+		
+		list.get(level).add(node.val);
+		node.left = null;
+		node.right = null;
+		return level;
+	}
 	// 230. Kth Smallest Element in a BST
 	// Company: Google Uber
 	// Description: Find the kth smallest number in BST.
-	// Solution: use in-order tranversal. 
+	// Solution: use in-order tranversal.
 	private int kth = 0;
 	private int kthVal = 0;
+
 	public int kthSmallest(TreeNode root, int k) {
-		kth = k; 
+		kth = k;
 		inorderHelper(root);
 		return kthVal;
 	}
@@ -29,16 +63,17 @@ public class Solution {
 		if (root == null) {
 			return;
 		}
-		
+
 		inorderHelper(root.left);
 		kth--;
-		
+
 		if (kth == 0) {
 			kthVal = root.val;
 		}
-		
+
 		inorderHelper(root.right);
 	}
+
 	// 226. Invert Binary Tree
 	// Company: Google
 	// Solution 1. Non recursion (BFS) per level, swap the nodes.
