@@ -555,8 +555,8 @@ public class Solution {
 
 	// 114. Flatten Binary Tree to Linked List
 	// Description:
-	// Company: Microsoft. TODO:
-
+	// Company: Microsoft. 
+	// Solution 1. Recursion, 2. Iteration. Stack
 	private TreeNode prev; // record previous tree node;
 
 	public void flatten(TreeNode root) {
@@ -568,6 +568,32 @@ public class Solution {
 		root.left = null;
 		prev = root;
 	}
+	
+	public void flatten2(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		
+		Stack<TreeNode> stack = new Stack<>();
+		stack.push(root);
+		
+		while (!stack.isEmpty()) {
+			TreeNode cur = stack.pop();
+			if (cur.right != null) {
+				stack.push(cur.right);
+			}
+			if (cur.left != null) {
+				stack.push(cur.left);
+			}
+			if (!stack.isEmpty()) {
+				TreeNode top = stack.peek();
+				cur.right = top;
+			}
+		}
+		
+	}
+	
+	
 
 	// 285. Inorder Successor in BST
 	// Description: Inorder successor is the sequence which tree has been traversal.
