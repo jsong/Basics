@@ -589,8 +589,8 @@ public class Solution {
 				TreeNode top = stack.peek();
 				cur.right = top;
 			}
+			cur.left = null;
 		}
-		
 	}
 	
 	
@@ -598,6 +598,9 @@ public class Solution {
 	// 285. Inorder Successor in BST
 	// Description: Inorder successor is the sequence which tree has been traversal.
 	// Company: Facebook
+	// Solution: Inorder traversal on BST will return the node ascending. So the node successor 
+	// means the node after the target one. In order -> left, root, right. 
+	
 	public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
 		TreeNode res = null;
 		while (root != null) {
