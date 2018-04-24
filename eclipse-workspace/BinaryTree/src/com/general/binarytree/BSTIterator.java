@@ -12,7 +12,9 @@ public class BSTIterator {
 
 	// 173. Binary Tree Iterator
 	// Company: Facebook LinkedIn
-	//
+	// Description: Use in-order for BST tree, which will output the sorted numbers.
+	// Solution: Inorder traversal to find the next smallest value.
+	
 	public BSTIterator(TreeNode root) {
 		cur = root;
 		stack = new Stack<>();
@@ -31,7 +33,9 @@ public class BSTIterator {
 			cur = cur.left;
 		}
 		cur = stack.pop();
-		return cur.val;
+		int val = cur.val;
+		cur = cur.right;
+		return val;
 	}
 
 }
