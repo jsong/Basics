@@ -13,6 +13,50 @@ public class Solution {
 
 	}
 
+	// 230. Kth Smallest Element in a BST
+	// Company: Google Uber
+	// Description: Find the kth smallest number in BST.
+	// Solution: use in-order tranversal. 
+	private int kth = 0;
+	private int kthVal = 0;
+	public int kthSmallest(TreeNode root, int k) {
+		kth = k; 
+		inorderHelper(root);
+		return kthVal;
+	}
+
+	private void inorderHelper(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		
+		inorderHelper(root.left);
+		kth--;
+		
+		if (kth == 0) {
+			kthVal = root.val;
+		}
+		
+		inorderHelper(root.right);
+	}
+	// 226. Invert Binary Tree
+	// Company: Google
+	// Solution 1. Non recursion (BFS) per level, swap the nodes.
+	// 2. Recursion, swap left and right node.
+	public TreeNode invertTree(TreeNode root) {
+		if (root == null) {
+			return root;
+		}
+
+		TreeNode left = invertTree(root.left);
+		TreeNode right = invertTree(root.right);
+
+		root.left = right;
+		root.right = left;
+
+		return root;
+	}
+
 	// 597. Maximum average of subtree. LintCode
 	// Description: find the subtree who has the maximum average.
 	// Solution: Use custom type to record size, sum, divide and conquer
@@ -35,25 +79,26 @@ public class Solution {
 		if (root == null) {
 			return null;
 		}
-		
+
 		ResultType type = maxSubHelper(root);
 		return type.node;
 	}
-	
+
 	private ResultType maxSubHelper(TreeNode node) {
 		if (node == null) {
 			return new ResultType(null, 0, 0);
 		}
-		
+
 		ResultType leftResult = maxSubHelper(node.left);
 		ResultType rightResult = maxSubHelper(node.right);
-		
-		ResultType curResult = new ResultType(node, leftResult.sum + rightResult.sum + node.val, leftResult.size + rightResult.size + 1);
-	
+
+		ResultType curResult = new ResultType(node, leftResult.sum + rightResult.sum + node.val,
+				leftResult.size + rightResult.size + 1);
+
 		if (result == null || curResult.sum / curResult.size > result.sum / result.size) {
 			result = curResult;
 		}
-		
+
 		return curResult;
 	}
 
