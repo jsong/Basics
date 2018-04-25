@@ -13,23 +13,55 @@ public class Solution {
 
 	}
 
+	// 101. Symmetric Tree
+	// Company: Microsoft, LinkedIn
+	public boolean isSymmetric(TreeNode root) {
+		if (root == null) {
+			return true;
+		}
+		
+		return symHelper(root.left, root.right);
+	}
+	
+	private boolean symHelper(TreeNode left, TreeNode right) {
+		if (left == null && right == null) {
+			return true;
+		}
+		//left null, right non-null or left non-null, right null.
+		if (left == null || right == null) {
+			return false;
+		}
+		
+//		if (left.val != right.val) {
+//			System.out.println("left:" + left.val + "right:" + right.val);
+//			return true;
+//		}
+		
+		if (left.val != right.val) {
+			return false;
+		}
+		
+		return symHelper(left.left, right.right) && symHelper(left.right, right.left);
+	}
+
 	// 450. Delete Node in a BST
 	// Company: Uber
 	// Description: Find a node under BST, delete it and form a new tree.
-	// Solution 1. Use Recursion to find the first node to be deleted. 
-	// if key == root && both left right not null, we need to find the first right minimum element. 
+	// Solution 1. Use Recursion to find the first node to be deleted.
+	// if key == root && both left right not null, we need to find the first right
+	// minimum element.
 	// otherwise, just return the non-null child right or left.
 	public TreeNode deleteNode(TreeNode root, int key) {
 		if (root == null) {
 			return root;
 		}
-		
+
 		if (key < root.val) {
 			root.left = deleteNode(root.left, key);
 		} else if (key > root.val) {
 			root.right = deleteNode(root.right, key);
 		} else {
-			//if key == root
+			// if key == root
 			if (root.right != null && root.left != null) {
 				TreeNode min = root.right;
 				while (min.left != null) {
@@ -44,7 +76,7 @@ public class Solution {
 				return newRoot;
 			}
 		}
-		
+
 		return root;
 	}
 
