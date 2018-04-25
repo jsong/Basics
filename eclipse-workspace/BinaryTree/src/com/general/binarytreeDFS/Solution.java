@@ -16,7 +16,9 @@ public class Solution {
 	// 450. Delete Node in a BST
 	// Company: Uber
 	// Description: Find a node under BST, delete it and form a new tree.
-	// Solution 1.
+	// Solution 1. Use Recursion to find the first node to be deleted. 
+	// if key == root && both left right not null, we need to find the first right minimum element. 
+	// otherwise, just return the non-null child right or left.
 	public TreeNode deleteNode(TreeNode root, int key) {
 		if (root == null) {
 			return root;
