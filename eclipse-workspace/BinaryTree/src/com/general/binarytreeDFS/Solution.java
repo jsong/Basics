@@ -13,27 +13,60 @@ public class Solution {
 
 	}
 
-	// 85. Insert Node in a Binary Search Tree
-	// Company: N/A
-	// Description: insert a node into existing BST
-	// Solution 1. Recursion, 2. Iteration.
-	
-	public TreeNode insertNode(TreeNode root, TreeNode node) {
+	// 450. Delete Node in a BST
+	// Company: Uber
+	// Description: Find a node under BST, delete it and form a new tree.
+	// Solution 1.
+	public TreeNode deleteNode(TreeNode root, int key) {
 		if (root == null) {
-			return node;
+			return root;
 		}
 		
-		if (root.val < node.val) {
-			root.right = insertNode(root.right, node);
-		}
-		
-		if (root.val > node.val) {
-			root.left = insertNode(root.left, node);
+		if (key < root.val) {
+			root.left = deleteNode(root.left, key);
+		} else if (key > root.val) {
+			root.right = deleteNode(root.right, key);
+		} else {
+			//if key == root
+			if (root.right != null && root.left != null) {
+				TreeNode min = root.right;
+				while (min.left != null) {
+					min = min.left;
+				}
+				root.val = min.val;
+				root.right = deleteNode(root.right, min.val);
+			} else {
+				TreeNode newRoot = root.left == null ? root.right : root.left;
+				root.left = null;
+				root.right = null;
+				return newRoot;
+			}
 		}
 		
 		return root;
 	}
-	
+
+	// 85. Insert Node in a Binary Search Tree
+	// Company: N/A
+	// Description: insert a node into existing BST
+	// Solution 1. Recursion, 2. Iteration.
+
+	public TreeNode insertNode(TreeNode root, TreeNode node) {
+		if (root == null) {
+			return node;
+		}
+
+		if (root.val < node.val) {
+			root.right = insertNode(root.right, node);
+		}
+
+		if (root.val > node.val) {
+			root.left = insertNode(root.left, node);
+		}
+
+		return root;
+	}
+
 	// 11. Search Range in Binary Search Tree LintCode
 	// Company: N/A
 	// Description given a k1 and k2 find the values in between them on BST.
