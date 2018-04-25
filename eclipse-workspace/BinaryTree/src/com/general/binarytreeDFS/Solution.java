@@ -15,6 +15,12 @@ public class Solution {
 
 	// 101. Symmetric Tree
 	// Company: Microsoft, LinkedIn
+	// Solution: Recursion to find out whether left right is equal or not. 
+	// 				1
+	//			   / \
+    //			  2   2
+	//             \   \
+	//              3   3
 	public boolean isSymmetric(TreeNode root) {
 		if (root == null) {
 			return true;
