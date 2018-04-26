@@ -1,6 +1,7 @@
 package com.general.binarytreeDFS;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
@@ -13,21 +14,50 @@ public class Solution {
 
 	}
 
+	// 653. Two Sum IV - Input is a BST
+	// Company: Facebook Sumsung.
+	// Description: Given a target, check whether there are two nodes val will
+	// sum up to it.
+	// Solution: Using hashset to store the value if found.
+	public boolean findTarget(TreeNode root, int k) {
+		if (root == null) {
+			return false;
+		}
+		HashSet<Integer> set = new HashSet<Integer>();
+		
+		return targetHelper(root, k, set);
+	}
+	
+	private boolean targetHelper(TreeNode node, int target, HashSet<Integer> set) {
+		if (node == null) {
+			return false;
+		}
+		
+		if (set.contains(target - node.val)) {
+			return true;
+		}
+		
+		set.add(node.val);
+		
+		return targetHelper(node.left, target, set) || targetHelper(node.right, target, set);
+	}
+
 	// 543. Diameter of Binary Tree
 	// Company: Facebook Google.
 	// Description: Longest path between two nodes, may or may not pass the root.
 	// Solution: Longest path of tree = longest left path + longest right path;
 	private int diameter = 0;
+
 	public int diameterOfBinaryTree(TreeNode root) {
 		depthHelper(root);
 		return diameter;
 	}
-	
+
 	private int depthHelper(TreeNode node) {
 		if (node == null) {
 			return 0;
 		}
-		
+
 		int left = depthHelper(node.left);
 		int right = depthHelper(node.right);
 		diameter = Math.max(diameter, left + right);
