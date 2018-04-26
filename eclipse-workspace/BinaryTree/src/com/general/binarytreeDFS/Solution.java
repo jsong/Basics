@@ -13,40 +13,69 @@ public class Solution {
 
 	}
 
+	// 100. Same Tree
+	// Company: Bloomberg
+	// Description: Given two binary trees, write a function to check if they are
+	// the same or not.
+	public boolean isSameTree(TreeNode p, TreeNode q) {
+//		if (p == null && q == null) {
+//			return true;
+//		}
+		
+		return samehelper(p,q);
+	}
+	
+	private boolean samehelper(TreeNode root1, TreeNode root2) {
+		if (root1 == null && root2 == null) {
+			return true;
+		}
+		
+		// tricky part means either is nil other not.
+		if (root1 == null || root2 == null) {
+			return false;
+		}
+		
+		if (root1.val != root2.val) {
+			return false;
+		}
+		
+		return samehelper(root1.left, root2.left) && samehelper(root1.right, root2.right);
+	}
+
 	// 101. Symmetric Tree
 	// Company: Microsoft, LinkedIn
-	// Solution: Recursion to find out whether left right is equal or not. 
-	// 				1
-	//			   / \
-    //			  2   2
-	//             \   \
-	//              3   3
+	// Solution: Recursion to find out whether left right is equal or not.
+	// 1
+	// / \
+	// 2 2
+	// \ \
+	// 3 3
 	public boolean isSymmetric(TreeNode root) {
 		if (root == null) {
 			return true;
 		}
-		
+
 		return symHelper(root.left, root.right);
 	}
-	
+
 	private boolean symHelper(TreeNode left, TreeNode right) {
 		if (left == null && right == null) {
 			return true;
 		}
-		//left null, right non-null or left non-null, right null.
+		// left null, right non-null or left non-null, right null.
 		if (left == null || right == null) {
 			return false;
 		}
-		
-//		if (left.val != right.val) {
-//			System.out.println("left:" + left.val + "right:" + right.val);
-//			return true;
-//		}
-		
+
+		// if (left.val != right.val) {
+		// System.out.println("left:" + left.val + "right:" + right.val);
+		// return true;
+		// }
+
 		if (left.val != right.val) {
 			return false;
 		}
-		
+
 		return symHelper(left.left, right.right) && symHelper(left.right, right.left);
 	}
 
