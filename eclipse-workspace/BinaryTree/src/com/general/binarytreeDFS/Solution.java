@@ -13,31 +13,52 @@ public class Solution {
 
 	}
 
+	// 543. Diameter of Binary Tree
+	// Company: Facebook Google.
+	// Description: Longest path between two nodes, may or may not pass the root.
+	// Solution: Longest path of tree = longest left path + longest right path;
+	private int diameter = 0;
+	public int diameterOfBinaryTree(TreeNode root) {
+		depthHelper(root);
+		return diameter;
+	}
+	
+	private int depthHelper(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+		
+		int left = depthHelper(node.left);
+		int right = depthHelper(node.right);
+		diameter = Math.max(diameter, left + right);
+		return Math.max(left, right) + 1;
+	}
+
 	// 572. Subtree of Another Tree
 	// Company: Facebook.
-	// Description: Whether t is a descendent of s, 
+	// Description: Whether t is a descendent of s,
 	public boolean isSubtree(TreeNode s, TreeNode t) {
 		if (s == null) {
 			return false;
 		}
-		
+
 		if (isSameTree2(s, t)) {
 			return true;
 		}
-		
+
 		return isSubtree(s.left, t) || isSubtree(s.right, t);
 	}
-	
-	//same tree or not simpler version of samehelper
+
+	// same tree or not simpler version of samehelper
 	private boolean isSameTree2(TreeNode r1, TreeNode r2) {
 		if (r1 == null && r2 == null) {
 			return true;
 		}
-		
+
 		if (r1 == null || r2 == null) {
 			return false;
 		}
-		
+
 		return r1.val == r2.val && isSameTree2(r1.left, r2.left) && isSameTree2(r1.right, r2.right);
 	}
 
