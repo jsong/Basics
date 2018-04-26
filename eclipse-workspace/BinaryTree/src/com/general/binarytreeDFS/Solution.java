@@ -13,32 +13,60 @@ public class Solution {
 
 	}
 
+	// 572. Subtree of Another Tree
+	// Company: Facebook.
+	// Description: Whether t is a descendent of s, 
+	public boolean isSubtree(TreeNode s, TreeNode t) {
+		if (s == null) {
+			return false;
+		}
+		
+		if (isSameTree2(s, t)) {
+			return true;
+		}
+		
+		return isSubtree(s.left, t) || isSubtree(s.right, t);
+	}
+	
+	//same tree or not simpler version of samehelper
+	private boolean isSameTree2(TreeNode r1, TreeNode r2) {
+		if (r1 == null && r2 == null) {
+			return true;
+		}
+		
+		if (r1 == null || r2 == null) {
+			return false;
+		}
+		
+		return r1.val == r2.val && isSameTree2(r1.left, r2.left) && isSameTree2(r1.right, r2.right);
+	}
+
 	// 100. Same Tree
 	// Company: Bloomberg
 	// Description: Given two binary trees, write a function to check if they are
 	// the same or not.
 	public boolean isSameTree(TreeNode p, TreeNode q) {
-//		if (p == null && q == null) {
-//			return true;
-//		}
-		
-		return samehelper(p,q);
+		// if (p == null && q == null) {
+		// return true;
+		// }
+
+		return samehelper(p, q);
 	}
-	
+
 	private boolean samehelper(TreeNode root1, TreeNode root2) {
 		if (root1 == null && root2 == null) {
 			return true;
 		}
-		
+
 		// tricky part means either is nil other not.
 		if (root1 == null || root2 == null) {
 			return false;
 		}
-		
+
 		if (root1.val != root2.val) {
 			return false;
 		}
-		
+
 		return samehelper(root1.left, root2.left) && samehelper(root1.right, root2.right);
 	}
 
