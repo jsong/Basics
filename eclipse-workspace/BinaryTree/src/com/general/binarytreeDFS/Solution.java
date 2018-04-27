@@ -13,6 +13,30 @@ public class Solution {
 		// TODO Auto-generated method stub
 
 	}
+	// 545. Boundary of Binary Tree
+	// Company: Google Amazon
+	// Description:
+	
+	
+	// 617. Merge Two Binary Trees
+	// Company: Amazon.
+	// Description:
+	// Solution: Recursion
+	public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+		if (t1 == null) {
+			return t2;
+		}
+		
+		if (t2 == null) {
+			return t1;
+		}
+		
+		TreeNode newNode = new TreeNode(t1.val + t2.val);
+		newNode.left = mergeTrees(t1.left, t2.left);
+		newNode.right = mergeTrees(t1.right, t2.right);
+		
+		return newNode;
+	}
 
 	// 653. Two Sum IV - Input is a BST
 	// Company: Facebook Sumsung.
@@ -24,21 +48,21 @@ public class Solution {
 			return false;
 		}
 		HashSet<Integer> set = new HashSet<Integer>();
-		
+
 		return targetHelper(root, k, set);
 	}
-	
+
 	private boolean targetHelper(TreeNode node, int target, HashSet<Integer> set) {
 		if (node == null) {
 			return false;
 		}
-		
+
 		if (set.contains(target - node.val)) {
 			return true;
 		}
-		
+
 		set.add(node.val);
-		
+
 		return targetHelper(node.left, target, set) || targetHelper(node.right, target, set);
 	}
 
