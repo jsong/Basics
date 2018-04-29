@@ -13,11 +13,81 @@ public class Solution {
 		// TODO Auto-generated method stub
 
 	}
+
+	// 199. Binary Tree Right Side View
+	// Company: Amazon
+	// Description: return right slide view of the tree
+	// Solution: 1. DFS, use level and res size to check whether we should add the val;
+	public List<Integer> rightSideView(TreeNode root) {
+		List<Integer> res = new ArrayList<Integer>();
+		if (root == null) {
+			return res;
+		}
+		slideHelper(res, root, 0);
+		return res;
+	}
+	
+	private void slideHelper(List<Integer> res, TreeNode root, int level) {
+		if (root == null) {
+			return;
+		}
+		
+		if (res.size() == level) {
+			res.add(root.val);
+		}
+		
+		slideHelper(res, root.right, level + 1);
+		slideHelper(res, root.left, level + 1);
+	}
 	// 545. Boundary of Binary Tree
 	// Company: Google Amazon
-	// Description:
-	
-	
+	// Description: Traverse the tree using anti-clockwise from left to leaves and
+	// then right.
+	// Solution: 1. From the result it's looks like the pre-order traversal.
+	// 2. TODO: Use divide and concur solution. left bound, leaves, right
+	// bound.https://blog.csdn.net/sundawei2016/article/details/73649430
+	public List<Integer> boundaryOfBinaryTree(TreeNode root) {
+		List<Integer> res = new ArrayList<Integer>();
+		if (root == null) {
+			return res;
+		}
+
+		res.add(root.val);
+		boundaryHelper(root.left, true, false, res);
+		boundaryHelper(root.right, false, true, res);
+
+		return res;
+	}
+
+	private void boundaryHelper(TreeNode node, boolean isLeftBoundary, boolean isRightBoundary, List<Integer> list) {
+		if (node == null) {
+			return;
+		}
+
+		if (node.left == null && node.right == null) {
+			list.add(node.val);
+			return;
+		}
+
+		if (isLeftBoundary) {
+			list.add(node.val);
+		}
+
+		// consider the following case.
+		// 1
+		// /\
+		// 2 3 if 1 still has parent left boundary node, then it will be considered as
+		// left boundary which is incorrect. Same as right. Consider 1.left not null and
+		// isRightBoundary, then 2 will be added
+		// as rightBoundary.
+		boundaryHelper(node.left, node.left != null && isLeftBoundary, node.right == null && isRightBoundary, list);
+		boundaryHelper(node.right, node.left == null && isLeftBoundary, node.right != null && isRightBoundary, list);
+
+		if (isRightBoundary) {
+			list.add(node.val);
+		}
+	}
+
 	// 617. Merge Two Binary Trees
 	// Company: Amazon.
 	// Description:
@@ -26,15 +96,15 @@ public class Solution {
 		if (t1 == null) {
 			return t2;
 		}
-		
+
 		if (t2 == null) {
 			return t1;
 		}
-		
+
 		TreeNode newNode = new TreeNode(t1.val + t2.val);
 		newNode.left = mergeTrees(t1.left, t2.left);
 		newNode.right = mergeTrees(t1.right, t2.right);
-		
+
 		return newNode;
 	}
 
@@ -66,10 +136,46 @@ public class Solution {
 		return targetHelper(node.left, target, set) || targetHelper(node.right, target, set);
 	}
 
+	// 687. Longest Univalue Path
+	// Company: Google
+	// Solution:
+	//
+	private int ans;
+
+	public int longestUnivaluePath(TreeNode root) {
+		ans = 0;
+		singleUniPath(root);
+		return ans;
+	}
+
+	private int singleUniPath(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+
+		int l = singleUniPath(node.left);
+		int r = singleUniPath(node.right);
+
+		int lp = 0;
+		int rp = 0;
+
+		if (node.left != null && node.val == node.left.val) {
+			lp = l + 1;
+		}
+
+		if (node.right != null && node.val == node.right.val) {
+			rp = r + 1;
+		}
+		ans = Math.max(ans, lp + rp);
+
+		return Math.max(lp, rp);
+	}
+
 	// 543. Diameter of Binary Tree
 	// Company: Facebook Google.
 	// Description: Longest path between two nodes, may or may not pass the root.
 	// Solution: Longest path of tree = longest left path + longest right path;
+	// Similar to 687.
 	private int diameter = 0;
 
 	public int diameterOfBinaryTree(TreeNode root) {
