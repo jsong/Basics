@@ -1,8 +1,11 @@
 package com.general.binarytreeDFS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 import com.general.binarytree.TreeNode;
@@ -11,13 +14,186 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		TreeNode root = new TreeNode(5);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(-3);
+		root.right.left = new TreeNode(4);
+		root.right.right = new TreeNode(7);
+		root.right.right.left = new TreeNode(6);
 
+		Solution sl = new Solution();
+		int[] res = sl.findFrequentTreeSum(root);
+
+		int sum = sl.sumOfLeftLeaves(root);
+		
+		System.out.println(sum);
+	}
+	// 404. Sum of Left Leaves
+	// Company: Facebook
+	// Description: find left leaves, and return the sum.
+	// Solution: Recursion DFS.
+	public int sumOfLeftLeaves(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		int res = 0;
+		if (root.left != null) {
+			if (root.left.left == null && root.left.right == null) {
+				res += root.left.val;
+			} else {
+				res += sumOfLeftLeaves(root.left);
+			}
+		}
+		
+		res += sumOfLeftLeaves(root.right);
+		
+		return res;
+	}
+
+	// 106. Construct Binary Tree from Inorder and Postorder Traversal
+	// Company: Microsoft
+	// Description:
+	// Solution:
+	// NOTE: This could be used as an utility method.
+	// TODO: Just use it as brain storming.
+	
+	// 272. Closest Binary Search Tree Value II
+	// Company: Google
+	// Description,
+	// TODO: Hard
+
+	// 742. Closest Leaf in a Binary Tree
+	// Company: Amazon databricks
+	// Description: Given specific key, find the nearest leaf node to that specific
+	// node.
+	// Solution: UnDirected Graph, BFS shortest path.
+	// TODO: Graph 
+
+	// 662. Maximum Width of Binary Tree
+	// Company: Amazon
+	// Description: Find the maximum width of BinaryTree, the left most node
+	// right most node, in between could be null.
+	// Solution: Key is to find the index of left most node and right most node.
+	// if current node idx is i, the next level sub node will be 2i and 2i + 1;
+	private int m_max;
+
+	public int widthOfBinaryTree(TreeNode root) {
+		m_max = 0;
+		if (root == null) {
+			return m_max;
+		}
+
+		List<Integer> list = new ArrayList<>();
+		widthhelper(root, 0, 1, list);
+
+		return m_max;
+	}
+
+	private void widthhelper(TreeNode node, int h, int idx, List<Integer> list) {
+		if (node == null) {
+			return;
+		}
+
+		if (h >= list.size()) {
+			// reach the next level, record left most idx.
+			list.add(idx);
+		}
+
+		m_max = Math.max(m_max, idx - list.get(h) + 1);
+
+		widthhelper(node.left, h + 1, idx * 2, list);
+		widthhelper(node.right, h + 1, idx * 2 + 1, list);
+
+	}
+
+	// 538. Convert BST to Greater Tree
+	// Company: Amazon
+	// Description: All node will be changed to greater value of node.
+	// Solution: traversal from right -> Root -> left, record the sum and then
+	// applied to corresponding node.
+	private int sum;
+
+	public TreeNode convertBST(TreeNode root) {
+		converthelper(root);
+		return root;
+	}
+
+	private void converthelper(TreeNode node) {
+		if (node == null) {
+			return;
+		}
+
+		// visit right first, use the sum record value. right -> root -> left.
+		converthelper(node.right);
+		node.val += sum;
+		sum = node.val;
+		converthelper(node.left);
+	}
+
+	// 508. Most Frequent Subtree Sum
+	// Company: Amazon
+	// Description: Root = left + right, leaves are counted as value.
+	// Solution:
+	public int[] findFrequentTreeSum(TreeNode root) {
+		if (root == null) {
+			return new int[0];
+		}
+
+		HashMap<Integer, Integer> set = new HashMap<>();
+		int max = Integer.MIN_VALUE;
+		dfshelper(root, set);
+		int resCount = 0;
+		for (Integer i : set.keySet()) {
+			if (max < set.get(i)) {
+				resCount = 1;
+				max = set.get(i);
+			} else if (max == set.get(i)) {
+				resCount++;
+			}
+			// max = Math.max(max, set.get(i));
+		}
+
+		System.out.println("max:" + max);
+		int[] res = new int[resCount];
+
+		int count = 0;
+		for (Integer i : set.keySet()) {
+			if (max == set.get(i)) {
+				res[count++] = i;
+			}
+		}
+
+		return res;
+	}
+
+	private void dfshelper(TreeNode node, HashMap<Integer, Integer> res) {
+		if (node == null) {
+			return;
+		}
+
+		if (node.left != null) {
+			dfshelper(node.left, res);
+			node.val += node.left.val;
+		}
+
+		if (node.right != null) {
+			dfshelper(node.right, res);
+			node.val += node.right.val;
+		}
+
+		if (!res.containsKey(node.val)) {
+			res.put(node.val, 1);
+		} else {
+			res.put(node.val, res.get(node.val) + 1);
+		}
 	}
 
 	// 199. Binary Tree Right Side View
 	// Company: Amazon
 	// Description: return right slide view of the tree
-	// Solution: 1. DFS, use level and res size to check whether we should add the val;
+	// Solution: 1. DFS, use level and res size to check whether we should add the
+	// val;
+	// 2. Using BFS to add the first node from right.
 	public List<Integer> rightSideView(TreeNode root) {
 		List<Integer> res = new ArrayList<Integer>();
 		if (root == null) {
@@ -26,19 +202,47 @@ public class Solution {
 		slideHelper(res, root, 0);
 		return res;
 	}
-	
+
 	private void slideHelper(List<Integer> res, TreeNode root, int level) {
 		if (root == null) {
 			return;
 		}
-		
+
 		if (res.size() == level) {
 			res.add(root.val);
 		}
-		
+
 		slideHelper(res, root.right, level + 1);
 		slideHelper(res, root.left, level + 1);
 	}
+
+	public List<Integer> rightSideView2(TreeNode root) {
+		List<Integer> res = new ArrayList<Integer>();
+		if (root == null) {
+			return res;
+		}
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		queue.offer(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode cur = queue.poll();
+				if (i == 0) {
+					res.add(cur.val);
+				}
+				if (cur.right != null) {
+					queue.offer(cur.right);
+				}
+				if (cur.left != null) {
+					queue.offer(cur.left);
+				}
+			}
+		}
+
+		return res;
+	}
+
 	// 545. Boundary of Binary Tree
 	// Company: Google Amazon
 	// Description: Traverse the tree using anti-clockwise from left to leaves and
