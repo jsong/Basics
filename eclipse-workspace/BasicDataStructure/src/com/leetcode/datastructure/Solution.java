@@ -59,6 +59,7 @@ class LRUCache {
 		if (get(key) != -1) {
 			// means we have a match.
 			map.get(key).value = value;
+			return;
 		}
 
 		if (map.size() == capacity) {
