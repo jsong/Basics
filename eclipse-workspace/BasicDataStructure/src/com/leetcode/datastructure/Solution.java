@@ -1,11 +1,33 @@
 package com.leetcode.datastructure;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 
-//146. LRU Cache
+class Point {
+	public Point(int i, int j) {
+		// TODO Auto-generated constructor stub
+		x = i;
+		y = j;
+	}
+
+	int x;
+	int y;
+}
+
+// 146. LRU Cache
 // Company: ALL
 // Description:
 // Solution: Hashmap combined with LinkedList, swap the most used item to the
@@ -82,6 +104,210 @@ class LRUCache {
 	}
 }
 
+// 380. Insert Delete GetRandom O(1)
+// Company: Google Amazon Facebook Twitter Uber
+// Description: Design a data structure that supports all following operations
+// in average O(1) time.
+// 1. insert(val): Inserts an item val to the set if not already present.
+// 2. remove(val): Removes an item val from the set if present.
+// 3. getRandom: Returns a random element from current set of elements. Each
+// element must have the same probability of being returned.
+
+// Solution:
+class RandomizedSet {
+
+	/** Initialize your data structure here. */
+	HashMap<Integer, Integer> cache;
+	Integer index = 0; // array index
+	ArrayList<Integer> array;
+	Random random;
+
+	public RandomizedSet() {
+		array = new ArrayList<>();
+		cache = new HashMap<>();
+		random = new Random();
+	}
+
+	/**
+	 * Inserts a value to the set. Returns true if the set did not already contain
+	 * the specified element.
+	 */
+	public boolean insert(int val) {
+		if (cache.containsKey(val)) {
+			return false;
+		}
+		array.add(val);
+		cache.put(val, index++);
+		return true;
+	}
+
+	/**
+	 * Removes a value from the set. Returns true if the set contained the specified
+	 * element.
+	 */
+	public boolean remove(int val) {
+		if (!cache.containsKey(val)) {
+			return false;
+		}
+
+		int idx = cache.get(val);
+		cache.put(array.get(array.size() - 1), idx);
+		cache.remove(val);
+		// swap(idx, array.size() - 1);
+		array.set(idx, array.get(array.size() - 1));
+		array.remove(array.size() - 1);
+		index--;
+		return true;
+	}
+
+	private void swap(int i, int j) {
+		int temp1 = array.get(j);
+		int temp2 = array.get(i);
+		array.set(i, temp1);
+		array.set(j, temp2);
+	}
+
+	/** Get a random element from the set. */
+	public int getRandom() {
+		int idx = random.nextInt(index);
+		return array.get(idx);
+	}
+}
+
+// 460. LFU Cache
+// Company: Google Amazon.
+// Description: Least Frequency Used. If there is a tie, then the LRU item will
+// be removed.
+// Solution: Use HashMap and LinkedHashSet, the linkedhashset can be used to
+// track the least recent used item. Since it has been added with sequence.
+
+class LFUCache {
+	HashMap<Integer, Integer> cache;
+	HashMap<Integer, Integer> frequency;
+	HashMap<Integer, LinkedHashSet<Integer>> freq_list;
+	int capacity;
+	int min_freq; // for current min freq.
+
+	public LFUCache(int capacity) {
+		min_freq = -1;
+		cache = new HashMap<>(capacity);
+		frequency = new HashMap<>();
+		this.capacity = capacity;
+		freq_list = new HashMap<>();
+		freq_list.put(1, new LinkedHashSet<>());
+	}
+
+	public int get(int key) {
+		if (!cache.containsKey(key)) {
+			return -1;
+		}
+
+		int count = frequency.get(key);
+		frequency.put(key, count + 1);
+		freq_list.get(count).remove(key);
+		// count equal to min_freq && current frequency list does not
+		// contains any item.
+		if (count == min_freq && freq_list.get(min_freq).size() == 0) {
+			min_freq++;
+		}
+
+		if (!freq_list.containsKey(count + 1)) {
+			freq_list.put(count + 1, new LinkedHashSet<>());
+		}
+
+		freq_list.get(count + 1).add(key);
+
+		return cache.get(key);
+	}
+
+	public void put(int key, int value) {
+		// capacity reached
+		if (this.capacity == 0) {
+			return;
+		}
+
+		// we have a match and we need to update the frequency as well.
+		if (cache.containsKey(key)) {
+			cache.put(key, value);
+			get(key);
+			return;
+		}
+
+		// reaches capacity.
+		if (cache.size() == this.capacity) {
+			// evict
+			int evictKey = freq_list.get(min_freq).iterator().next();
+			freq_list.get(min_freq).remove(evictKey);
+			cache.remove(evictKey);
+			// frequency.remove(evictKey);
+		}
+		// newly add key.
+		cache.put(key, value);
+		frequency.put(key, 1);
+		min_freq = 1;
+		freq_list.get(1).add(key);
+	}
+}
+
+// To be used in Merge K sorted List
+class ListNode {
+	int val;
+	ListNode next;
+
+	ListNode(int x) {
+		val = x;
+	}
+}
+
+// 284. Peeking Iterator
+// Company: Apple, Google, Yahoo
+// Description: Design a iterator which supports peek().
+// Solution: Use advance method to advance the iterator, meanwhile use boolean
+// flag to track
+// whether we still have available element.
+class PeekingIterator implements Iterator<Integer> {
+	boolean noSuchElement = false;
+	Iterator<Integer> curIterator;
+	Integer next;
+
+	public PeekingIterator(Iterator<Integer> iterator) {
+		// initialize any member here.
+		curIterator = iterator;
+		advanceIterator();
+	}
+
+	private void advanceIterator() {
+		if (curIterator.hasNext()) {
+			next = curIterator.next();
+		} else {
+			noSuchElement = true;
+		}
+	}
+
+	// Returns the next element in the iteration without advancing the iterator.
+	public Integer peek() {
+		return next;
+	}
+
+	// hasNext() and next() should behave the same as in the Iterator interface.
+	// Override them if needed.
+	@Override
+	public Integer next() {
+		if (noSuchElement) {
+			throw new NoSuchElementException();
+		}
+
+		int res = next;
+		advanceIterator();
+		return res;
+	}
+
+	@Override
+	public boolean hasNext() {
+		return !noSuchElement;
+	}
+}
+
 public class Solution {
 
 	public static void main(String[] args) {
@@ -104,7 +330,1191 @@ public class Solution {
 		System.out.println("2:" + res);
 		res = lcache.get(3);
 		System.out.println("3:" + res);
+
+		HashMap<Integer, Integer> map = new HashMap<>();
+		Integer v = map.get(1);
+		System.out.println("value:" + v);
+
+		LFUCache cache = new LFUCache(2);
+		cache.put(1, 1);
+		int value = cache.get(1);
+		cache.put(2, 2);
+		cache.get(1);
+		cache.get(2);
+		// ["RandomizedSet","insert","remove","insert","getRandom","remove","insert","getRandom"]
+		// [[],[1],[2],[2],[],[1],[2],[]]
+		RandomizedSet set = new RandomizedSet();
+		set.insert(1);
+		set.remove(2);
+		set.insert(2);
+		int r1 = set.getRandom();
+		set.remove(1);
+		set.insert(2);
+		int r2 = set.getRandom();
+		Queue<Integer> heap = new PriorityQueue<Integer>(4, new Comparator<Integer>() {
+
+			public int compare(Integer o1, Integer o2) {
+				// TODO Auto-generated method stub
+				return o1 - o2; // default if return o2 - o1 then the larger will be the root.
+			}
+		});
+		heap.offer(5);
+		heap.offer(10);
+		heap.offer(6);
+
+		int head = heap.peek();
+		// heap.poll();
+		heap.offer(8);
+
+		Point[] points = new Point[3];
+		Random rand = new Random();
+		for (int i = 0; i < 3; i++) {
+			points[i] = new Point(rand.nextInt(5), rand.nextInt(5));
+		}
+		Point[] resP = sl.kClosest(points, new Point(0, 0), 2);
+
+		System.out.println("Res:" + resP);
+
+		String[] strings = new String[] { "i", "love", "leetcode", "i", "love", "coding" };
+		sl.topKFrequent(strings, 2);
+		int x = 1534236469;
+		int resInt = sl.reverse(x);
+		System.out.println(resInt);
+
+		String note = "bjaajgea";
+		String mag = "affhiiicabhbdchbidghccijjbfjfhjeddgggbajhidhjchiedhdibgeaecffbbbefiabjdhggihccec";
+		sl.canConstruct(note, mag);
+		int n = 10;
+		int nAndBit = n & 1;
+		int nOrBit = n | 1;
+		int nRshift = n >> 1; // consider/2
+		int nLshift = n << 2;
+
+		System.out.println("Bit manipulation");
+		int reverseRes = sl.reverseBits(43261596);
+
+		for (int i = 2; i < 3; i++) {
+			System.out.println("Not suppposed");
+		}
+
+		int[] fn = new int[2]; // fn[0], fn[1];
+		System.out.println("Array size:" + fn.length);
+
+		String s1 = "1";
+		String s2 = "1.1";
+		int com = sl.compareVersion(s1, s2);
+		System.out.println("Res:" + com);
+
+		String rStr = "This is test";
+		rStr = " start game";
+		// int endIndex = rStr.length();
+		// int beginIndex = rStr.lastIndexOf(' ', endIndex - 1);
+		// String sub = rStr.substring(beginIndex + 1, endIndex);
+
+		// " a b ";
+		// " 1";
+		String resStr = sl.reverseWords(rStr);
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				for (int k = 0; k < 2; k++) {
+					if (i == 1 && j == 1 && k == 1) {
+						System.out.println("loop reached");
+						break;
+					}
+
+					System.out.println("loop break i:" + i + "j:" + j + "k:" + k);
+				}
+				System.out.println("loop in j");
+			}
+			System.out.println("loop in i");
+		}
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				if (i == 0 || j == 0) {
+					System.out.println("i == 0 or j == 0");
+				} else if (i == 0) {
+					System.out.println("i == 0");
+				} else if (j == 0) {
+					System.out.println("j == 0");
+				} else {
+					System.out.println("i = " + i + "j = " + j);
+				}
+			}
+		}
+
+		List<List<Integer>> pas = sl.generate(3);
+
+		System.out.println("Pas: " + pas);
+
+		int pos = sl.strStr("tartarget", "target");
+
+		ListNode headNode = new ListNode(1);
+		headNode.next = new ListNode(2);
+		headNode.next.next = new ListNode(3);
+
+		ListNode rNode = sl.reverseList(headNode);
+		System.out.println("Reverse: " + rNode);
 	}
+
+	// 206. Reverse Linked List
+	// Company: ALL
+	// Description: Reverse Linked List
+	// Solution:
+	public ListNode reverseList(ListNode head) {
+		ListNode preNode = null;
+		ListNode curNode = head;
+
+		while (curNode != null) {
+			ListNode nextNode = curNode.next;
+			curNode.next = preNode;
+			preNode = curNode;
+			curNode = nextNode;
+		}
+
+		return preNode;
+	}
+
+	// 21. Merge Two Sorted Lists
+	// Company: Microsoft, Amazon, LinkedIn, Apple.
+	// Description: Merge two sorted lists into one.
+	// Solution: Pick up head, iterate the node.
+
+	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+		ListNode l = new ListNode(0);
+		ListNode p = l;
+		
+		while (l1 != null || l2 != null) {
+			if (l1 == null) {
+				p.next = l2;
+				break;
+			}
+			
+			if (l2 == null) {
+				p.next = l1;
+				break;
+			}
+			
+			if (l1.val > l2.val) {
+				p.next = l2;
+				l2 = l2.next;
+			} else {
+				p.next = l1;
+				l1 = l1.next;
+			}
+			
+			p = p.next;
+		}
+		
+		return l.next;
+	}
+
+	// 28. Implement strStr()
+	// Company: Facebook Microsoft Apple Pocket Gems
+	// Description: Return the index of the first occurrence of needle in haystack,
+	// or -1 if needle is not part of haystack.
+	// Solution:
+	public int strStr(String source, String target) {
+		return 0;
+	}
+	// public int strStr2(String source, String target) { This answer is wrong.
+	// if (target.length() > source.length()) {
+	// return -1;
+	// }
+	// int j = 0;
+	// int i = 0;
+	// boolean stepback = false;
+	//
+	// for (; i < source.length(); i++) {
+	// if (j == target.length()) {
+	// break;
+	// }
+	//
+	// if (source.charAt(i) == target.charAt(j)) {
+	// j++;
+	// stepback = true;
+	// continue;
+	// } else {
+	// j = 0;
+	// if (stepback) {
+	// i = i - 1;
+	// }
+	// }
+	//
+	// System.out.println("i:" + i + "j:" + j);
+	// }
+	//
+	// if (j == target.length()) {
+	// return i - j;
+	// }
+	//
+	// return -1;
+	// }
+
+	// 149. Max Points on a Line
+	// Company: LinkedIn, Apple, Twitter
+	// Description: Given n points on a 2D plane, find the maximum number of points
+	// that
+	// lie on the same straight line.
+	// Solution:
+	public int maxPoints(Point[] points) {
+		if (points == null) {
+			return 0;
+		}
+
+		int size = points.length;
+		if (size < 3) {
+			return size;
+		}
+
+		int result = 0;
+		HashMap<Integer, HashMap<Integer, Integer>> slopes = new HashMap<>();
+		for (int i = 0; i < size; i++) {
+			int samePoints = 0;
+			int max = 0;
+			slopes.clear();
+			for (int j = i + 1; j < size; j++) {
+				int dx = points[j].x - points[i].x;
+				int dy = points[j].y - points[i].y;
+
+				if (dx == 0 && dy == 0) {
+					samePoints++;
+					continue;
+				}
+
+				int m_gcd = gcd(dx, dy);
+
+				dx /= m_gcd;
+				dy /= m_gcd;
+
+				if (slopes.containsKey(dx)) {
+					if (slopes.get(dx).containsKey(dy)) {
+						slopes.get(dx).put(dy, slopes.get(dx).get(dy) + 1);
+					} else {
+						slopes.get(dx).put(dy, 1);
+					}
+				} else {
+					HashMap<Integer, Integer> map = new HashMap<>();
+					map.put(dy, 1);
+					slopes.put(dx, map);
+				}
+
+				max = Math.max(max, slopes.get(dx).get(dy));
+			}
+
+			result = Math.max(result, max + samePoints + 1);
+		}
+
+		return result;
+	}
+
+	private int gcd(int m, int n) {
+		return n == 0 ? m : gcd(n, m % n);
+	}
+
+	// 221. Maximal Square
+	// Company: Facebook, Apple, Airbnb.
+	// Description: return the area of largest square in a matrix.
+	// Input:
+	//
+	// 1 0 1 0 0
+	// 1 0 1 1 1
+	// 1 1 1 1 1
+	// 1 0 0 1 0
+	//
+	// Output: 4
+	//
+	// Solution: 1. DP which also applies to Rectangle, need to optimize for the
+	// square.
+
+	public int maximalSquare(char[][] matrix) {
+		int m = matrix.length;
+		int n = matrix[0].length;
+
+		int ret = 0;
+
+		int[][] size = new int[m][n];
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				size[i][j] = matrix[i][j] - '0';
+				if (size[i][j] == 0) {
+					continue;
+				}
+				if (i != 0 && j != 0) {
+					size[i][j] = Math.min(size[i - 1][j - 1], Math.min(size[i - 1][j], size[i][j - 1])) + 1;
+				}
+				ret = Math.max(ret, size[i][j] * size[i][j]);
+			}
+		}
+
+		return ret;
+	}
+
+	public int maximalSquare2(char[][] matrix) {
+		int m = matrix.length;
+
+		if (m == 0) {
+			return 0;
+		}
+
+		int n = matrix[0].length;
+		int[][] sum = new int[m + 1][n + 1]; // Why + 1?
+
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i - 1][j - 1] - '0';
+			}
+		}
+
+		int res = 0;
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				for (int k = Math.min(m - i + 1, n - j + 1); k > 0; k--) {
+					int sumRect = sum[i + k - 1][j + k - 1] - sum[i - 1][j + k - 1] - sum[i + k - 1][j - 1]
+							+ sum[i - 1][j - 1];
+					if (sumRect == k * k) {
+						res = Math.max(sumRect, res);
+						break;
+					}
+				}
+			}
+		}
+
+		return res;
+	}
+
+	// 240. Search a 2D Matrix II
+	// Company: Amazon, Apple, Google
+	// Description: [
+	// [1, 4, 7, 11, 15],
+	// [2, 5, 8, 12, 19],
+	// [3, 6, 9, 16, 22],
+	// [10, 13, 14, 17, 24],
+	// [18, 21, 23, 26, 30]
+	// ]
+	// Solution: Starting from the left bottom corner, element row-- are smaller,
+	// and element col++ are larger
+	public boolean searchMatrix(int[][] matrix, int target) {
+		if (matrix.length == 0 || matrix[0].length == 0) {
+			return false;
+		}
+		int i = matrix.length - 1;
+		int j = 0;
+
+		while (true) {
+			if (matrix[i][j] > target) {
+				i--; // up
+			} else if (matrix[i][j] < target) {
+				j++; // right
+			} else {
+				return true; // equal
+			}
+
+			if (i < 0 || j >= matrix[0].length) {
+				break;
+			}
+		}
+
+		return false;
+	}
+
+	// 42. Trapping Rain Water
+	// Company: Google, Apple, Amazon, Airbnb, Twitter, Bloomberg
+	// Description: Given n non-negative integers representing an elevation map
+	// where the width of each bar is 1, compute how much water it is able to trap
+	// after raining.Input: [0,1,0,2,1,0,1,3,2,1,2,1] Output: 6
+	// Solution:
+	public int trap(int[] height) {
+		int left = 0, right = height.length - 1;
+		int res = 0;
+		int leftMax = 0, rightMax = 0;
+		while (left < right) {
+			if (height[left] < height[right]) {
+				leftMax = Math.max(height[left], leftMax);
+				res += leftMax - height[left];
+				left++;
+			} else {
+				rightMax = Math.max(height[right], rightMax);
+				res += rightMax - height[right];
+				right--;
+			}
+		}
+
+		return res;
+	}
+
+	// 151. Reverse Words in a String
+	// Company: Apple Microsoft Bloomberg Snapchat Yelp
+	// Description: Given an input string, reverse the string word by word.
+	// Input: "the sky is blue",
+	// Output: "blue is sky the".
+	// Solution: whether we can use split or not.
+	public String reverseWords(String s) {
+		StringBuilder sb = new StringBuilder();
+		int endIndex = s.length();
+		int beginIndex;
+		while ((beginIndex = s.lastIndexOf(' ', endIndex - 1)) != -1) {
+			String str = s.substring(beginIndex + 1, endIndex);
+			if (!str.isEmpty()) {
+				sb.append(str).append(' ');
+			}
+			endIndex = beginIndex;
+		}
+		// int length = sb.length();
+		// endIndex means leading zero from original string.
+		if (endIndex == 0 && sb.length() > 0) {
+			sb.deleteCharAt(sb.length() - 1);
+		} else {
+			sb.append(s.substring(0, endIndex));
+		}
+
+		return sb.toString();
+	}
+
+	public String reverseWords2(String s) {
+		if (s.trim().length() == 0) {
+			return s.trim();
+		}
+
+		s = s.trim();
+
+		String[] arr = s.split(" ");
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = arr.length - 1; i > 0; i--) {
+			if (arr[i].length() == 0) { // while space skip.
+				continue;
+			}
+			sb.append(arr[i] + " ");
+		}
+
+		if (arr.length >= 0) {
+			sb.append(arr[0]);
+		}
+
+		return sb.toString();
+	}
+
+	// 36. Valid Sudoku
+	// Company: Apple, Uber, Snapchat.
+	// Description: Check whether it's valid. row, col and cube does not allow
+	// duplicate numbers.
+	// Solution:
+	public boolean isValidSudoku(char[][] board) {
+		for (int i = 0; i < board.length; i++) {
+			HashSet<Character> row = new HashSet<>();
+			HashSet<Character> col = new HashSet<>();
+			HashSet<Character> cube = new HashSet<>();
+
+			for (int j = 0; j < board[0].length; j++) {
+				if (board[i][j] != '.' && !row.add(board[i][j])) {
+					return false;
+				}
+
+				if (board[j][i] != '.' && !col.add(board[j][i])) {
+					return false;
+				}
+
+				int rowIndex = 3 * (i / 3);
+				int colIndex = 3 * (i % 3);
+
+				if (board[rowIndex + j / 3][colIndex + j % 3] != '.'
+						&& !cube.add(board[rowIndex + j / 3][colIndex + j % 3])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	// 565. Array Nesting
+	// Company: Apple
+	// Description: Find the longest path in the array. A[A[A[i]]];
+	// Solution: Loop, mark visited as -1;
+	public int arrayNesting(int[] nums) {
+		int ret = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] >= 0) {
+				int longest = 0;
+				for (int j = i; nums[j] >= 0;) {
+					int tmp = nums[j];
+					nums[j] = -1; // mark as visited.
+					longest++;
+					ret = Math.max(ret, longest);
+					j = tmp;
+				}
+			}
+		}
+		return ret;
+	}
+
+	// 203. Remove Linked List Elements
+	// Company: N/A
+	// Description:
+	// Solution:
+	// TODO: 237 Follow up
+
+	// 237. Delete Node in a Linked List
+	// Company: Microsoft, Apple, Adobe
+	// Description: Given only access to the node.
+	// Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node
+	// with value 3, the linked list should become 1 -> 2 -> 4 after calling your
+	// function.
+	// Solution: We use 4's value to replace 3's value and delete 4 actually.
+	public void deleteNode(ListNode node) {
+		// give next node val to it.
+		node.val = node.next.val;
+		node.next = node.next.next;
+	}
+
+	// 165. Compare Version Numbers
+	// Company: Microsoft, Apple
+	// Description: Compare two version, v1 > v2 => 1, v1 < v2 => -1, otherwise 0.
+	// also 1.3 < 1.10
+	// Solution: loop through numeric parts until encounter the '.', if equal then
+	// reset the numeric parts.
+	// NOTE: leading 0 needs to be considered.
+	public int compareVersion(String version1, String version2) {
+		int num1 = 0;
+		int num2 = 0;
+
+		for (int i = 0, j = 0; (i < version1.length() || j < version2.length());) {
+			while (i < version1.length() && version1.charAt(i) != '.') {
+				num1 = num1 * 10 + version1.charAt(i) - '0';
+				i++;
+			}
+
+			while (j < version2.length() && version2.charAt(j) != '.') {
+				num2 = num2 * 10 + version2.charAt(j) - '0';
+				j++;
+			}
+
+			if (num1 > num2) {
+				return 1;
+			} else if (num1 < num2) {
+				return -1;
+			}
+			// equal reset
+			num1 = 0;
+			num2 = 0;
+			i++;
+			j++;
+		}
+
+		return 0;
+	}
+
+	public int compareVersion2(String version1, String version2) {
+		// if (version1.indexOf('.') == -1 && version2.indexOf('.') == -1) {
+		// // normal value
+		// int v1 = Integer.parseInt(version1);
+		// int v2 = Integer.parseInt(version2);
+		// if (v1 == v2) {
+		// return 0;
+		// } else if (v1 > v2) {
+		// return 1;
+		// } else {
+		// return -1;
+		// }
+		// }
+		String[] nums1 = version1.split("\\.");
+		String[] nums2 = version2.split("\\.");
+
+		int l1 = nums1.length;
+		int l2 = nums2.length;
+
+		if (l1 == l2 && l1 == 0) {
+			int v1 = Integer.parseInt(version1);
+			int v2 = Integer.parseInt(version2);
+			if (v1 == v2) {
+				return 0;
+			} else if (v1 > v2) {
+				return 1;
+			} else {
+				return -1;
+			}
+		}
+
+		int length = l1 > l2 ? l2 : l1; // min
+
+		for (int i = 0; i < length; i++) {
+			if (Integer.parseInt(nums1[i]) > Integer.parseInt(nums2[i])) {
+				return 1;
+			} else if (Integer.parseInt(nums1[i]) < Integer.parseInt(nums2[i])) {
+				return -1;
+			}
+		}
+
+		if (l1 == l2) {
+			return 0;
+		}
+
+		if (length == l1) { // l2 is longer
+			while (Integer.parseInt(nums2[length++]) == 0) {
+				if (length == l2) {
+					return 0;
+				}
+			}
+			return -1;
+		} else {
+			while (Integer.parseInt(nums1[length++]) == 0) {
+				if (length == l1) {
+					return 0;
+				}
+			}
+			return 1;
+		}
+	}
+
+	// 70. Climbing Stairs
+	// Company: Apple Adobe
+	// Description: You are climbing a stair case. It takes n steps to reach to the
+	// top.
+	// Each time you can either climb 1 or 2 steps. In how many distinct ways can
+	// you climb to the top?
+	// Note: Given n will be a positive integer.
+	// Solution: DP problem.
+	public int climbStairs(int n) {
+		int[] f = new int[n + 1];
+		f[0] = 1;
+		f[1] = 1;
+
+		for (int i = 2; i <= n; i++) {
+			f[i] = f[i - 1] + f[i - 2];
+		}
+
+		return f[n];
+	}
+
+	// 48. Rotate Image
+	// Company: Apple Amazon Microsoft
+	// Description:
+	// You are given an n x n 2D matrix representing an image.
+	// Rotate the image by 90 degrees (clockwise). in-place.
+	// Solution: n * n, fold diagonal first, then fold in the middle.
+	public void rotate(int[][] matrix) {
+		int n = matrix.length;
+		for (int i = 0; i < n; i++) {
+			for (int j = i; j < n; j++) {
+				int tmp = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = tmp;
+			}
+		}
+
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n / 2; j++) {
+				int tmp = matrix[i][j];
+				matrix[i][j] = matrix[i][n - 1 - j];
+				matrix[i][n - 1 - j] = tmp;
+			}
+		}
+	}
+
+	// 190. Reverse Bits
+	// Company: Apple, Airbnb
+	// Description: Reverse bits of a given 32 bits unsigned integer
+	// Solution:
+	// Follow up If this function is called many times, how would you optimize it?
+	public int reverseBits(int n) {
+		int res = 0;
+		for (int i = 0; i < 32; i++) {
+			res = res << 1;
+			if ((n & 1) == 1) {
+				res++;
+			}
+			n = n >> 1;
+		}
+		return res;
+	}
+
+	// 1. Two Sum
+	// Company: ALL
+	// Description: Given an array, and target, return the indices of two integer if
+	// there
+	// are any.
+	public int[] twoSum(int[] nums, int target) {
+		Map<Integer, Integer> map = new HashMap<>();
+		int[] res = new int[2];
+		for (int i = 0; i < nums.length; i++) {
+			if (map.containsKey(target - nums[i])) {
+				res[0] = map.get(target - nums[i]);
+				res[1] = i;
+			}
+			map.put(nums[i], i);
+		}
+
+		return res;
+	}
+
+	// 191. Number of 1 Bits
+	// Company: Apple Microsoft
+	// Description: Write a function that takes an unsigned integer and returns the
+	// number of '1' bits it has (also known as the Hamming weight).
+	// Solution: 1. Slow solution. Just count 1s from string.
+	// 2. Fast solution: By shift bits.
+	public int hammingWeight(int n) {
+		String s = Integer.toBinaryString(n);
+		int count = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '1') {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
+	public int hammingWeight2(int n) {
+		int count = 0;
+		while (n != 0) {
+			if ((n & 1) == 1) {
+				count++;
+			}
+
+			n = n >>> 1;
+		}
+		return count;
+	}
+
+	// 383. Ransom Note
+	// Company: Apple
+	// Description://"bg"
+	// "efjbdfbdgfjhhaiigfhbaejahgfbbgbjagbddfgdiaigdadhcfcj"
+	// Solution:
+	public boolean canConstruct(String ransomNote, String magazine) {
+		// int j = 0;
+		// for (int i = 0; i < magazine.length() && j < ransomNote.length(); i++) {
+		// if (magazine.charAt(i) == ransomNote.charAt(j)) {
+		// j++;
+		// }
+		// }
+		//
+		// System.out.println("j:" + j + "c:" + ransomNote.charAt(j));
+		// return j == ransomNote.length();
+		// aa, ab = > false;
+		// no need to use hashtable, just array should be enough cause there is
+		// only 26 character.
+		// TODO: Revisit to improve performance.
+		HashMap<Character, Integer> map = new HashMap<>();
+		for (int i = 0; i < magazine.length(); i++) {
+			char c = magazine.charAt(i);
+			if (map.containsKey(c)) {
+				map.put(c, map.get(c) + 1);
+			} else {
+				map.put(c, 1);
+			}
+		}
+
+		for (int i = 0; i < ransomNote.length(); i++) {
+			if (!map.containsKey(ransomNote.charAt(i))) {
+				return false;
+			} else {
+				int count = map.get(ransomNote.charAt(i));
+				count = count - 1;
+				if (count == 0) {
+					map.remove(ransomNote.charAt(i));
+				} else {
+					map.put(ransomNote.charAt(i), count);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	// 69. Sqrt(x)
+	// Company: Facebook Bloomberg Apple
+	// Description: Return the integer of square root of x.
+	// Solution: 1. NewTon method. 2. Binary search method.
+	public int mySqrt(int x) {
+		long res = x;
+
+		while (res * res > x) {
+			res = (res + x / res) / 2;
+		}
+
+		return (int) res;
+	}
+
+	// 7. Reverse Integer
+	// Company: Apple, Bloomberg
+	// Description: Given a 32-bit signed integer, reverse digits of an integer.
+	// When overflow it should return 0; for eg, 123 -> 321, 2147483647 after
+	// reverse will overflow.
+	// Solution: 1. Consider boundary, Java int from -2^32 ~ 2^32 - 1;
+	// so if exceeding we should return 0;
+	// 2. Performance is bad. But the solution itself is straight forward.
+	public int reverse(int x) {
+		long res = 0;
+
+		while (x != 0) {
+			res = 10 * res + x % 10;
+			x /= 10;
+			if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) {
+				return 0;
+			}
+		}
+
+		return (int) res;
+	}
+
+	public int reverse2(int x) {
+		boolean reverse = false;
+		if (x < 0) {
+			x = -x;
+			reverse = true;
+		}
+		String str = String.valueOf(x);
+		StringBuilder sb = new StringBuilder();
+		for (int i = str.length() - 1; i >= 0; i--) {
+			sb.append(str.charAt(i));
+		}
+		int res = 0;
+		try {
+			res = Integer.parseInt(sb.toString());
+		} catch (Exception e) {
+			res = 0;
+		}
+
+		if (reverse) {
+			res = -res;
+		}
+		return res;
+	}
+
+	// 238. Product of Array Except Self
+	// Company: Facebook Microsoft Amazon LinkedIn Apple
+	// Description: Given an array nums of n integers where n > 1, return an array
+	// output such that output[i] is equal to the product of all the elements of
+	// nums except nums[i].
+	// Solution: product = left * right
+	// Requirement: space O(1), complexity O(n);
+	public int[] productExceptSelf(int[] nums) {
+		int[] res = new int[nums.length];
+		res[nums.length - 1] = 1;
+
+		for (int i = nums.length - 2; i >= 0; i--) {
+			res[i] = res[i + 1] * nums[i + 1];
+		}
+
+		int left = 1;
+		for (int i = 0; i < nums.length; i++) {
+			res[i] = left * res[i];
+			left = left * nums[i];
+		}
+
+		return res;
+	}
+
+	// Time Complexity: O(n2)
+	private int product(int[] nums, int skip) {
+		int res = 1;
+		for (int i = 0; i < nums.length; i++) {
+			if (i == skip) {
+				continue;
+			}
+			res = nums[i] * res;
+		}
+
+		return res;
+	}
+
+	// 118. Pascal's Triangle
+	// Company: Apple, Twitter
+	// Description: sums up the
+	// Solution:
+	public List<List<Integer>> generate(int numRows) {
+		List<List<Integer>> res = new ArrayList<>();
+		ArrayList<Integer> row = new ArrayList<>();
+		for (int i = 0; i < numRows; i++) {
+			row.add(0, 1);
+			for (int j = 1; j < row.size() - 1; j++) {
+				row.set(j, row.get(j) + row.get(j + 1));
+			}
+			res.add(new ArrayList<>(row));
+		}
+
+		return res;
+	}
+
+	// 4. Median of Two Sorted Arrays
+	// Company: Google Microsoft Apple Zenefits Yahoo Adobe Dropbox
+	// Description: There are two sorted arrays nums1 and nums2 of size m and n
+	// respectively.
+	// Find the median of the two sorted arrays. The overall run time complexity
+	// should be O(log (m+n)).
+	// Solution:
+	// TODO: Revisit
+	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+		int n1 = nums1.length;
+		int n2 = nums2.length;
+		if (n1 > n2) { // make sure n1 <= n2;
+			return findMedianSortedArrays(nums2, nums1);
+		}
+
+		int k = (n1 + n2 + 1) / 2; // merged array, median must be in k elements.
+
+		int l = 0;
+		int r = n1;
+		int m1 = 0;
+		int m2 = 0;
+		while (l < r) {
+			m1 = l + (r - l) / 2;
+			m2 = k - m1;
+			if (nums1[m1] < nums2[m2 - 1]) { // we need more elements from nums1.
+				l = m1 + 1;
+			} else {
+				r = m1;
+			}
+		}
+
+		m1 = l;
+		m2 = k - l;
+
+		int c1 = Math.max(m1 <= 0 ? Integer.MIN_VALUE : nums1[m1 - 1], m2 <= 0 ? Integer.MIN_VALUE : nums2[m2 - 1]);
+		if ((n1 + n2) % 2 == 1) {
+			return c1;
+		}
+
+		int c2 = Math.min(m1 >= n1 ? Integer.MAX_VALUE : nums1[m1], m2 >= n2 ? Integer.MAX_VALUE : nums2[m2]);
+
+		return (c1 + c2) * 0.5;
+	}
+
+	// 612. K closest points
+	// Company: N/A
+	// Description: Given some points and a point origin in two dimensional space,
+	// find k points out of the some points which are nearest to origin.
+	// Return these points sorted by distance, if they are same with distance,
+	// sorted by x-axis, otherwise sorted by y-axis.
+	// Solution: PriorityQueue
+	public Point[] kClosest(Point[] points, Point origin, int k) {
+		// write your code here
+		Point[] res = new Point[k];
+		PriorityQueue<Point> queue = new PriorityQueue<Point>(k, new Comparator<Point>() {
+
+			@Override
+			public int compare(Point o1, Point o2) {
+				// TODO Auto-generated method stub
+				System.out.println("comparing....: o2" + o2.x + o2.y + "o1" + o1.x + o1.y);
+				// System.out.println("\n");
+				int diff = distance(o2, origin) - distance(o1, origin);
+				if (diff == 0) {
+					return o2.x - o1.x;
+				}
+
+				if (diff == 0) {
+					return o2.y - o1.y;
+				}
+
+				return diff;
+			}
+		});
+
+		for (Point p : points) {
+			System.out.println("adding... " + p.x + p.y);
+			// System.out.println("\n");
+			queue.offer(p);
+			if (queue.size() > k) {
+				Point pr = queue.poll();
+				System.out.println("remove..." + pr.x + pr.y);
+			}
+		}
+
+		while (!queue.isEmpty()) {
+			res[--k] = queue.poll();
+		}
+
+		return res;
+	}
+
+	private int distance(Point a, Point b) {
+		return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+	}
+
+	// 692. Top K Frequent Words
+	// Company: Amazon Uber Yelp
+	// Description: Given a non-empty list of words, return the k most frequent
+	// elements. Alphabet order
+	// Solution:
+	public List<String> topKFrequent(String[] words, int k) {
+		HashMap<String, Integer> map = new HashMap<>();
+		Queue<Entry<String, Integer>> queue = new PriorityQueue(k, new EntryComparator());
+
+		for (String word : words) {
+			if (map.containsKey(word)) {
+				map.put(word, map.get(word) + 1);
+			} else {
+				map.put(word, 1);
+			}
+		}
+
+		for (Entry<String, Integer> entry : map.entrySet()) {
+			queue.offer(entry);
+			if (queue.size() > k) {
+				queue.poll();
+			}
+		}
+
+		List<String> res = new ArrayList(k);
+		while (!queue.isEmpty()) {
+			res.add(0, queue.poll().getKey());
+		}
+
+		return res;
+	}
+
+	public class EntryComparator implements Comparator<Entry<String, Integer>> {
+
+		@Override
+		public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+			// TODO Auto-generated method stub
+			int diff = o1.getValue() - o2.getValue();
+			if (diff == 0) {
+				diff = o2.getKey().compareTo(o1.getKey());
+			}
+
+			return diff;
+		}
+	}
+
+	// 545. Top k Largest Numbers II
+	// Company: N/A
+	// Description: Size k container, add(num) to it, find top k elements. max heap.
+	// Solution:
+	private Queue<Integer> heap = new PriorityQueue<>();
+	private int size; // initialize during constructor
+
+	public void add(int num) {
+		if (heap.size() < size) {
+			heap.offer(num);
+			return;
+		}
+
+		if (num > heap.peek()) {
+			heap.poll();
+			heap.add(num);
+		}
+	}
+
+	public List<Integer> topK() {
+		List<Integer> res = new ArrayList<Integer>();
+		Iterator<Integer> iterator = heap.iterator();
+		while (iterator.hasNext()) {
+			res.add(iterator.next().intValue());
+		}
+		Collections.sort(res, Collections.reverseOrder());
+
+		return res;
+
+	}
+
+	// 23. Merge k Sorted Lists
+	// Company: ALL
+	// Description:
+	// Input:
+	// [
+	// 1->4->5,
+	// 1->3->4,
+	// 2->6
+	// ]
+	// Output: 1->1->2->3->4->4->5->6
+	// Soultion: 1. Using Heap(Priority Queue)
+	public ListNode mergeKLists(ListNode[] lists) {
+		if (lists == null || lists.length == 0) {
+			return null;
+		}
+		int size = lists.length;
+		Queue<ListNode> queue = new PriorityQueue(size, new ListNodeComparator());
+
+		for (int i = 0; i < size; i++) {
+			queue.offer(lists[i]);
+		}
+
+		ListNode dummy = new ListNode(-1);
+		ListNode cur = dummy;
+
+		if (!queue.isEmpty()) {
+			ListNode n = queue.poll();
+			cur.next = n;
+			cur = n;
+			while (cur.next != null) {
+				queue.offer(cur.next);
+			}
+		}
+
+		return dummy.next;
+	}
+
+	public class ListNodeComparator implements Comparator<ListNode> {
+		public int compare(ListNode o1, ListNode o2) {
+			assert o1 != null && o2 != null;
+			return o1.val - o2.val;
+		}
+	}
+
+	// 264. Ugly Number II
+	// Company: N/A
+	// Description: Find the nth ugly number
+	// Solution: Use priority Queue to maintain the order of generated ugly numbers
+	public int nthUglyNumber(int n) {
+		//
+		Queue<Long> queue = new PriorityQueue<>();
+		HashSet<Long> set = new HashSet<>();
+
+		Long[] primes = new Long[3];
+		primes[0] = Long.valueOf(2);
+		primes[1] = Long.valueOf(3);
+		primes[2] = Long.valueOf(5);
+
+		for (int i = 0; i < primes.length; i++) {
+			queue.add(primes[i]);
+			set.add(primes[i]);
+		}
+
+		Long number = Long.valueOf(1);
+		for (int i = 1; i < n; i++) {
+			number = queue.poll();
+			for (int j = 0; j < primes.length; j++) {
+				if (!set.contains(number * primes[j])) {
+					queue.add(number * primes[j]);
+					set.add(number * primes[j]);
+				}
+			}
+		}
+
+		return number.intValue();
+	}
+
+	// 263. Ugly Number
+	// Company: N/A
+	// Description:
+	// Write a program to check whether a given number is an ugly number.
+	// Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
+	// Solution:
+	public boolean isUgly(int num) {
+		if (num == 0) {
+			return false;
+		}
+		int[] uglyPrimes = { 2, 3, 5 };
+
+		for (int i : uglyPrimes) {
+			while (num % i == 0) {
+				num = num / i;
+			}
+		}
+
+		return num == 1;
+	}
+
+	// 387. First Unique Character in a String
+	// Company: Google Microsoft Amazon Bloomberg
+	// Description: Return the index of first unique character in a String
+	// Solution: Use Array[26] to store the corresponding character, ++ its value
+	// if encountered more than once.
 
 	// 239. Sliding Window Maximum
 	// Company: Google Amazon

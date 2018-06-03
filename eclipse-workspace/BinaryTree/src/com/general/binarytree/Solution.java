@@ -44,10 +44,10 @@ public class Solution {
 		// new ArrayList<String>("hot","dot","dog","lot","log","cog");
 		int length = sl.ladderLength(beginWord, endWord, wordList);
 		System.out.println("Length: " + length);
-		
-		String[] strings = {"z", "x", "z"};
-			//{"za","zb","ca","cb"}; 
-			//{"wrt","wrf","er","ett","rftt"};
+
+		String[] strings = { "z", "x", "z" };
+		// {"za","zb","ca","cb"};
+		// {"wrt","wrf","er","ett","rftt"};
 		String res = sl.alienOrder(strings);
 		System.out.println("alien:" + res);
 	}
@@ -111,14 +111,14 @@ public class Solution {
 			for (int j = 0; j < length; j++) {
 				Character c1 = words[i].charAt(j);
 				Character c2 = words[i + 1].charAt(j);
-				// here will have issue, like za -> zb, ca -> cb. The a -> b order 
+				// here will have issue, like za -> zb, ca -> cb. The a -> b order
 				// is hard to tell.
 				// Solution if it has been added, then just break;
 				if (c1 != c2) {
-//					if (!graph.get(c2).contains(c1)) {
-						graph.get(c1).add(c2);
-						break;
-//					}
+					// if (!graph.get(c2).contains(c1)) {
+					graph.get(c1).add(c2);
+					break;
+					// }
 				}
 			}
 		}
@@ -163,10 +163,10 @@ public class Solution {
 			Character c = queue.poll();
 			builder.append(c);
 			HashSet<Character> neighbors = graph.get(c);
-			for (Character s: neighbors) {
+			for (Character s : neighbors) {
 				if (indegree.containsKey(s)) {
 					indegree.put(s, indegree.get(s) - 1);
-					
+
 					if (indegree.get(s) == 1) {
 						queue.offer(s);
 					}
@@ -177,7 +177,7 @@ public class Solution {
 		if (builder.length() != indegree.size()) {
 			return "";
 		}
-		
+
 		return builder.toString();
 	}
 
@@ -555,7 +555,7 @@ public class Solution {
 
 	// 114. Flatten Binary Tree to Linked List
 	// Description:
-	// Company: Microsoft. 
+	// Company: Microsoft.
 	// Solution 1. Recursion, 2. Iteration. Stack
 	private TreeNode prev; // record previous tree node;
 
@@ -568,15 +568,15 @@ public class Solution {
 		root.left = null;
 		prev = root;
 	}
-	
+
 	public void flatten2(TreeNode root) {
 		if (root == null) {
 			return;
 		}
-		
+
 		Stack<TreeNode> stack = new Stack<>();
 		stack.push(root);
-		
+
 		while (!stack.isEmpty()) {
 			TreeNode cur = stack.pop();
 			if (cur.right != null) {
@@ -592,15 +592,14 @@ public class Solution {
 			cur.left = null;
 		}
 	}
-	
-	
 
 	// 285. Inorder Successor in BST
 	// Description: Inorder successor is the sequence which tree has been traversal.
 	// Company: Facebook
-	// Solution: Inorder traversal on BST will return the node ascending. So the node successor 
-	// means the node after the target one. In order -> left, root, right. 
-	
+	// Solution: Inorder traversal on BST will return the node ascending. So the
+	// node successor
+	// means the node after the target one. In order -> left, root, right.
+
 	public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
 		TreeNode res = null;
 		while (root != null) {
@@ -1068,11 +1067,13 @@ public class Solution {
 		return res;
 	}
 
-	// Problem: 102. Binary Tree Level Order Traversal
-	// Company: Facebook, Apple
-	// BFS
+	// 102. Binary Tree Level Order Traversal
+	// Company: Facebook, Microsoft, Amazon, Bloomberg, LinkedIn, Apple.
+	// Description: Given a binary tree, return the level order traversal of its
+	// nodes' values. (ie, from left to right, level by level).
+	// Solution: Use BFS to do level traversal. 
 	public List<List<Integer>> levelOrder(TreeNode root) {
-		List result = new ArrayList();
+		List<List<Integer>> result = new ArrayList<>();
 		if (root == null) {
 			return result;
 		}
@@ -1081,7 +1082,7 @@ public class Solution {
 		queue.offer(root);
 
 		while (!queue.isEmpty()) {
-			ArrayList level = new ArrayList<Integer>();
+			List<Integer> level = new ArrayList<Integer>();
 			int size = queue.size();
 			for (int i = 0; i < size; i++) {
 				TreeNode head = queue.poll();
