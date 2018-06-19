@@ -50,6 +50,8 @@ public class Solution {
 		// {"wrt","wrf","er","ett","rftt"};
 		String res = sl.alienOrder(strings);
 		System.out.println("alien:" + res);
+		HashMap<Integer, Integer> map = new HashMap<>();
+//		map.con
 	}
 
 	public void stackQueueCompare() {
@@ -354,6 +356,7 @@ public class Solution {
 	// 207. Course Schedule
 	// Company: Uber Apple Yelp
 	// Description:
+	// Solution: 1. BFS, use graph adjacency matrix. 2. DFS, TODO:  
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
 		int res = numCourses;
 		int[] indegree = new int[numCourses];

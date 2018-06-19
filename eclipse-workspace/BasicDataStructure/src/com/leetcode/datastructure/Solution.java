@@ -456,6 +456,15 @@ public class Solution {
 
 		ListNode rNode = sl.reverseList(headNode);
 		System.out.println("Reverse: " + rNode);
+		
+		int[] w = new int[] {2, 3, 1, 5};
+		int r = sl.trap(w);
+		System.out.println("R:" + r);
+		
+		String rr1 = "aa";
+		String rr2 = "ab";
+		
+		sl.canConstruct2(rr1, rr2);		
 	}
 
 	// 206. Reverse Linked List
@@ -479,8 +488,8 @@ public class Solution {
 	// 21. Merge Two Sorted Lists
 	// Company: Microsoft, Amazon, LinkedIn, Apple.
 	// Description: Merge two sorted lists into one.
-	// Solution: Pick up head, iterate the node.
-
+	// Solution: Pick up head, iterate the node. If found null already means reach the end. 
+	// 
 	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 		ListNode l = new ListNode(0);
 		ListNode p = l;
@@ -744,13 +753,17 @@ public class Solution {
 
 		return res;
 	}
+	
+	
+	
 
 	// 151. Reverse Words in a String
 	// Company: Apple Microsoft Bloomberg Snapchat Yelp
 	// Description: Given an input string, reverse the string word by word.
 	// Input: "the sky is blue",
 	// Output: "blue is sky the".
-	// Solution: whether we can use split or not.
+	// Solution: Find the last word before the space, and append that word with 
+	// space, until there is no more spaces, end index equals to zero. 
 	public String reverseWords(String s) {
 		StringBuilder sb = new StringBuilder();
 		int endIndex = s.length();
@@ -801,7 +814,7 @@ public class Solution {
 	// Company: Apple, Uber, Snapchat.
 	// Description: Check whether it's valid. row, col and cube does not allow
 	// duplicate numbers.
-	// Solution:
+	// Solution: For each row, check i, j, col check j, i, cube check rowIndex, colIndex.
 	public boolean isValidSudoku(char[][] board) {
 		for (int i = 0; i < board.length; i++) {
 			HashSet<Character> row = new HashSet<>();
@@ -832,7 +845,7 @@ public class Solution {
 	// 565. Array Nesting
 	// Company: Apple
 	// Description: Find the longest path in the array. A[A[A[i]]];
-	// Solution: Loop, mark visited as -1;
+	// Solution: Loop, mark visited as -1, need to find the longest loop.
 	public int arrayNesting(int[] nums) {
 		int ret = 0;
 		for (int i = 0; i < nums.length; i++) {
@@ -1078,12 +1091,29 @@ public class Solution {
 		}
 		return count;
 	}
-
+	
 	// 383. Ransom Note
 	// Company: Apple
 	// Description://"bg"
 	// "efjbdfbdgfjhhaiigfhbaejahgfbbgbjagbddfgdiaigdadhcfcj"
-	// Solution:
+	// Solution: 1. Use hashtable as storage, 2. use array. 
+	// Idea is to check whether we has the character in the ransomNote which never appears in the magazine.
+	public boolean canConstruct2(String ransomNote, String magazine) {
+		  int[] alpha = new int[26];
+	        for (int i = 0; i < magazine.length(); i++) {
+	            alpha[magazine.charAt(i) - 'a']++;
+	        }
+	        
+	        
+	        for (int i = 0; i < ransomNote.length(); i++) {
+	            if (--alpha[ransomNote.charAt(i) - 'a'] < 0) {
+	            		return false;
+	            }
+	        }
+	        
+	        return true;
+	}
+	
 	public boolean canConstruct(String ransomNote, String magazine) {
 		// int j = 0;
 		// for (int i = 0; i < magazine.length() && j < ransomNote.length(); i++) {
@@ -1097,8 +1127,8 @@ public class Solution {
 		// aa, ab = > false;
 		// no need to use hashtable, just array should be enough cause there is
 		// only 26 character.
-		// TODO: Revisit to improve performance.
 		HashMap<Character, Integer> map = new HashMap<>();
+		
 		for (int i = 0; i < magazine.length(); i++) {
 			char c = magazine.charAt(i);
 			if (map.containsKey(c)) {

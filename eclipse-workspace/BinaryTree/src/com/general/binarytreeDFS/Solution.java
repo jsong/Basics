@@ -791,21 +791,31 @@ public class Solution {
 	// Company: Facebook Amazon Twitter Microsoft
 	// Description: Given a BST find the common parent node. Common node can be
 	// itself.
-	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+	// Solution: use the BST root left is smaller and root right is bigger. 
+	// 1. Recursion 2. Iterative. using while 
+	public TreeNode lowestCommonAncestorBST(TreeNode root, TreeNode p, TreeNode q) {
 		// lowest ancestor on the left.
 		if (root.val > p.val && root.val > q.val) {
-			return lowestCommonAncestor2(root.left, p, q);
+			return lowestCommonAncestorBST(root.left, p, q);
 		} else if (root.val < p.val && root.val < q.val) { // lowest ancestor on the right.
-			return lowestCommonAncestor2(root.right, p, q);
+			return lowestCommonAncestorBST(root.right, p, q);
 		} else {
 			return root;
 		}
-		// else if (root.val > p.val && root.val < q.val || root.val < p.val && root.val
-		// > q.val) {
-		// return root;
-		// } else {
-		// return null;
-		// }
+	}
+	
+	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+		while (root != null) {
+			if (root.val < p.val && root.val <q.val) {
+				root = root.right;
+			} else if (root.val > p.val && root.val >q.val) {
+				root = root.left;
+			} else {
+				break;
+			}
+		}
+		
+		return root;
 	}
 
 	// 112. Path Sum
@@ -897,6 +907,8 @@ public class Solution {
 	// Company: Google Facebook Apple
 	// Description: Return all the paths which contains
 	// root-to-leaf paths
+	// Solution: Use recursion to find the end condition which is leaf node, then add 
+	// the string result, otherwise continue add the val to current path. 
 	public List<String> binaryTreePaths(TreeNode root) {
 		List<String> res = new ArrayList<String>();
 
@@ -910,10 +922,6 @@ public class Solution {
 	}
 
 	private void pathHelper(TreeNode root, String path, List<String> res) {
-		if (root == null) {
-			return;
-		}
-
 		// make sure it's the end of leaf.
 		if (root.right == null && root.left == null) {
 			res.add(path);
