@@ -334,7 +334,13 @@ public class Solution {
 		HashMap<Integer, Integer> map = new HashMap<>();
 		Integer v = map.get(1);
 		System.out.println("value:" + v);
-
+		String abc = "abc";
+		int index = 0;
+		while (index < abc.length()) {
+			System.out.println("c:" + abc.charAt(index++));
+		}
+		
+		System.out.println("=============");
 		LFUCache cache = new LFUCache(2);
 		cache.put(1, 1);
 		int value = cache.get(1);
@@ -465,6 +471,21 @@ public class Solution {
 		String rr2 = "ab";
 		
 		sl.canConstruct2(rr1, rr2);		
+		sl.priorityQueueTester();
+	}
+	
+	public void priorityQueueTester() {
+		PriorityQueue<Integer> queue1 = new PriorityQueue<>();
+		PriorityQueue<Integer> queue2 = new PriorityQueue<>(Collections.reverseOrder());
+		
+		queue1.offer(1);
+//		queue2.offer(queue1.poll());
+		queue1.offer(2);
+//		queue2.offer(queue1.poll());''
+		queue1.offer(3);
+		
+		queue1.offer(4);
+		System.out.println("PQ size" + queue1.poll() + queue1.peek());
 	}
 
 	// 206. Reverse Linked List

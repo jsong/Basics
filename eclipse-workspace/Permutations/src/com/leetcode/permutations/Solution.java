@@ -146,24 +146,24 @@ class Trie {
 		return node.isWord;
 	}
 
-	private boolean isMatch(String word, int index, TrieNode node) {
-		if (node == null) {
-			return false;
-		}
-
-		if (index >= word.length()) {
-			return node.isWord;
-		}
-
-		char c = word.charAt(index);
-		int cVal = c - 'a';
-		TrieNode child = node.children[cVal];
-		if (isMatch(word, index + 1, child)) {
-			return true;
-		}
-
-		return false;
-	}
+//	private boolean isMatch(String word, int index, TrieNode node) {
+//		if (node == null) {
+//			return false;
+//		}
+//
+//		if (index >= word.length()) {
+//			return node.isWord;
+//		}
+//
+//		char c = word.charAt(index);
+//		int cVal = c - 'a';
+//		TrieNode child = node.children[cVal];
+//		if (isMatch(word, index + 1, child)) {
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 	private boolean startsWith(String word, int index, TrieNode node) {
 		if (node == null) {
