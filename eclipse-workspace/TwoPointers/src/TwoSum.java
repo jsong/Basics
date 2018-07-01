@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 //170. Two Sum III - Data structure design
 //LinkedIn. 
@@ -7,8 +8,16 @@ public class TwoSum {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+		map.put(123, new ArrayList<Integer>());
+		ArrayList<Integer> arr = map.get(123);
+		arr.add(12345);
+		ArrayList<Integer> arr2 = map.get(123);
+		boolean contains = arr2.contains(12345);
+		// so it's all reference, do not need to put it back.
+		System.out.println("Contains: " + contains);
 	}
+	
 	  /** Initialize your data structure here. */
     HashMap<Integer, Integer> map;
     ArrayList<Integer> arr;
