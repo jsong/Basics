@@ -1,6 +1,7 @@
 package com.leetcode.datastructure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -15,6 +16,22 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+
+//Definition for an interval.
+class Interval {
+	int start;
+	int end;
+
+	Interval() {
+		start = 0;
+		end = 0;
+	}
+
+	Interval(int s, int e) {
+		start = s;
+		end = e;
+	}
+}
 
 class Point {
 	public Point(int i, int j) {
@@ -339,7 +356,7 @@ public class Solution {
 		while (index < abc.length()) {
 			System.out.println("c:" + abc.charAt(index++));
 		}
-		
+
 		System.out.println("=============");
 		LFUCache cache = new LFUCache(2);
 		cache.put(1, 1);
@@ -462,30 +479,98 @@ public class Solution {
 
 		ListNode rNode = sl.reverseList(headNode);
 		System.out.println("Reverse: " + rNode);
-		
-		int[] w = new int[] {2, 3, 1, 5};
+
+		int[] w = new int[] { 2, 3, 1, 5 };
 		int r = sl.trap(w);
 		System.out.println("R:" + r);
-		
+
 		String rr1 = "aa";
 		String rr2 = "ab";
-		
-		sl.canConstruct2(rr1, rr2);		
+
+		sl.canConstruct2(rr1, rr2);
 		sl.priorityQueueTester();
 	}
-	
+
 	public void priorityQueueTester() {
 		PriorityQueue<Integer> queue1 = new PriorityQueue<>();
 		PriorityQueue<Integer> queue2 = new PriorityQueue<>(Collections.reverseOrder());
-		
+
 		queue1.offer(1);
-//		queue2.offer(queue1.poll());
+		// queue2.offer(queue1.poll());
 		queue1.offer(2);
-//		queue2.offer(queue1.poll());''
+		// queue2.offer(queue1.poll());''
 		queue1.offer(3);
-		
+
 		queue1.offer(4);
 		System.out.println("PQ size" + queue1.poll() + queue1.peek());
+	}
+
+	// 56. Merge Intervals
+	// Company: Google Facebook Microsoft Bloomberg LinkedIn Twitter Yelp
+	// Description: Given a collection of intervals, merge all overlapping
+	// intervals.
+	// Solution:
+	
+	public List<Interval> merge(List<Interval> intervals) {
+		Interval[] interval = new Interval[intervals.size()];
+		for (int i = 0; i < intervals.size(); i++) {
+			interval[i] = intervals.get(i);
+		}
+	
+		Arrays.sort(interval, new Comparator<Interval>() {
+
+			@Override
+			public int compare(Interval o1, Interval o2) {
+				// TODO Auto-generated method stub
+				return o1.start - o2.start;
+			}
+		});
+		
+		List<Interval> res = new ArrayList<>();
+		
+		for (int i = 0; i < intervals.size(); i++) {
+			
+		}
+		
+		
+	}
+
+	// 252. Meeting Rooms
+	// Company: Facebook
+	// Description: Given an list of intervals, find whether a person could attend
+	// all the
+	// meetings.
+	// Solution: consider the whole intervals as a big array,
+	// if any of the elements are overlap, then the big array element's next value
+	// will be overlapping with the previous value.
+	public boolean canAttendMeetings(Interval[] intervals) {
+		int[] array = new int[intervals.length * 2];
+
+		for (int i = 0; i < intervals.length; i++) {
+			array[2 * i] = intervals[i].start;
+			array[2 * i + 1] = intervals[i].end;
+		}
+
+		Arrays.sort(array);
+		Arrays.sort(intervals, new Comparator<Interval>() {
+
+			@Override
+			public int compare(Interval o1, Interval o2) {
+				// TODO Auto-generated method stub
+				return o1.start - o2.start;
+			}
+
+		});
+
+		for (int i = 0; i < intervals.length; i++) {
+			if (array[2 * i] == intervals[i].start && array[2 * i + 1] == intervals[i].end) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	// 206. Reverse Linked List
@@ -509,23 +594,24 @@ public class Solution {
 	// 21. Merge Two Sorted Lists
 	// Company: Microsoft, Amazon, LinkedIn, Apple.
 	// Description: Merge two sorted lists into one.
-	// Solution: Pick up head, iterate the node. If found null already means reach the end. 
-	// 
+	// Solution: Pick up head, iterate the node. If found null already means reach
+	// the end.
+	//
 	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 		ListNode l = new ListNode(0);
 		ListNode p = l;
-		
+
 		while (l1 != null || l2 != null) {
 			if (l1 == null) {
 				p.next = l2;
 				break;
 			}
-			
+
 			if (l2 == null) {
 				p.next = l1;
 				break;
 			}
-			
+
 			if (l1.val > l2.val) {
 				p.next = l2;
 				l2 = l2.next;
@@ -533,10 +619,10 @@ public class Solution {
 				p.next = l1;
 				l1 = l1.next;
 			}
-			
+
 			p = p.next;
 		}
-		
+
 		return l.next;
 	}
 
@@ -774,17 +860,14 @@ public class Solution {
 
 		return res;
 	}
-	
-	
-	
 
 	// 151. Reverse Words in a String
 	// Company: Apple Microsoft Bloomberg Snapchat Yelp
 	// Description: Given an input string, reverse the string word by word.
 	// Input: "the sky is blue",
 	// Output: "blue is sky the".
-	// Solution: Find the last word before the space, and append that word with 
-	// space, until there is no more spaces, end index equals to zero. 
+	// Solution: Find the last word before the space, and append that word with
+	// space, until there is no more spaces, end index equals to zero.
 	public String reverseWords(String s) {
 		StringBuilder sb = new StringBuilder();
 		int endIndex = s.length();
@@ -835,7 +918,8 @@ public class Solution {
 	// Company: Apple, Uber, Snapchat.
 	// Description: Check whether it's valid. row, col and cube does not allow
 	// duplicate numbers.
-	// Solution: For each row, check i, j, col check j, i, cube check rowIndex, colIndex.
+	// Solution: For each row, check i, j, col check j, i, cube check rowIndex,
+	// colIndex.
 	public boolean isValidSudoku(char[][] board) {
 		for (int i = 0; i < board.length; i++) {
 			HashSet<Character> row = new HashSet<>();
@@ -1112,29 +1196,29 @@ public class Solution {
 		}
 		return count;
 	}
-	
+
 	// 383. Ransom Note
 	// Company: Apple
 	// Description://"bg"
 	// "efjbdfbdgfjhhaiigfhbaejahgfbbgbjagbddfgdiaigdadhcfcj"
-	// Solution: 1. Use hashtable as storage, 2. use array. 
-	// Idea is to check whether we has the character in the ransomNote which never appears in the magazine.
+	// Solution: 1. Use hashtable as storage, 2. use array.
+	// Idea is to check whether we has the character in the ransomNote which never
+	// appears in the magazine.
 	public boolean canConstruct2(String ransomNote, String magazine) {
-		  int[] alpha = new int[26];
-	        for (int i = 0; i < magazine.length(); i++) {
-	            alpha[magazine.charAt(i) - 'a']++;
-	        }
-	        
-	        
-	        for (int i = 0; i < ransomNote.length(); i++) {
-	            if (--alpha[ransomNote.charAt(i) - 'a'] < 0) {
-	            		return false;
-	            }
-	        }
-	        
-	        return true;
+		int[] alpha = new int[26];
+		for (int i = 0; i < magazine.length(); i++) {
+			alpha[magazine.charAt(i) - 'a']++;
+		}
+
+		for (int i = 0; i < ransomNote.length(); i++) {
+			if (--alpha[ransomNote.charAt(i) - 'a'] < 0) {
+				return false;
+			}
+		}
+
+		return true;
 	}
-	
+
 	public boolean canConstruct(String ransomNote, String magazine) {
 		// int j = 0;
 		// for (int i = 0; i < magazine.length() && j < ransomNote.length(); i++) {
@@ -1149,7 +1233,7 @@ public class Solution {
 		// no need to use hashtable, just array should be enough cause there is
 		// only 26 character.
 		HashMap<Character, Integer> map = new HashMap<>();
-		
+
 		for (int i = 0; i < magazine.length(); i++) {
 			char c = magazine.charAt(i);
 			if (map.containsKey(c)) {
