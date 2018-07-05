@@ -51,6 +51,58 @@ public class Solution {
 		// for (int i = 0; i < 3; i++) {
 		// System.out.println("result" + i);
 		// }
+		letterCasePermutation("a1b2");
+		int[] numsWithDup = { 1, 2, 2 };
+		List<List<Integer>> rs = subsetsWithDup(numsWithDup);
+		System.out.println(rs);
+	}
+
+	// 394. Decode String
+	// Company:
+	// Description:
+	// Solution: 
+	
+	
+	// 90. Subsets II
+	// Company: Facebook
+	// Description: Given array might contain duplicates, return all possible
+	// subsets
+	// the solution must not contains duplicate subsets.
+	// Solution: 
+	public static List<List<Integer>> subsetsWithDup(int[] nums) {
+		List<List<Integer>> res = new ArrayList<>();
+		Arrays.sort(nums); //avoid duplicates
+		subsetHelper(res, 0, nums, new ArrayList<>());
+		return res;
+	}
+
+	private static void subsetHelper(List<List<Integer>> res, int index, int[] nums, List<Integer> level) {
+		if (!res.contains(level)) {
+			res.add(new ArrayList<Integer>(level));
+		}
+		
+		if (index == nums.length) {
+			return;
+		}
+		
+		for (int i = index; i < nums.length; i++) {
+			level.add(nums[i]);
+			subsetHelper(res, i + 1, nums, level);
+			level.remove(level.size() - 1);
+		}
+	}
+
+	// 784. Letter Case Permutation
+	// Company: Facebook Yelp
+	// Description: Given a string S, for eg, "a1b2", output all the possible
+	// strings
+	// [a1b2, a1B2, A1b2, A1B2]
+	// Solution:
+
+	public static List<String> letterCasePermutation(String S) {
+		List<String> res = new ArrayList<>();
+		
+		return res;
 	}
 
 	// 139. Word Break
@@ -485,7 +537,7 @@ public class Solution {
 	}
 
 	// 78. Subsets
-	// Company: Facebook Amazon, Uber
+	// Company: Facebook Amazon, Bloomberg, Uber, Coupang. Apple.
 	// Description: Given a int[], find all possible combination
 	// Solution: Use DFS.
 

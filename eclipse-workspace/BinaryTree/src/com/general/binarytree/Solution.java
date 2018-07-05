@@ -52,8 +52,41 @@ public class Solution {
 		System.out.println("alien:" + res);
 		HashMap<Integer, Integer> map = new HashMap<>();
 //		map.con
+		fun1(5);
+		
+		int[] nums = {12, 10, 30, 50};
+		int val = calculateMax(nums, 4);
+		
+	}
+	
+	static int calculateMax(int[] a, int n) {
+		int x; 
+		if (n == 1) {
+			return a[0];
+		} else {
+			x = calculateMax(a, n - 1); 
+		}
+		
+		if (x > a[n - 1]) {
+			return x; 
+		} else {
+			return a[n - 1]; 
+		}
 	}
 
+	static void fun1(int n)
+	{
+		   int i = 0;  
+		   if (n > 1)
+		     fun1(n-1);
+		   StringBuffer sb = new StringBuffer();
+		   for (i = 0; i < n; i++) {
+			 sb.append("*");  
+		   }
+		   System.out.println(sb.toString());
+//		     System.out.println(" * ");
+	}
+	
 	public void stackQueueCompare() {
 		Stack<Integer> stack = new Stack();
 		Queue<Integer> queue = new LinkedList();
@@ -360,9 +393,15 @@ public class Solution {
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
 		int res = numCourses;
 		int[] indegree = new int[numCourses];
+		// store the linked list of child.
+		ArrayList<ArrayList<Integer>> graph = new ArrayList<>(numCourses);
+		for (int i = 0; i < numCourses; i++) {
+			graph.add(new ArrayList<>());
+		}
 		// pair like [1,0] 0 -> 1
 		for (int[] pair : prerequisites) {
 			indegree[pair[0]]++;
+			graph.get(pair[1]).add(pair[0]);
 		}
 
 		// Prepare all the node with indegree 0;
@@ -377,14 +416,14 @@ public class Solution {
 		while (!queue.isEmpty()) {
 			int pre = queue.poll();
 			res--;
-			for (int[] pair : prerequisites) {
+			for (int i: graph.get(pre)) {
 				//
-				if (pair[1] == pre) {
-					indegree[pair[0]]--;
-					if (indegree[pair[0]] == 0) {
-						queue.offer(indegree[pair[0]]);
+//				if (pair[1] == pre) {
+					indegree[i]--;
+					if (indegree[i] == 0) {
+						queue.offer(indegree[i]);
 					}
-				}
+//				}
 			}
 		}
 

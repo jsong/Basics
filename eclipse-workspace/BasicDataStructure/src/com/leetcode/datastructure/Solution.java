@@ -489,6 +489,8 @@ public class Solution {
 
 		sl.canConstruct2(rr1, rr2);
 		sl.priorityQueueTester();
+
+		int dnum = sl.numDecodings("01");
 	}
 
 	public void priorityQueueTester() {
@@ -503,20 +505,177 @@ public class Solution {
 
 		queue1.offer(4);
 		System.out.println("PQ size" + queue1.poll() + queue1.peek());
+		int[] coins = new int[] { 2 };
+		int count = coinChange(coins, 3);
+
+	}
+
+	// 784. Letter Case Permutation
+	// Company: Facebook Yelp
+	// Description: Given a string "a1b2" return all possible strings we could create
+	// "A1b2" "A1B2" "a1B2" "a1b2"
+	// Solution: 
+	public List<String> letterCasePermutation(String S) {
+
+	}
+
+	// 824. Goat Latin
+	// Company: Facebook
+	// Description: if word begins with (a, e, i, o, u) append 'ma', if not then
+	// remove first letter
+	// and put it to the end, and then append 'ma', add 'a' to end of each word per
+	// its word index first
+	// word get 'a' second 'aa'
+	// Solution: Need to consider the space not adding to the last word, also the
+	// Cap or normal case
+
+	public String toGoatLatin(String S) {
+		String[] strings = S.split(" ");
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < strings.length; i++) {
+			String s = strings[i];
+			char first = s.charAt(0);
+			StringBuffer sub = new StringBuffer();
+			if (first == 'a' || first == 'e' || first == 'i' || first == 'o' || first == 'u' || first == 'A'
+					|| first == 'E' || first == 'I' || first == 'O' || first == 'U') {
+				sub.append(s);
+			} else {
+				sub.append(s.substring(1, s.length()) + first);
+			}
+
+			sub.append("ma");
+
+			for (int j = 0; j <= i; j++) {
+				sub.append('a');
+			}
+
+			sb.append(sub);
+
+			if (i != strings.length - 1) {
+				sb.append(" ");
+			}
+		}
+
+		return sb.toString();
+	}
+
+	// 91. Decode Ways
+	// Description: A - Z conresponding 1, 26. Given a number, 226, how many
+	// combinations can it have.
+	// for eg, 2, 26; 22, 6; 2, 2, 6 another kind.
+	// Solution: Take '1234' as example, the result must come from 123 + 4 and 12 +
+	// 34,
+	// however 12 + 34 is not legal on 34, so it can not be added on. Iterative the
+	// process until we
+	// get the answer.
+	public int numDecodings(String s) {
+		if (s == null || s.length() == 0 || s.equalsIgnoreCase("0")) {
+			return 0;
+		}
+
+		int w1 = 1; // dp[i - 1]
+		int w2 = 1; // dp[i - 2]
+
+		for (int i = 1; i < s.length(); i++) {
+			int w = 0;
+			if (!isValid(s.charAt(i)) && !isValid(s.charAt(i - 1), s.charAt(i))) {
+				return 0;
+			}
+
+			if (isValid(s.charAt(i))) {
+				w = w1;
+			}
+
+			if (isValid(s.charAt(i - 1), s.charAt(i))) {
+				w += w2;
+			}
+
+			w2 = w1;
+			w1 = w;
+		}
+
+		return w1;
+	}
+
+	private boolean isValid(char a) {
+		return a - '0' == 0 ? false : true;
+	}
+
+	private boolean isValid(char a, char b) {
+		int v = (a - '0') * 10 + (b - '0');
+		if (10 <= v && v <= 26) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// 322. Coin Change
+	// Description: Given a array and a target, find out whether the coin could be
+	// added up to target value. Return the minimum coins required.
+	// Solution: DP[i] means for the target i, minimum coins required.
+	// Also could be achived by using DFS.
+	public static int coinChange(int[] coins, int amount) {
+		int[] dp = new int[amount + 1];
+		for (int i = 1; i < amount + 1; i++) {
+			dp[i] = Integer.MAX_VALUE;
+		}
+
+		for (int coin : coins) {
+			System.out.println("coin:" + coin);
+			for (int i = coin; i <= amount; i++) {
+				if (dp[i - coin] != Integer.MAX_VALUE) {
+					dp[i] = Math.min(dp[i], Math.abs(dp[i - coin] + 1));
+				}
+			}
+		}
+		return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+	}
+
+	// 22. Generate Parentheses
+	// Company: Google Uber, Zenefits
+	// Description: Given an integer, generate all the possible combinations of
+	// parenthesis.
+	// Solution:
+	public List<String> generateParenthesis(int n) {
+		List<String> res = new ArrayList<>();
+		dfshelper(0, 0, n, "", res);
+		return res;
+	}
+
+	private void dfshelper(int l, int r, int n, String p, List<String> res) {
+		if (l == n && r == n) {
+			res.add(p);
+			return;
+		}
+
+		if (l < n) {
+			dfshelper(l + 1, r, n, p + "(", res);
+		}
+
+		if (r < l) {
+			dfshelper(l, r + 1, n, p + ")", res);
+		}
+	}
+
+	public static int coinChange2(int[] coins, int amount) {
+
 	}
 
 	// 56. Merge Intervals
 	// Company: Google Facebook Microsoft Bloomberg LinkedIn Twitter Yelp
 	// Description: Given a collection of intervals, merge all overlapping
 	// intervals.
-	// Solution:
-	
+	// Solution: Sort the input intervals, when adding back to res, try to see
+	// whether
+	// it could be merged or not.
+
 	public List<Interval> merge(List<Interval> intervals) {
 		Interval[] interval = new Interval[intervals.size()];
 		for (int i = 0; i < intervals.size(); i++) {
 			interval[i] = intervals.get(i);
 		}
-	
+
 		Arrays.sort(interval, new Comparator<Interval>() {
 
 			@Override
@@ -525,14 +684,28 @@ public class Solution {
 				return o1.start - o2.start;
 			}
 		});
-		
+
 		List<Interval> res = new ArrayList<>();
-		
-		for (int i = 0; i < intervals.size(); i++) {
-			
+
+		for (int i = 0; i < interval.length; i++) {
+			Interval cur = interval[i];
+			if (res.isEmpty()) {
+				res.add(cur);
+			} else {
+				Interval last = res.get(res.size() - 1);
+				if (cur.start <= last.end) {
+					if (cur.end > last.end) {
+						// before merge the new one, remove the previous
+						res.remove(res.size() - 1);
+						res.add(new Interval(last.start, cur.end));
+					}
+				} else {
+					res.add(cur);
+				}
+			}
 		}
-		
-		
+
+		return res;
 	}
 
 	// 252. Meeting Rooms
