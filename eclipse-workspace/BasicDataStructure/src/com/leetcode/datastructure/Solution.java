@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 //Definition for an interval.
 class Interval {
@@ -507,14 +508,80 @@ public class Solution {
 		System.out.println("PQ size" + queue1.poll() + queue1.peek());
 		int[] coins = new int[] { 2 };
 		int count = coinChange(coins, 3);
+	}
 
+	// 394. Decode String
+	// Company: Facebook Google Yelp Coupang
+	// Description: The encoding rule is: k[encoded_string], where the
+	// encoded_string inside the square brackets is being repeated exactly k times.
+	// Note that k is guaranteed to be a positive integer.
+	// For eg, s = "3[a2[c]]", return "accaccacc".
+	// Solution: using a single stack to track the ']', and find the next '[' also the number before the '['
+	// do it until you've reached the last element.
+	public String decodeString(String s) {
+		Stack<Character> stack = new Stack<>();
+		StringBuffer sb = new StringBuffer();
+		StringBuffer res = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			
+			if (c == ']') { // start to pop until the first number appears.
+				while (stack.peek() != '[') {
+					char top = stack.pop();
+					sb.append(top);
+				}
+				stack.pop(); // pop the '[' 
+				
+				if (Character.isDigit(stack.peek())) {
+					int loop = stack.peek();
+					String repeat = sb.toString();
+					for (int j = 0; j < loop; j++) {
+						res.append(repeat);
+					}
+				}
+			} else {
+				stack.push(c);
+			}
+		}
+		
+		return res.toString();
+	}
+
+	// 674. Longest Continuous Increasing Subsequence
+	// Company: Facebook
+	// Description: Given a unsorted array of integers, find the length
+	// of longest continuous increasing subsequence
+	// Solution:
+	public int findLengthOfLCIS(int[] nums) {
+		if (nums == null || nums.length == 0) {
+			return 0;
+		}
+		int longest = Integer.MIN_VALUE;
+		int counter = 1;
+
+		if (nums.length == 1) {
+			return counter;
+		}
+
+		for (int i = 0; i < nums.length - 1; i++) {
+			if (nums[i + 1] > nums[i]) {
+				counter++;
+				longest = Math.max(longest, counter);
+			} else {
+				counter = 1;
+				longest = Math.max(longest, counter);
+			}
+		}
+
+		return longest;
 	}
 
 	// 784. Letter Case Permutation
 	// Company: Facebook Yelp
-	// Description: Given a string "a1b2" return all possible strings we could create
+	// Description: Given a string "a1b2" return all possible strings we could
+	// create
 	// "A1b2" "A1B2" "a1B2" "a1b2"
-	// Solution: 
+	// Solution:
 	public List<String> letterCasePermutation(String S) {
 
 	}
