@@ -492,6 +492,9 @@ public class Solution {
 		sl.priorityQueueTester();
 
 		int dnum = sl.numDecodings("01");
+		
+		String sRes = sl.decodeString("3[a]2[bc]");
+		System.out.println("Decode:" + sRes);
 	}
 
 	public void priorityQueueTester() {
@@ -516,37 +519,46 @@ public class Solution {
 	// encoded_string inside the square brackets is being repeated exactly k times.
 	// Note that k is guaranteed to be a positive integer.
 	// For eg, s = "3[a2[c]]", return "accaccacc".
-	// Solution: using a single stack to track the ']', and find the next '[' also the number before the '['
-	// do it until you've reached the last element.
+	// Solution: 1. Recursion, consider the s has a pattern which is number + [string], string could also be
+	// number + [string]. 
 	public String decodeString(String s) {
-		Stack<Character> stack = new Stack<>();
-		StringBuffer sb = new StringBuffer();
 		StringBuffer res = new StringBuffer();
+		int num = 0;
 		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
-			
-			if (c == ']') { // start to pop until the first number appears.
-				while (stack.peek() != '[') {
-					char top = stack.pop();
-					sb.append(top);
-				}
-				stack.pop(); // pop the '[' 
-				
-				if (Character.isDigit(stack.peek())) {
-					int loop = stack.peek();
-					String repeat = sb.toString();
-					for (int j = 0; j < loop; j++) {
-						res.append(repeat);
+			if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+				num = 10 * num + s.charAt(i) - '0';
+			} else if (s.charAt(i) == '[') { // find the last ']'
+				int j = i + 1;
+				int pair = 1; // already pass first '['
+				for (; j < s.length(); j++) {
+					if (s.charAt(j) == '[') {
+						pair++;
+					} else if (s.charAt(j) == ']') {
+						pair--;
+					}
+					
+					if (pair == 0) { // find the last ']'
+						break;
 					}
 				}
-			} else {
-				stack.push(c);
+				System.out.println("i:" + i + " j:" + j);
+				
+				String temp = decodeString(s.substring(i + 1, j));
+				i = j;
+				for (int k = 0; k < num; k++) {
+					res.append(temp);
+				}
+				num = 0;
+			} else {	// character.
+				res.append(s.charAt(i)); 
 			}
+			
+			
 		}
 		
 		return res.toString();
 	}
-
+	
 	// 674. Longest Continuous Increasing Subsequence
 	// Company: Facebook
 	// Description: Given a unsorted array of integers, find the length
