@@ -379,9 +379,14 @@ public class Solution {
 
 			public int compare(Integer o1, Integer o2) {
 				// TODO Auto-generated method stub
-				return o1 - o2; // default if return o2 - o1 then the larger will be the root.
+				return o1 - o2; // Default. If return o2 - o1 then the larger will be the root.
 			}
 		});
+		
+		// Default heap on JAVA is MinHeap. 
+		// o2 - o1 will be MaxHeap. Or use reverseOrder from Collection.
+//		heap = new PriorityQueue<Integer>();
+		
 		heap.offer(5);
 		heap.offer(10);
 		heap.offer(6);
@@ -492,9 +497,19 @@ public class Solution {
 		sl.priorityQueueTester();
 
 		int dnum = sl.numDecodings("01");
-		
+
 		String sRes = sl.decodeString("3[a]2[bc]");
 		System.out.println("Decode:" + sRes);
+
+		int[] nums = { 1, 2, 0, 1 }; // [1,2,0,1]
+		int lRes = sl.longestConsecutive(nums);
+		System.out.println(lRes);
+
+		int a = 2;
+		// int b = 2;
+		int c = 4;
+
+		System.out.println("a ^ a" + (a ^ a) + "a ^ c ^ a" + (a ^ c ^ a));
 	}
 
 	public void priorityQueueTester() {
@@ -513,14 +528,72 @@ public class Solution {
 		int count = coinChange(coins, 3);
 	}
 
+	// 477. Total Hamming Distance
+	// Company: Facebook.
+	// Description: 4, 14, 2, each 0100, 1110, 0010, 4 -> 14 = 2, 4 -> 2 = 2, 14 ->
+	// 2 = 2, Total is 2 + 2 + 2 = 6
+	// Solution: 1. Brutal force, time limit exceed. 2.For all 32 bit, check each number, how many total 1s, the other are 0s, multiple them, will be the 
+	// corresponding total distance on each bit. 
+	
+	public int totalHammingDistance(int[] nums) {
+		int res = 0;
+		int length = nums.length;
+		int counter = 0; // how many 1s we have. 
+		for (int i = 0; i < 32; i++) {  // per each digit. 
+			for (int num: nums) {
+				if (((num >> i) & 1) == 1) { // for each of the num, calculate how many 1s on the corresponding bit. 
+					counter++;
+				}
+			}
+			
+			res += counter * (length - counter); // More explanation, if we have 3 1s and 2 0s, total 5 num, then total distance is 3 * 2, which is 6.
+			counter = 0;
+		}
+		
+		return res;
+	}
+	
+	public int totalHammingDistance2(int[] nums) {
+		int res = 0;
+		
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i + 1; j < nums.length; j++) {
+				res += hammingDistance(nums[i], nums[j]);
+			}
+		}
+		
+		return res;
+	}
+
+
+	// 461. Hamming Distance
+	// Company: Facebook
+	// Description: Find the hamming distance between two integers. Hamming distance
+	// is the total different between 1 -> 0 when binary representation.
+	// Solution: after the XOR, shit till number becomes 0, counting total zeros.
+	public int hammingDistance(int x, int y) {
+		int res = x ^ y;
+		int counter = 0;
+		while (res != 0) {
+			if ((res & 1) == 1) {
+				counter++;
+			}
+			
+			res = res >> 1;
+		}
+		
+		return counter;
+	}
+
 	// 394. Decode String
 	// Company: Facebook Google Yelp Coupang
 	// Description: The encoding rule is: k[encoded_string], where the
 	// encoded_string inside the square brackets is being repeated exactly k times.
 	// Note that k is guaranteed to be a positive integer.
 	// For eg, s = "3[a2[c]]", return "accaccacc".
-	// Solution: 1. Recursion, consider the s has a pattern which is number + [string], string could also be
-	// number + [string]. 
+	// Solution: 1. Recursion, consider the s has a pattern which is number +
+	// [string], string could also be
+	// number + [string].
 	public String decodeString(String s) {
 		StringBuffer res = new StringBuffer();
 		int num = 0;
@@ -536,29 +609,28 @@ public class Solution {
 					} else if (s.charAt(j) == ']') {
 						pair--;
 					}
-					
+
 					if (pair == 0) { // find the last ']'
 						break;
 					}
 				}
 				System.out.println("i:" + i + " j:" + j);
-				
+
 				String temp = decodeString(s.substring(i + 1, j));
 				i = j;
 				for (int k = 0; k < num; k++) {
 					res.append(temp);
 				}
 				num = 0;
-			} else {	// character.
-				res.append(s.charAt(i)); 
+			} else { // character.
+				res.append(s.charAt(i));
 			}
-			
-			
+
 		}
-		
+
 		return res.toString();
 	}
-	
+
 	// 674. Longest Continuous Increasing Subsequence
 	// Company: Facebook
 	// Description: Given a unsorted array of integers, find the length
@@ -636,6 +708,46 @@ public class Solution {
 		}
 
 		return sb.toString();
+	}
+
+	// 136. Single Number
+	// Company: Airbnb, Palatinr.
+	// Description: Given a array, every element appears twice except for one, find
+	// that element.
+	// Solution: (a ^ a) ^ b = b;
+	public int singleNumber(int[] nums) {
+		int res = 0;
+		for (int num : nums) {
+			res ^= num;
+		}
+
+		return res;
+	}
+
+	// 128. Longest Consecutive Sequence
+	// Description:
+	// Solution:
+	public int longestConsecutive(int[] nums) {
+		if (nums.length == 0 || nums.length == 1) {
+			return nums.length;
+		}
+
+		Arrays.sort(nums);
+		int counter = 1;
+		int res = Integer.MIN_VALUE;
+		for (int i = 0; i < nums.length - 1; i++) {
+			if (nums[i] + 1 == nums[i + 1]) {
+				counter++;
+				res = Math.max(counter, res);
+			} else if (nums[i] == nums[i + 1]) {
+				res = Math.max(counter, res);
+				continue;
+			} else {
+				res = Math.max(counter, res);
+				counter = 1;
+			}
+		}
+		return res;
 	}
 
 	// 91. Decode Ways
@@ -735,10 +847,6 @@ public class Solution {
 		if (r < l) {
 			dfshelper(l, r + 1, n, p + ")", res);
 		}
-	}
-
-	public static int coinChange2(int[] coins, int amount) {
-
 	}
 
 	// 56. Merge Intervals
