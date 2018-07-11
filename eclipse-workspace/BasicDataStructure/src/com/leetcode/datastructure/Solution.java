@@ -524,8 +524,8 @@ public class Solution {
 	// 698. Partition to K Equal Sum Subsets
 	// Company: Linkedin
 	// Description: Given array, check whether it could be partition into k subsets. 
-	// Solution: Similar to combinations, use dfs to add and track the sum. 
-	// [4, 3, 2, 5, 2, 3, 1] => 43, 42, 45, 42, 43, 41 correct, and backtracking start from 3 then. 
+	// Solution: Visited array could keep us tracking whether the element has been used before, so in the next dfs, we will know we should not use the element anymore. 
+	// The idea is backtracking, also the early return make sure the loop exit earlier. 
 	public boolean canPartitionKSubsets(int[] nums, int k) {
 		int sum = 0;
 		for (int n: nums) {
@@ -536,29 +536,55 @@ public class Solution {
 			return false;
 		}
 		int pSum = sum / k;
-		
-		boolean res = dfsPartition(nums, 0, 0, pSum, k); // how many partitions we have.
+		boolean[] visited = new boolean[nums.length];
+		boolean res = dfsPartition(nums, 0, 0, pSum, k, visited); // how many partitions we have.
 		
 		return res;
 	}
 	
-	private boolean dfsPartition(int[] nums, int start, int curSum, int target, int pair) {
+	private boolean dfsPartition(int[] nums, int start, int curSum, int target, int pair, boolean[] visited) {
+		if (pair == 1) {
+			return true;
+		}
+		
+		if (target == curSum) {
+			return dfsPartition(nums, 0, 0, target, pair - 1, visited);
+		} else if (target < curSum){
+			return false;
+		}
+		
+		for (int i = start; i < nums.length; i++) {
+			if (!visited[i]) {
+				visited[i] = true;
+				if (dfsPartition(nums, i + 1, nums[i] + curSum, target, pair, visited)) {
+					return true;
+				}
+				visited[i] = false;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	private boolean dfsPartition2(int[] nums, int start, int curSum, int target, int pair) {
 		if (pair == 0) {
 			return true;
 		}
 		
 		if (curSum == target) { // start from 0? 
-			return dfsPartition(nums, 0, 0, target, pair - 1);
+			return dfsPartition2(nums, 0, 0, target, pair - 1);
 		}
 		
 		for (int i = start; i < nums.length; i++) {
 			int n = nums[i];
 			nums[i] = 0;
 			System.out.println("start:" + i + "arr:" + Arrays.toString(nums));
-			if (dfsPartition(nums, i + 1, n + curSum, target, pair)) {
+			if (dfsPartition2(nums, i + 1, n + curSum, target, pair)) {
 				return true;
 			}
-			
+			System.out.println("return recursion i:" + i);
 			nums[i] = n;
 		}
 		
