@@ -382,11 +382,11 @@ public class Solution {
 				return o1 - o2; // Default. If return o2 - o1 then the larger will be the root.
 			}
 		});
-		
-		// Default heap on JAVA is MinHeap. 
+
+		// Default heap on JAVA is MinHeap.
 		// o2 - o1 will be MaxHeap. Or use reverseOrder from Collection.
-//		heap = new PriorityQueue<Integer>();
-		
+		// heap = new PriorityQueue<Integer>();
+
 		heap.offer(5);
 		heap.offer(10);
 		heap.offer(6);
@@ -510,6 +510,101 @@ public class Solution {
 		int c = 4;
 
 		System.out.println("a ^ a" + (a ^ a) + "a ^ c ^ a" + (a ^ c ^ a));
+
+		int[] subnums = { 1, 2, 5, 7};
+
+		int subRes = sl.subsetSum(subnums, 8);
+		System.out.println("Res:" + subRes);
+		
+		int[] partitionKSum = {4, 3, 2, 5, 1};
+		boolean canP = sl.canPartitionKSubsets(partitionKSum, 3);
+		System.out.println("Res " + canP);
+	}
+
+	// 698. Partition to K Equal Sum Subsets
+	// Company: Linkedin
+	// Description: Given array, check whether it could be partition into k subsets. 
+	// Solution: Similar to combinations, use dfs to add and track the sum. 
+	// [4, 3, 2, 5, 2, 3, 1] => 43, 42, 45, 42, 43, 41 correct, and backtracking start from 3 then. 
+	public boolean canPartitionKSubsets(int[] nums, int k) {
+		int sum = 0;
+		for (int n: nums) {
+			sum += n;
+		}
+		
+		if (sum % k != 0) {	// 
+			return false;
+		}
+		int pSum = sum / k;
+		
+		boolean res = dfsPartition(nums, 0, 0, pSum, k); // how many partitions we have.
+		
+		return res;
+	}
+	
+	private boolean dfsPartition(int[] nums, int start, int curSum, int target, int pair) {
+		if (pair == 0) {
+			return true;
+		}
+		
+		if (curSum == target) { // start from 0? 
+			return dfsPartition(nums, 0, 0, target, pair - 1);
+		}
+		
+		for (int i = start; i < nums.length; i++) {
+			int n = nums[i];
+			nums[i] = 0;
+			System.out.println("start:" + i + "arr:" + Arrays.toString(nums));
+			if (dfsPartition(nums, i + 1, n + curSum, target, pair)) {
+				return true;
+			}
+			
+			nums[i] = n;
+		}
+		
+		return false;
+	}
+	
+	
+	public int subsetSum(int[] nums, int s) {
+		int dp[] = new int[s + 1];
+		dp[0] = 1;
+		for (int n : nums) {
+			for (int i = s; i >= n; i--) {
+				System.out.println("i:" + i + " " + dp[i]);
+				dp[i] += dp[i - n];
+			}
+		}
+		return dp[s];
+	}
+
+	// 416. Partition Equal Subset Sum
+	// Company: Ebay
+	// Description: Find whether two subsets sum could be equal to each other.
+	// Solution: use dp, if dp[target] = dp[value] + dp[value - i] which means truth
+	// of value = truth of value include + truth of value not include.
+	// subset sum.
+	public boolean canPartition(int[] nums) {
+		int sum = 0;
+		for (int n : nums) {
+			sum += n;
+		}
+
+		if (sum % 2 != 0) { // must be even.
+			return false;
+		}
+
+		int pSum = sum / 2; // if subsets could sum up to pSum, then there will be solution.
+
+		int[] dp = new int[pSum + 1];
+		dp[0] = 1;
+		for (int n : nums) {
+			for (int i = pSum; i >= n; i--) {
+				dp[i] += dp[i - n];
+			}
+		}
+
+		return dp[pSum] != 0; // initial value 0;
 	}
 
 	public void priorityQueueTester() {
@@ -532,39 +627,40 @@ public class Solution {
 	// Company: Facebook.
 	// Description: 4, 14, 2, each 0100, 1110, 0010, 4 -> 14 = 2, 4 -> 2 = 2, 14 ->
 	// 2 = 2, Total is 2 + 2 + 2 = 6
-	// Solution: 1. Brutal force, time limit exceed. 2.For all 32 bit, check each number, how many total 1s, the other are 0s, multiple them, will be the 
-	// corresponding total distance on each bit. 
-	
+	// Solution: 1. Brutal force, time limit exceed. 2.For all 32 bit, check each
+	// number, how many total 1s, the other are 0s, multiple them, will be the
+	// corresponding total distance on each bit.
+
 	public int totalHammingDistance(int[] nums) {
 		int res = 0;
 		int length = nums.length;
-		int counter = 0; // how many 1s we have. 
-		for (int i = 0; i < 32; i++) {  // per each digit. 
-			for (int num: nums) {
-				if (((num >> i) & 1) == 1) { // for each of the num, calculate how many 1s on the corresponding bit. 
+		int counter = 0; // how many 1s we have.
+		for (int i = 0; i < 32; i++) { // per each digit.
+			for (int num : nums) {
+				if (((num >> i) & 1) == 1) { // for each of the num, calculate how many 1s on the corresponding bit.
 					counter++;
 				}
 			}
-			
-			res += counter * (length - counter); // More explanation, if we have 3 1s and 2 0s, total 5 num, then total distance is 3 * 2, which is 6.
+
+			res += counter * (length - counter); // More explanation, if we have 3 1s and 2 0s, total 5 num, then total
+													// distance is 3 * 2, which is 6.
 			counter = 0;
 		}
-		
+
 		return res;
 	}
-	
+
 	public int totalHammingDistance2(int[] nums) {
 		int res = 0;
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			for (int j = i + 1; j < nums.length; j++) {
 				res += hammingDistance(nums[i], nums[j]);
 			}
 		}
-		
+
 		return res;
 	}
-
 
 	// 461. Hamming Distance
 	// Company: Facebook
@@ -578,10 +674,10 @@ public class Solution {
 			if ((res & 1) == 1) {
 				counter++;
 			}
-			
+
 			res = res >> 1;
 		}
-		
+
 		return counter;
 	}
 
