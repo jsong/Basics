@@ -515,11 +515,11 @@ public class Solution {
 
 		int subRes = sl.subsetSum(subnums, 8);
 		System.out.println("Res:" + subRes);
-
-		int[] partitionKSum = { 4, 3, 2, 5, 1 };
-		boolean canP = sl.canPartitionKSubsets(partitionKSum, 3);
-		System.out.println("Res " + canP);
-		
+		int[] partitionKSum = {1, 4, 5, 2, 3};
+		//
+		partitionKSum = new int[] {2, 5, 3};
+		boolean canP = sl.canPartitionKSubsets(partitionKSum, 2);
+		System.out.println("Res " + canP);		
 //		int[] cel = {0, 1, 2};
 		int cel = 3;
 		sl.findCelebrity(cel);
@@ -636,12 +636,12 @@ public class Solution {
 		for (int i = start; i < nums.length; i++) {
 			int n = nums[i];
 			nums[i] = 0;
-			System.out.println("start:" + i + "arr:" + Arrays.toString(nums));
+			System.out.println("start:" + i + "arr:" + Arrays.toString(nums) + "-> sum:" + n + curSum);
 			if (dfsPartition2(nums, i + 1, n + curSum, target, pair)) {
 				return true;
 			}
-			System.out.println("return recursion i:" + i);
 			nums[i] = n;
+			System.out.println("set i:" + i + "-> n:" + n + "arr:" + Arrays.toString(nums));
 		}
 
 		return false;
@@ -835,6 +835,21 @@ public class Solution {
 		}
 
 		return longest;
+	}
+
+	// 494. Target Sum
+	// Company: Facebook Google
+	// Description: Given int array, and target value, find all the possibilities
+	// that will add up to the target.
+	// Solution: 1. Use 
+	
+	public int findTargetSumWays(int[] nums, int S) {
+		int n = nums.length;
+		return nums(S - nums[nums.length - 1], n - 1, nums) + nums(S + nums[nums.length - 1], n - 1, nums);
+	}
+	
+	private int nums(int target, int position, int[] nums) { // how many combinations on poistion for target
+		
 	}
 
 	// 784. Letter Case Permutation
