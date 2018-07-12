@@ -511,48 +511,106 @@ public class Solution {
 
 		System.out.println("a ^ a" + (a ^ a) + "a ^ c ^ a" + (a ^ c ^ a));
 
-		int[] subnums = { 1, 2, 5, 7};
+		int[] subnums = { 1, 2, 5, 7 };
 
 		int subRes = sl.subsetSum(subnums, 8);
 		System.out.println("Res:" + subRes);
-		
-		int[] partitionKSum = {4, 3, 2, 5, 1};
+
+		int[] partitionKSum = { 4, 3, 2, 5, 1 };
 		boolean canP = sl.canPartitionKSubsets(partitionKSum, 3);
 		System.out.println("Res " + canP);
+		
+//		int[] cel = {0, 1, 2};
+		int cel = 3;
+		sl.findCelebrity(cel);
+	}
+
+	// 277. Find the Celebrity
+	// Company: Facebook LinkedIn
+	// Description: Condition, c doesn't know any of them, and every other people knows c. 
+	// Solution: First we need to find the seeds celebrity, starting from 0, if 0 knows 1...i, then 
+	// those (1...i) will be seeds, so does if (1...i) knows 0, then 0 also needs to be seed. 
+	// Second is, iterate those seeds, for each seed, we need to loop whether all the other element knows it, if not
+	// then put 0 into seeds, also seed should not know any of other either, if not then mark it not seed and break.
+	// Last, check whether seed array have the valid seed, if not then return -1;
+	
+	//place holder method inherited from parent. 
+	private boolean knows(int a, int b) {
+		return false;
+	}
+	
+	public int findCelebrity(int n) {
+		int[] possible = new int[n];
+		for (int i = 1; i < n; i++) {
+			if (knows(0, i)) {
+				possible[i] = 1;
+			} else if (knows(i, 0)) {
+				possible[0] = 1;
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			if (possible[i] == 1) {
+				for (int j = 0; j < n; j++) {
+					if (j == i) {
+						continue;
+					} else {
+						if (knows(i, j)) {
+							possible[i] = 0; // not seeds anymore
+							break;
+						} else if (!knows(j, i)) {
+							possible[i] = 0;
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			if (possible[i] == 1) {
+				return i;
+			}
+		}
+		 
+		return -1;
 	}
 
 	// 698. Partition to K Equal Sum Subsets
 	// Company: Linkedin
-	// Description: Given array, check whether it could be partition into k subsets. 
-	// Solution: Visited array could keep us tracking whether the element has been used before, so in the next dfs, we will know we should not use the element anymore. 
-	// The idea is backtracking, also the early return make sure the loop exit earlier. 
+	// Description: Given array, check whether it could be partition into k subsets.
+	// Solution: Visited array could keep us tracking whether the element has been
+	// used before, so in the next dfs, we will know we should not use the element
+	// anymore.
+	// The idea is backtracking, also the early return make sure the loop exit
+	// earlier.
 	public boolean canPartitionKSubsets(int[] nums, int k) {
 		int sum = 0;
-		for (int n: nums) {
+		for (int n : nums) {
 			sum += n;
 		}
-		
-		if (sum % k != 0) {	// 
+
+		if (sum % k != 0) { //
 			return false;
 		}
 		int pSum = sum / k;
 		boolean[] visited = new boolean[nums.length];
 		boolean res = dfsPartition(nums, 0, 0, pSum, k, visited); // how many partitions we have.
-		
+
 		return res;
 	}
-	
+
 	private boolean dfsPartition(int[] nums, int start, int curSum, int target, int pair, boolean[] visited) {
 		if (pair == 1) {
 			return true;
 		}
-		
+
 		if (target == curSum) {
 			return dfsPartition(nums, 0, 0, target, pair - 1, visited);
-		} else if (target < curSum){
+		} else if (target < curSum) {
 			return false;
 		}
-		
+
 		for (int i = start; i < nums.length; i++) {
 			if (!visited[i]) {
 				visited[i] = true;
@@ -562,21 +620,19 @@ public class Solution {
 				visited[i] = false;
 			}
 		}
-		
+
 		return false;
 	}
-	
-	
-	
+
 	private boolean dfsPartition2(int[] nums, int start, int curSum, int target, int pair) {
 		if (pair == 0) {
 			return true;
 		}
-		
-		if (curSum == target) { // start from 0? 
+
+		if (curSum == target) { // start from 0?
 			return dfsPartition2(nums, 0, 0, target, pair - 1);
 		}
-		
+
 		for (int i = start; i < nums.length; i++) {
 			int n = nums[i];
 			nums[i] = 0;
@@ -587,11 +643,10 @@ public class Solution {
 			System.out.println("return recursion i:" + i);
 			nums[i] = n;
 		}
-		
+
 		return false;
 	}
-	
-	
+
 	public int subsetSum(int[] nums, int s) {
 		int dp[] = new int[s + 1];
 		dp[0] = 1;
