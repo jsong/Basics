@@ -515,30 +515,66 @@ public class Solution {
 
 		int subRes = sl.subsetSum(subnums, 8);
 		System.out.println("Res:" + subRes);
-		int[] partitionKSum = {1, 4, 5, 2, 3};
+		int[] partitionKSum = { 1, 4, 5, 2, 3 };
 		//
-		partitionKSum = new int[] {2, 5, 3};
+		partitionKSum = new int[] { 2, 5, 3 };
 		boolean canP = sl.canPartitionKSubsets(partitionKSum, 2);
-		System.out.println("Res " + canP);		
-//		int[] cel = {0, 1, 2};
+		System.out.println("Res " + canP);
+		// int[] cel = {0, 1, 2};
 		int cel = 3;
 		sl.findCelebrity(cel);
+		List<List<Integer>> resFactors = sl.getFactors(12);
+		
+		System.out.println("Factor:" + resFactors);
+	}
+
+	// 254. Factor Combinations
+	// Company: LinkedIn Uber
+	// Description: Write a function that takes an integer n and return all possible
+	// combinations of its factors. e.g 8 = 2 * 2 * 2 and 8 = 2 * 4
+	// Solution:
+	public List<List<Integer>> getFactors(int n) {
+		List<List<Integer>> res = new ArrayList<>();
+		factorHelper(2, n, new ArrayList<Integer>(), res);
+		return res;
+	}
+	
+	private void factorHelper(int start, int n, List<Integer> back_list, List<List<Integer>> res) {
+		if (n == 1) {  // base condition.
+			// 1 => [] instead of [[]]
+			if (back_list.size() > 1) {
+				res.add(new ArrayList<Integer>(back_list));
+			}
+		} else {
+			for (int i = start; i <= n; i++) {
+				if (n % i == 0) {
+					back_list.add(i);
+					factorHelper(i, n/i, back_list, res);
+					back_list.remove(back_list.size() - 1);
+				}
+			}
+		}
 	}
 
 	// 277. Find the Celebrity
 	// Company: Facebook LinkedIn
-	// Description: Condition, c doesn't know any of them, and every other people knows c. 
-	// Solution: First we need to find the seeds celebrity, starting from 0, if 0 knows 1...i, then 
-	// those (1...i) will be seeds, so does if (1...i) knows 0, then 0 also needs to be seed. 
-	// Second is, iterate those seeds, for each seed, we need to loop whether all the other element knows it, if not
-	// then put 0 into seeds, also seed should not know any of other either, if not then mark it not seed and break.
+	// Description: Condition, c doesn't know any of them, and every other people
+	// knows c.
+	// Solution: First we need to find the seeds celebrity, starting from 0, if 0
+	// knows 1...i, then
+	// those (1...i) will be seeds, so does if (1...i) knows 0, then 0 also needs to
+	// be seed.
+	// Second is, iterate those seeds, for each seed, we need to loop whether all
+	// the other element knows it, if not
+	// then put 0 into seeds, also seed should not know any of other either, if not
+	// then mark it not seed and break.
 	// Last, check whether seed array have the valid seed, if not then return -1;
-	
-	//place holder method inherited from parent. 
+
+	// place holder method inherited from parent.
 	private boolean knows(int a, int b) {
 		return false;
 	}
-	
+
 	public int findCelebrity(int n) {
 		int[] possible = new int[n];
 		for (int i = 1; i < n; i++) {
@@ -548,7 +584,7 @@ public class Solution {
 				possible[0] = 1;
 			}
 		}
-		
+
 		for (int i = 0; i < n; i++) {
 			if (possible[i] == 1) {
 				for (int j = 0; j < n; j++) {
@@ -566,13 +602,13 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < n; i++) {
 			if (possible[i] == 1) {
 				return i;
 			}
 		}
-		 
+
 		return -1;
 	}
 
@@ -841,15 +877,15 @@ public class Solution {
 	// Company: Facebook Google
 	// Description: Given int array, and target value, find all the possibilities
 	// that will add up to the target.
-	// Solution: 1. Use 
-	
+	// Solution: 1. Use
+
 	public int findTargetSumWays(int[] nums, int S) {
 		int n = nums.length;
 		return nums(S - nums[nums.length - 1], n - 1, nums) + nums(S + nums[nums.length - 1], n - 1, nums);
 	}
-	
+
 	private int nums(int target, int position, int[] nums) { // how many combinations on poistion for target
-		
+
 	}
 
 	// 784. Letter Case Permutation
