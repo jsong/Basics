@@ -10,6 +10,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+
+import com.leetcode.datastructure.TreeNode;
+
 import java.util.PriorityQueue;
 
 public class Solution {
@@ -51,42 +54,41 @@ public class Solution {
 		String res = sl.alienOrder(strings);
 		System.out.println("alien:" + res);
 		HashMap<Integer, Integer> map = new HashMap<>();
-//		map.con
+		// map.con
 		fun1(5);
-		
-		int[] nums = {12, 10, 30, 50};
+
+		int[] nums = { 12, 10, 30, 50 };
 		int val = calculateMax(nums, 4);
-		
+
 	}
-	
+
 	static int calculateMax(int[] a, int n) {
-		int x; 
+		int x;
 		if (n == 1) {
 			return a[0];
 		} else {
-			x = calculateMax(a, n - 1); 
+			x = calculateMax(a, n - 1);
 		}
-		
+
 		if (x > a[n - 1]) {
-			return x; 
+			return x;
 		} else {
-			return a[n - 1]; 
+			return a[n - 1];
 		}
 	}
 
-	static void fun1(int n)
-	{
-		   int i = 0;  
-		   if (n > 1)
-		     fun1(n-1);
-		   StringBuffer sb = new StringBuffer();
-		   for (i = 0; i < n; i++) {
-			 sb.append("*");  
-		   }
-		   System.out.println(sb.toString());
-//		     System.out.println(" * ");
+	static void fun1(int n) {
+		int i = 0;
+		if (n > 1)
+			fun1(n - 1);
+		StringBuffer sb = new StringBuffer();
+		for (i = 0; i < n; i++) {
+			sb.append("*");
+		}
+		System.out.println(sb.toString());
+		// System.out.println(" * ");
 	}
-	
+
 	public void stackQueueCompare() {
 		Stack<Integer> stack = new Stack();
 		Queue<Integer> queue = new LinkedList();
@@ -103,6 +105,37 @@ public class Solution {
 
 		while (!queue.isEmpty()) {
 			System.out.println("queue:" + queue.poll());
+		}
+	}
+
+	
+	// TODO: Try the in-order traverse first.
+	// 156. Binary Tree Upside Down
+	// Company: LinkedIn
+	// Description: Given a tree, flip it upside down.
+	// Solution: Recursion in-order traverse, left -> root -> right
+
+	private TreeNode newRoot = null;
+	public TreeNode upsideDownBinaryTree(TreeNode root) {
+		if (root == null) {
+			return null;
+		}
+
+		upsideHelper(root);
+		
+		return newRoot;
+	}
+
+	private void upsideHelper(TreeNode root) {
+		if (root.left == null) {
+			newRoot = root;
+			return;
+		}
+		
+		upsideHelper(root.left);
+		newRoot.right = root;
+		if (root.right != null) {
+			newRoot.left = root.right;		
 		}
 	}
 
@@ -389,7 +422,7 @@ public class Solution {
 	// 207. Course Schedule
 	// Company: Uber Apple Yelp
 	// Description:
-	// Solution: 1. BFS, use graph adjacency matrix. 2. DFS, TODO:  
+	// Solution: 1. BFS, use graph adjacency matrix. 2. DFS, TODO:
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
 		int res = numCourses;
 		int[] indegree = new int[numCourses];
@@ -416,14 +449,14 @@ public class Solution {
 		while (!queue.isEmpty()) {
 			int pre = queue.poll();
 			res--;
-			for (int i: graph.get(pre)) {
+			for (int i : graph.get(pre)) {
 				//
-//				if (pair[1] == pre) {
-					indegree[i]--;
-					if (indegree[i] == 0) {
-						queue.offer(indegree[i]);
-					}
-//				}
+				// if (pair[1] == pre) {
+				indegree[i]--;
+				if (indegree[i] == 0) {
+					queue.offer(indegree[i]);
+				}
+				// }
 			}
 		}
 
@@ -1113,7 +1146,7 @@ public class Solution {
 	// Company: Facebook, Microsoft, Amazon, Bloomberg, LinkedIn, Apple.
 	// Description: Given a binary tree, return the level order traversal of its
 	// nodes' values. (ie, from left to right, level by level).
-	// Solution: Use BFS to do level traversal. 
+	// Solution: Use BFS to do level traversal.
 	public List<List<Integer>> levelOrder(TreeNode root) {
 		List<List<Integer>> result = new ArrayList<>();
 		if (root == null) {

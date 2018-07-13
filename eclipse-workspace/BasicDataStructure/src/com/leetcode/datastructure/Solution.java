@@ -604,20 +604,22 @@ public class Solution {
 		sl.findCelebrity(cel);
 		List<List<Integer>> resFactors = sl.getFactors(12);
 		System.out.println("Factor:" + resFactors);
-		// [[10,6,7],[19,9,8],[18,20,3],[17,8,13],[15,11,16],[11,20,10],[8,6,5],[5,19,5],
-		// [14,14,20],[6,6,1],[15,3,12],[17,7,5],[7,6,8],[19,5,6],[15,10,7],[19,4,12],[13,8,16],
-		// [3,14,12],[4,12,5],[19,20,3],[19,10,15],[1,7,17],[6,15,13],[11,6,20],[7,6,7],[14,13,15],
-		// [19,17,13],[5,11,8],[2,17,12],[12,13,4],[9,19,4],[20,5,6],[20,16,7],[17,18,3],[8,10,2],[6,19,16],[20,1,10]]
-		// //37 pair in total.
+		// {{17,2,17}, {16,16,5}, {14,3,19}}
 		// 3 * 2^37 => time limit exceeds.
 		// consider dp
-		int[][] costs = { { 10, 6, 7 }, { 19, 9, 8 }, { 18, 20, 3 }, { 17, 8, 13 }, { 15, 11, 16 }, { 11, 20, 10 },
-				{ 8, 6, 5 }, { 5, 19, 5 }, { 14, 14, 20 }, { 6, 6, 1 }, { 15, 3, 12 }, { 17, 7, 5 }, { 7, 6, 8 },
-				{ 19, 5, 6 }, { 15, 10, 7 }, { 19, 4, 12 }, { 13, 8, 16 }, { 3, 14, 12 }, { 4, 12, 5 }, { 19, 20, 3 },
-				{ 19, 10, 15 }, { 1, 7, 17 }, { 6, 15, 13 }, { 11, 6, 20 }, { 7, 6, 7 }, { 14, 13, 15 }, { 19, 17, 13 },
-				{ 5, 11, 8 }, { 2, 17, 12 }, { 12, 13, 4 }, { 9, 19, 4 }, { 20, 5, 6 }, { 20, 16, 7 }, { 17, 18, 3 },
-				{ 8, 10, 2 }, { 6, 19, 16 }, { 20, 1, 10 } };
-		int cost = sl.minCost(costs);
+		int[][] costs = { { 17, 2, 17 }, { 16, 16, 5 }, { 14, 3, 19 } };
+		// { { 10, 6, 7 }, { 19, 9, 8 }, { 18, 20, 3 }, { 17, 8, 13 }, { 15, 11, 16 }, {
+		// 11, 20, 10 },
+		// { 8, 6, 5 }, { 5, 19, 5 }, { 14, 14, 20 }, { 6, 6, 1 }, { 15, 3, 12 }, { 17,
+		// 7, 5 }, { 7, 6, 8 },
+		// { 19, 5, 6 }, { 15, 10, 7 }, { 19, 4, 12 }, { 13, 8, 16 }, { 3, 14, 12 }, {
+		// 4, 12, 5 }, { 19, 20, 3 },
+		// { 19, 10, 15 }, { 1, 7, 17 }, { 6, 15, 13 }, { 11, 6, 20 }, { 7, 6, 7 }, {
+		// 14, 13, 15 }, { 19, 17, 13 },
+		// { 5, 11, 8 }, { 2, 17, 12 }, { 12, 13, 4 }, { 9, 19, 4 }, { 20, 5, 6 }, { 20,
+		// 16, 7 }, { 17, 18, 3 },
+		// { 8, 10, 2 }, { 6, 19, 16 }, { 20, 1, 10 } };
+		int cost = sl.minCost2(costs);
 
 		System.out.println(cost);
 	}
@@ -625,25 +627,59 @@ public class Solution {
 	// 256. Paint House
 	// Company: LinkedIn
 	// Description:
-	// Solution:
+	// Solution: 1. Use DFS will cause time limit exceeds. 2. Each level maintain 3 values which is the cost plus previous cost.
+	// iterate through until reach the bottom level.
+	public int minCost(int[][] costs) {
+		int size = costs.length;
+		if (size == 0) {
+			return 0;
+		}
+		
+		int i = 0; // level.
+		while (i < size - 1) {
+			for (int j = 0; j < 3; j++) {
+				if (j == 0) {
+					costs[i + 1][j] = Math.min(costs[i][j + 1] + costs[i + 1][j], costs[i][j + 2] + costs[i + 1][j]);
+				} else if (j == 1) {
+					costs[i + 1][j] = Math.min(costs[i][j - 1] + costs[i + 1][j], costs[i][j + 1] + costs[i + 1][j]);
+				} else { // j == 2
+					costs[i + 1][j] = Math.min(costs[i][j - 1] + costs[i + 1][j], costs[i][j - 2] + costs[i + 1][j]);
+				}
+			}
+			
+			i++;
+		}
+		
+		int res = Integer.MAX_VALUE;
+		for (int j = 0; j < 3; j++) {
+			res = Math.min(costs[i][j], res);
+		}
+		
+		return res;
+	}
 
 	private int minCost = Integer.MAX_VALUE;
 
-	public int minCost(int[][] costs) {
+	public int minCost2(int[][] costs) {
 		int length = costs.length;
 		System.out.println("Matrix length: " + length); // length is row numbers.
-		costHelper(0, 0, costs[0][0], costs);
+
+		StringBuffer sb = new StringBuffer(); // debug purpose
+
+		costHelper(0, 0, 0, costs, sb);
 		return minCost;
 	}
 
 	// i row, j column.
-	private void costHelper(int row, int col, int pathSum, int[][] costs) {
+	private void costHelper(int row, int col, int pathSum, int[][] costs, StringBuffer sb) {
 		if (pathSum > minCost) {
+			// sb.delete(0);
 			return;
 		}
 
 		if (row == costs.length) { // reach the bottom level.
 			minCost = Math.min(minCost, pathSum);
+			sb.append(";");
 			return;
 		}
 
@@ -655,16 +691,14 @@ public class Solution {
 			if (j == col && skip) { // illegal except 0,0 which is initial value.
 				continue;
 			}
-
-			costHelper(row + 1, j, costs[row][j] + pathSum, costs);
+			sb.append(costs[row][j] + ",");
+			row = row + 1;
+			costHelper(row, j, costs[row - 1][j] + pathSum, costs, sb);
+			row = row - 1;
 		}
 
 		return;
 	}
-
-	// 156. Binary Tree Upside Down
-	// Company: LinkedIn
-	// Description:
 
 	// 254. Factor Combinations
 	// Company: LinkedIn Uber
