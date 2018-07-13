@@ -45,6 +45,86 @@ class Point {
 	int y;
 }
 
+// 244. Shortest Word Distance II
+// Company: LinkedIn
+// Description: ["practice", "makes", "perfect", "coding", "makes"] find the
+// word1 = "coding", word2 = "practice" => 3,
+// word1 = "makes", word2 = "coding" => 1, find the shortest path between two
+// words.
+// Solution: Use hashmap to record the positions of each word, find the minimum
+// distance between the two arrays.
+class WordDistance {
+	HashMap<String, List<Integer>> map = new HashMap<>();
+
+	public WordDistance(String[] words) {
+		for (int i = 0; i < words.length; i++) { // each word has a list denote the positions.
+			String key = words[i];
+			if (!map.containsKey(key)) {
+				map.put(key, new ArrayList<>());
+			}
+
+			map.get(key).add(i);
+		}
+	}
+
+	public int shortest(String word1, String word2) {
+		List<Integer> l1 = map.get(word1);
+		List<Integer> l2 = map.get(word2);
+		// less lenght as target.
+		if (l1.size() > l2.size()) {
+			return minDistance2(l1, l2);
+		} else {
+			return minDistance2(l2, l1);
+		}
+	}
+
+	// source must be larger than target
+	// improvement vs minDistance1 only 1 loop is enough.
+	private int minDistance2 (List<Integer> source, List<Integer> target) {
+		int min = Integer.MAX_VALUE;
+		int j = 0;
+		int i = 0;
+		
+		while (i < source.size() && j < target.size()) {
+			int a = source.get(i);
+			int b = target.get(j);
+			if (a < b) {
+				min = Math.min(b - a, min);
+				i++;
+			} else {
+				min = Math.min(a - b, min);
+				j++;
+			}
+			if (min == 1) {
+				return min;
+			}
+		}
+		
+		return min;
+	}
+	
+	
+	
+	private int minDistance1(List<Integer> source, List<Integer> target) {	// compare the shortest distance from source to target.
+		int min = Integer.MAX_VALUE;
+
+		for (int i = 0; i < target.size(); i++) {
+			int m = target.get(i);
+			for (int j = 0; j < source.size(); j++) {
+				int n = source.get(j);
+				int distance = Math.abs(m - n);
+				if (distance == 1) { //
+					return distance; // minimum already.
+				} else {
+					min = Math.min(min, distance);
+				}
+			}
+		}
+
+		return min;
+	}
+}
+
 // 146. LRU Cache
 // Company: ALL
 // Description:
@@ -524,9 +604,52 @@ public class Solution {
 		int cel = 3;
 		sl.findCelebrity(cel);
 		List<List<Integer>> resFactors = sl.getFactors(12);
-		
 		System.out.println("Factor:" + resFactors);
+	
+		int[][] costs = {{17, 2, 17, 4}, {16, 16, 5, 6},{14, 3, 19, 4}};
+		int cost = sl.minCost(costs);
+		
+		System.out.println(cost);
+	}	
+
+	// 256. Paint House
+	// Company: LinkedIn
+	// Description:
+	// Solution:
+	private int minCost = Integer.MAX_VALUE;
+	public int minCost(int[][] costs) {
+		int length = costs.length;
+		System.out.println("Matrix length: " + length); // length is row numbers.
+		costHelper(0, 0, costs[0][0], costs);
+		return minCost;
 	}
+	
+	// i row, j column.
+	private void costHelper(int row, int col, int pathSum, int[][] costs) {
+		if (row == costs.length) { // reach the bottom level.
+			minCost = Math.min(minCost, pathSum);
+			return;
+		}
+	
+		for (int j = 0; j < 3; j++) {
+			boolean skip = true;
+			if (row == 0 && col == 0) {
+				skip = false;
+			}
+			if (j == col && skip) {	// illegal except 0,0 which is initial value. 
+				
+				continue;
+			}
+			
+			costHelper(row + 1, j, costs[row][j] + pathSum, costs);
+		}
+		
+		return;
+	}
+
+	// 156. Binary Tree Upside Down
+	// Company: LinkedIn
+	// Description:
 
 	// 254. Factor Combinations
 	// Company: LinkedIn Uber
@@ -538,9 +661,9 @@ public class Solution {
 		factorHelper(2, n, new ArrayList<Integer>(), res);
 		return res;
 	}
-	
+
 	private void factorHelper(int start, int n, List<Integer> back_list, List<List<Integer>> res) {
-		if (n == 1) {  // base condition.
+		if (n == 1) { // base condition.
 			// 1 => [] instead of [[]]
 			if (back_list.size() > 1) {
 				res.add(new ArrayList<Integer>(back_list));
@@ -549,7 +672,7 @@ public class Solution {
 			for (int i = start; i <= n; i++) {
 				if (n % i == 0) {
 					back_list.add(i);
-					factorHelper(i, n/i, back_list, res);
+					factorHelper(i, n / i, back_list, res);
 					back_list.remove(back_list.size() - 1);
 				}
 			}
@@ -569,7 +692,11 @@ public class Solution {
 	// then put 0 into seeds, also seed should not know any of other either, if not
 	// then mark it not seed and break.
 	// Last, check whether seed array have the valid seed, if not then return -1;
-
+	
+	// TODO: There is better solution. 
+	
+	
+	
 	// place holder method inherited from parent.
 	private boolean knows(int a, int b) {
 		return false;
