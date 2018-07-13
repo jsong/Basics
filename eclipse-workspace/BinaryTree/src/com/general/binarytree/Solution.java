@@ -59,7 +59,16 @@ public class Solution {
 
 		int[] nums = { 12, 10, 30, 50 };
 		int val = calculateMax(nums, 4);
-
+		
+		TreeNode flipRoot = new TreeNode(1);
+		flipRoot.left = new TreeNode(2);
+		flipRoot.right = new TreeNode(3);
+		flipRoot.left.left = new TreeNode(4);
+		flipRoot.left.right = new TreeNode(5);
+		
+		TreeNode newFilpRoot = sl.upsideDownBinaryTree(flipRoot);
+		
+		System.out.println("Flip finished:" + newFilpRoot);
 	}
 
 	static int calculateMax(int[] a, int n) {
@@ -134,9 +143,9 @@ public class Solution {
 		
 		upsideHelper(root.left);
 		newRoot.right = root;
-		if (root.right != null) {
+//		if (root.right != null) {
 			newRoot.left = root.right;		
-		}
+//		}
 	}
 
 	// 269. Alien Dictionary
