@@ -80,11 +80,11 @@ class WordDistance {
 
 	// source must be larger than target
 	// improvement vs minDistance1 only 1 loop is enough.
-	private int minDistance2 (List<Integer> source, List<Integer> target) {
+	private int minDistance2(List<Integer> source, List<Integer> target) {
 		int min = Integer.MAX_VALUE;
 		int j = 0;
 		int i = 0;
-		
+
 		while (i < source.size() && j < target.size()) {
 			int a = source.get(i);
 			int b = target.get(j);
@@ -99,13 +99,12 @@ class WordDistance {
 				return min;
 			}
 		}
-		
+
 		return min;
 	}
-	
-	
-	
-	private int minDistance1(List<Integer> source, List<Integer> target) {	// compare the shortest distance from source to target.
+
+	private int minDistance1(List<Integer> source, List<Integer> target) { // compare the shortest distance from source
+																			// to target.
 		int min = Integer.MAX_VALUE;
 
 		for (int i = 0; i < target.size(); i++) {
@@ -605,45 +604,61 @@ public class Solution {
 		sl.findCelebrity(cel);
 		List<List<Integer>> resFactors = sl.getFactors(12);
 		System.out.println("Factor:" + resFactors);
-	
-		int[][] costs = {{17, 2, 17, 4}, {16, 16, 5, 6},{14, 3, 19, 4}};
+		// [[10,6,7],[19,9,8],[18,20,3],[17,8,13],[15,11,16],[11,20,10],[8,6,5],[5,19,5],
+		// [14,14,20],[6,6,1],[15,3,12],[17,7,5],[7,6,8],[19,5,6],[15,10,7],[19,4,12],[13,8,16],
+		// [3,14,12],[4,12,5],[19,20,3],[19,10,15],[1,7,17],[6,15,13],[11,6,20],[7,6,7],[14,13,15],
+		// [19,17,13],[5,11,8],[2,17,12],[12,13,4],[9,19,4],[20,5,6],[20,16,7],[17,18,3],[8,10,2],[6,19,16],[20,1,10]]
+		// //37 pair in total.
+		// 3 * 2^37 => time limit exceeds.
+		// consider dp
+		int[][] costs = { { 10, 6, 7 }, { 19, 9, 8 }, { 18, 20, 3 }, { 17, 8, 13 }, { 15, 11, 16 }, { 11, 20, 10 },
+				{ 8, 6, 5 }, { 5, 19, 5 }, { 14, 14, 20 }, { 6, 6, 1 }, { 15, 3, 12 }, { 17, 7, 5 }, { 7, 6, 8 },
+				{ 19, 5, 6 }, { 15, 10, 7 }, { 19, 4, 12 }, { 13, 8, 16 }, { 3, 14, 12 }, { 4, 12, 5 }, { 19, 20, 3 },
+				{ 19, 10, 15 }, { 1, 7, 17 }, { 6, 15, 13 }, { 11, 6, 20 }, { 7, 6, 7 }, { 14, 13, 15 }, { 19, 17, 13 },
+				{ 5, 11, 8 }, { 2, 17, 12 }, { 12, 13, 4 }, { 9, 19, 4 }, { 20, 5, 6 }, { 20, 16, 7 }, { 17, 18, 3 },
+				{ 8, 10, 2 }, { 6, 19, 16 }, { 20, 1, 10 } };
 		int cost = sl.minCost(costs);
-		
+
 		System.out.println(cost);
-	}	
+	}
 
 	// 256. Paint House
 	// Company: LinkedIn
 	// Description:
 	// Solution:
+
 	private int minCost = Integer.MAX_VALUE;
+
 	public int minCost(int[][] costs) {
 		int length = costs.length;
 		System.out.println("Matrix length: " + length); // length is row numbers.
 		costHelper(0, 0, costs[0][0], costs);
 		return minCost;
 	}
-	
+
 	// i row, j column.
 	private void costHelper(int row, int col, int pathSum, int[][] costs) {
+		if (pathSum > minCost) {
+			return;
+		}
+
 		if (row == costs.length) { // reach the bottom level.
 			minCost = Math.min(minCost, pathSum);
 			return;
 		}
-	
+
 		for (int j = 0; j < 3; j++) {
 			boolean skip = true;
 			if (row == 0 && col == 0) {
 				skip = false;
 			}
-			if (j == col && skip) {	// illegal except 0,0 which is initial value. 
-				
+			if (j == col && skip) { // illegal except 0,0 which is initial value.
 				continue;
 			}
-			
+
 			costHelper(row + 1, j, costs[row][j] + pathSum, costs);
 		}
-		
+
 		return;
 	}
 
@@ -692,11 +707,9 @@ public class Solution {
 	// then put 0 into seeds, also seed should not know any of other either, if not
 	// then mark it not seed and break.
 	// Last, check whether seed array have the valid seed, if not then return -1;
-	
-	// TODO: There is better solution. 
-	
-	
-	
+
+	// TODO: There is better solution.
+
 	// place holder method inherited from parent.
 	private boolean knows(int a, int b) {
 		return false;
