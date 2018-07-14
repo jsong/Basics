@@ -59,15 +59,16 @@ public class Solution {
 
 		int[] nums = { 12, 10, 30, 50 };
 		int val = calculateMax(nums, 4);
-		
+
 		TreeNode flipRoot = new TreeNode(1);
 		flipRoot.left = new TreeNode(2);
-		flipRoot.right = new TreeNode(3);
-		flipRoot.left.left = new TreeNode(4);
-		flipRoot.left.right = new TreeNode(5);
-		
+		// flipRoot.right = new TreeNode(3);
+		// flipRoot.left.left = new TreeNode(4);
+		// flipRoot.left.right = new TreeNode(5);
+		flipRoot.left.left = new TreeNode(3);
+
 		TreeNode newFilpRoot = sl.upsideDownBinaryTree(flipRoot);
-		
+
 		System.out.println("Flip finished:" + newFilpRoot);
 	}
 
@@ -117,35 +118,95 @@ public class Solution {
 		}
 	}
 
-	
-	// TODO: Try the in-order traverse first.
 	// 156. Binary Tree Upside Down
 	// Company: LinkedIn
 	// Description: Given a tree, flip it upside down.
-	// Solution: Recursion in-order traverse, left -> root -> right
-
-	private TreeNode newRoot = null;
+	// Solution: BFS, use stack to store the left TreeNode, and hashmap to store the relation between left and right siblings, while 
+	// regenerate the tree, from left node, construct accordingly. 
+	// TODO: Talked to Kun for better solution, 
+	// 
+	
 	public TreeNode upsideDownBinaryTree(TreeNode root) {
+		// use bfs
+		if (root == null) {
+			return null;
+		}
+
+		Queue<TreeNode> queue = new LinkedList<>();
+		Stack<TreeNode> stack = new Stack<>();
+		queue.offer(root);
+		HashMap<TreeNode, TreeNode> map = new HashMap<>(); // used for find right sibling,
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				if (node == root) {
+					stack.push(new TreeNode(node.val));
+				}
+
+				TreeNode leftNode = null;
+				if (node.left != null) {
+					leftNode = new TreeNode(node.left.val);
+					stack.push(leftNode);
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					TreeNode rightNode = new TreeNode(node.right.val);
+					queue.offer(node.right);
+					if (leftNode != null) {
+						map.put(leftNode, rightNode);
+					}
+				}
+			}
+		}
+
+		TreeNode newRoot = null;
+		TreeNode iterator = null;
+
+		while (!stack.isEmpty()) {
+			TreeNode nextRight = stack.pop();
+
+			if (newRoot == null) {
+				newRoot = nextRight;
+				iterator = newRoot;
+			} else {
+				iterator.right = nextRight;
+			}
+
+			if (iterator.right != null) {
+				iterator = iterator.right;
+			}
+
+			if (map.containsKey(nextRight)) {
+				TreeNode nextLeft = map.get(nextRight);
+				iterator.left = nextLeft;
+			}
+		}
+
+		return newRoot;
+	}
+
+	// In-Order traversal.
+	public TreeNode upsideDownBinaryTree2(TreeNode root) {
 		if (root == null) {
 			return null;
 		}
 
 		upsideHelper(root);
-		
-		return newRoot;
+
+		return null;
 	}
 
 	private void upsideHelper(TreeNode root) {
-		if (root.left == null) {
-			newRoot = root;
+		if (root == null) {
 			return;
 		}
-		
+
 		upsideHelper(root.left);
-		newRoot.right = root;
-//		if (root.right != null) {
-			newRoot.left = root.right;		
-//		}
+		System.out.println(root.val);
+		upsideHelper(root.right);
 	}
 
 	// 269. Alien Dictionary
