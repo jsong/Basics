@@ -10,10 +10,77 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-
-import com.leetcode.datastructure.TreeNode;
-
 import java.util.PriorityQueue;
+
+//716. Max Stack
+// Company: LinkedIn 
+// Description: Design a max stack which not only has the normal push/pop/top behavior but also 
+// should be able to peekMax/popMax, however if more than one max elements, popMax will only pop one
+// item.
+// Solution: Use Array as stack, which the last element index is the 'top element' of stack. Also use a max indicator for the current max element index, 
+// if find the same max element, update the index to the latest one. Each time 'pop' being called, we need to update the max element index. 
+
+class MaxStack {
+
+	/** initialize your data structure here. */
+	private int maxIndex; // store the current max element index.
+	private ArrayList<Integer> stack;
+
+	public MaxStack() {
+		stack = new ArrayList<>();
+		maxIndex = -1;
+	}
+
+	public void push(int x) {
+		if (stack.isEmpty()) {
+			maxIndex = 0;
+		} else {
+			if (x >= stack.get(maxIndex)) {
+				maxIndex = stack.size();
+			}
+		}
+
+		stack.add(x);
+	}
+
+	public int pop() {
+		int value = stack.get(stack.size() - 1);
+		if (value == stack.get(maxIndex)) {
+			// need to find the next largest element.
+			stack.remove(maxIndex);
+		} else {
+			stack.remove(stack.size() - 1);
+		}
+		
+		getMaxIndex();
+		return value;
+	}
+
+	public int top() {
+		return stack.get(stack.size() - 1);
+	}
+
+	public int peekMax() {
+		return stack.get(maxIndex);
+	}
+
+	public int popMax() {
+		int max = stack.remove(maxIndex);
+		getMaxIndex();
+		return max;
+	}
+
+	private void getMaxIndex() {
+		int maxValue = Integer.MIN_VALUE;
+		for (int i = 0; i < stack.size(); i++) {
+			int stackElement = stack.get(i);
+			if (stackElement >= maxValue) {
+				maxValue = stackElement;
+				maxIndex = i;
+			}
+		}
+	}
+}
 
 public class Solution {
 
@@ -70,6 +137,21 @@ public class Solution {
 		TreeNode newFilpRoot = sl.upsideDownBinaryTree(flipRoot);
 
 		System.out.println("Flip finished:" + newFilpRoot);
+
+		MaxStack stack = new MaxStack();
+		stack.push(5);
+		stack.push(1);
+		stack.push(5);
+		
+		int v1 = stack.top();
+		int v2 = stack.popMax();
+		int v3 = stack.top();
+		int v4 = stack.peekMax(); // wrong value.
+		int v5 = stack.pop();
+		int v6 = stack.top();
+		
+		System.out.println("Max Stack");
+
 	}
 
 	static int calculateMax(int[] a, int n) {
@@ -121,11 +203,12 @@ public class Solution {
 	// 156. Binary Tree Upside Down
 	// Company: LinkedIn
 	// Description: Given a tree, flip it upside down.
-	// Solution: BFS, use stack to store the left TreeNode, and hashmap to store the relation between left and right siblings, while 
-	// regenerate the tree, from left node, construct accordingly. 
-	// TODO: Talked to Kun for better solution, 
-	// 
-	
+	// Solution: BFS, use stack to store the left TreeNode, and hashmap to store the
+	// relation between left and right siblings, while
+	// regenerate the tree, from left node, construct accordingly.
+	// TODO: Talked to Kun for better solution,
+	//
+
 	public TreeNode upsideDownBinaryTree(TreeNode root) {
 		// use bfs
 		if (root == null) {
