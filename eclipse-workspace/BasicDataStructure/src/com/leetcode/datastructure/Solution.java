@@ -620,21 +620,44 @@ public class Solution {
 		// 16, 7 }, { 17, 18, 3 },
 		// { 8, 10, 2 }, { 6, 19, 16 }, { 20, 1, 10 } };
 		int cost = sl.minCost2(costs);
+		int[][] A = {{1, 0, 0}, {-1, 0, 3}};
+		int[][] B = {{7, 0, 0}, {0, 0 ,0}, {0, 0, 1}};
+		int[][] mRes = sl.multiply(A, B);
+		
+		System.out.println(Arrays.toString(mRes));
+	}
 
-		System.out.println(cost);
+	// 311. Sparse Matrix Multiplication
+	// Company: Facebook, LinkedIn
+	// Description: Given two sparse matrices A and B, return the result.
+	// Solution: 1. Brutal force. Use a[i][j] * b[j][k] = c[i][k];
+	// TODO: Brutal force, should check other better solution.
+	public int[][] multiply(int[][] A, int[][] B) {
+		int[][] res = new int[A.length][B[0].length];
+		
+		for (int i = 0; i < A.length; i++) {
+			for (int j = 0; j < B.length; j++) {
+				for (int k = 0; k < B[j].length; k++) {
+					res[i][k] += A[i][j] * B[j][k];
+				}
+			}
+		}
+		
+		return res;
 	}
 
 	// 256. Paint House
 	// Company: LinkedIn
 	// Description:
-	// Solution: 1. Use DFS will cause time limit exceeds. 2. Each level maintain 3 values which is the cost plus previous cost.
+	// Solution: 1. Use DFS will cause time limit exceeds. 2. Each level maintain 3
+	// values which is the cost plus previous cost.
 	// iterate through until reach the bottom level.
 	public int minCost(int[][] costs) {
 		int size = costs.length;
 		if (size == 0) {
 			return 0;
 		}
-		
+
 		int i = 0; // level.
 		while (i < size - 1) {
 			for (int j = 0; j < 3; j++) {
@@ -646,15 +669,15 @@ public class Solution {
 					costs[i + 1][j] = Math.min(costs[i][j - 1] + costs[i + 1][j], costs[i][j - 2] + costs[i + 1][j]);
 				}
 			}
-			
+
 			i++;
 		}
-		
+
 		int res = Integer.MAX_VALUE;
 		for (int j = 0; j < 3; j++) {
 			res = Math.min(costs[i][j], res);
 		}
-		
+
 		return res;
 	}
 
