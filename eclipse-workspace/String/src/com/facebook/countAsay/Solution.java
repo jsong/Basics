@@ -8,7 +8,6 @@ public class Solution {
 
 	//TODO Revisit
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Solution sl = new Solution();
 		String result = sl.countAndSay(3);
 		System.out.println(result);

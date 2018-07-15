@@ -13,7 +13,6 @@ import com.general.binarytree.TreeNode;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		TreeNode root = new TreeNode(5);
 		root.left = new TreeNode(2);
 		root.right = new TreeNode(-3);

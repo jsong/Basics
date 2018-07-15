@@ -8,7 +8,6 @@ import java.util.Map;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int[] arr = new int[] {0,0,0,1,3,5,6,7,8,8};
 		//[0,0,0,1,3,5,6,7,8,8]
 //		2

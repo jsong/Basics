@@ -5,7 +5,6 @@ import java.util.Stack;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String s = "({})";
 		Solution sl = new Solution();
 		String paladrome = sl.longestPalindrome(s);

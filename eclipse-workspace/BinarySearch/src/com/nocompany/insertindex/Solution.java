@@ -76,7 +76,6 @@ public class Solution {
 	    }
 	 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int[] nums = new int[]{1,2,2,4,5,5};
 		Solution sl = new Solution();
 		int index = sl.findPosition(nums,6);

@@ -3,7 +3,6 @@ package com.amazon.linklistTwoSum;
 public class Solution {
 //2. Add Two Numbers
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 	

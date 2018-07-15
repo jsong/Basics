@@ -10,7 +10,6 @@ import java.util.Set;
 public class StandardSolution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String[] test = {"z", "x", "z"};
 			//{ "za", "zb", "ca", "cb" };
 		

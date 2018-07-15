@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class Solution2 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int[] nums1 = {1,2,2,1};
 		int[] nums2 = {2,2,3};
 		int[] result = new Solution2().intersect(nums1,nums2);

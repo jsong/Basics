@@ -4,7 +4,6 @@ public class Solution {
 //80. Remove Duplicates from Sorted Array II
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int[] nums = {1,1,1,2,2,3,3};
 		Solution sl = new Solution();
 		int count = sl.removeDuplicates(nums);

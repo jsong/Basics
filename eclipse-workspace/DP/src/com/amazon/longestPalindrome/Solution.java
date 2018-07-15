@@ -12,7 +12,6 @@ import java.util.Set;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String palin = "abccccdd";
 		Solution sl = new Solution();
 		int maxSubSeqLength = sl.longestPalindromeSubseq(palin);

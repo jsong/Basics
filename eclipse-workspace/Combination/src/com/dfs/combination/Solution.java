@@ -9,7 +9,6 @@ import java.util.List;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Solution sl = new Solution();
 		int[] nums = { 1, 2, 3 };
 		sl.subsets(nums);

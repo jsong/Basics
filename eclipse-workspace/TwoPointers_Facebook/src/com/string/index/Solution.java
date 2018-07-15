@@ -3,7 +3,6 @@ package com.string.index;
 public class Solution {
 	// 28. Implement strStr()
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Solution sl = new Solution();
 		sl.strStr3("mississippi", "issip");
 	}

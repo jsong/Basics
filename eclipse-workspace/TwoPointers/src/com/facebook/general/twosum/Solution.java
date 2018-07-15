@@ -10,7 +10,6 @@ import java.util.Map;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int[] nums = { 2, 1, 3, 4 };
 		Solution sl = new Solution();
 		int[] res = sl.twoSum(nums, 6);

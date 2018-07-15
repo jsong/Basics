@@ -3,7 +3,6 @@ package com.valid.palindrome;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Solution sl = new Solution();
 		String testCase = "a.";
 		boolean isP1 = sl.isPalindrome(testCase);

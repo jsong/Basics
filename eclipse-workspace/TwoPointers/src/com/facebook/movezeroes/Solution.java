@@ -6,7 +6,6 @@ import java.util.Arrays;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		double distDouble = 4.0;
 		double rounded = Math.round(distDouble / 10);
 		System.out.println(rounded);

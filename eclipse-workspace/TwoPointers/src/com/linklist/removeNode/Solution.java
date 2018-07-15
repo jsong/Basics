@@ -4,7 +4,6 @@ package com.linklist.removeNode;
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		ListNode head = new ListNode(1);
 		head.next = new ListNode(2);
 		head.next.next = new ListNode(3);

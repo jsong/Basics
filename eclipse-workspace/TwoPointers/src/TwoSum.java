@@ -7,7 +7,6 @@ import java.util.LinkedList;
 public class TwoSum {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
 		map.put(123, new ArrayList<Integer>());
 		ArrayList<Integer> arr = map.get(123);

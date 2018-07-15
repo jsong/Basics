@@ -36,7 +36,6 @@ class Interval {
 
 class Point {
 	public Point(int i, int j) {
-		// TODO Auto-generated constructor stub
 		x = i;
 		y = j;
 	}
@@ -408,7 +407,6 @@ class PeekingIterator implements Iterator<Integer> {
 public class Solution {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		// LRUCache cache = new LRUCache(1);
 		Solution sl = new Solution();
 		LRUCache lcache = new LRUCache(2);
@@ -457,7 +455,6 @@ public class Solution {
 		Queue<Integer> heap = new PriorityQueue<Integer>(4, new Comparator<Integer>() {
 
 			public int compare(Integer o1, Integer o2) {
-				// TODO Auto-generated method stub
 				return o1 - o2; // Default. If return o2 - o1 then the larger will be the root.
 			}
 		});
@@ -620,11 +617,28 @@ public class Solution {
 		// 16, 7 }, { 17, 18, 3 },
 		// { 8, 10, 2 }, { 6, 19, 16 }, { 20, 1, 10 } };
 		int cost = sl.minCost2(costs);
-		int[][] A = {{1, 0, 0}, {-1, 0, 3}};
-		int[][] B = {{7, 0, 0}, {0, 0 ,0}, {0, 0, 1}};
+		int[][] A = { { 1, 0, 0 }, { -1, 0, 3 } };
+		int[][] B = { { 7, 0, 0 }, { 0, 0, 0 }, { 0, 0, 1 } };
 		int[][] mRes = sl.multiply(A, B);
-		
+
 		System.out.println(Arrays.toString(mRes));
+	}
+
+	// 57. Insert Interval
+	// Company: Google Facebook LinkedIn
+	// Description: Given a set of non-overlapping intervals, insert a new interval
+	// into the intervals (merge if necessary). Initial intervals are sorted according to their 
+	// start times.
+	// Solution: Find the proper index of the new interval, whether it's outside of the range or 
+	// in the middle of the range. 
+	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+		int[] sortedIntervals = new int[intervals.size() * 2];
+		int j = 0;
+		for (int i = 0; i < intervals.size(); i++) {
+			sortedIntervals[i] = intervals.get(i).start;
+			j = i + 1;
+			sortedIntervals[j] = intervals.get(i).end;
+		}
 	}
 
 	// 311. Sparse Matrix Multiplication
@@ -634,7 +648,7 @@ public class Solution {
 	// TODO: Brutal force, should check other better solution.
 	public int[][] multiply(int[][] A, int[][] B) {
 		int[][] res = new int[A.length][B[0].length];
-		
+
 		for (int i = 0; i < A.length; i++) {
 			for (int j = 0; j < B.length; j++) {
 				for (int k = 0; k < B[j].length; k++) {
@@ -642,7 +656,7 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		return res;
 	}
 
@@ -1292,7 +1306,6 @@ public class Solution {
 
 			@Override
 			public int compare(Interval o1, Interval o2) {
-				// TODO Auto-generated method stub
 				return o1.start - o2.start;
 			}
 		});
@@ -1341,7 +1354,6 @@ public class Solution {
 
 			@Override
 			public int compare(Interval o1, Interval o2) {
-				// TODO Auto-generated method stub
 				return o1.start - o2.start;
 			}
 
@@ -2218,7 +2230,6 @@ public class Solution {
 
 			@Override
 			public int compare(Point o1, Point o2) {
-				// TODO Auto-generated method stub
 				System.out.println("comparing....: o2" + o2.x + o2.y + "o1" + o1.x + o1.y);
 				// System.out.println("\n");
 				int diff = distance(o2, origin) - distance(o1, origin);
@@ -2291,7 +2302,6 @@ public class Solution {
 
 		@Override
 		public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-			// TODO Auto-generated method stub
 			int diff = o1.getValue() - o2.getValue();
 			if (diff == 0) {
 				diff = o2.getKey().compareTo(o1.getKey());
