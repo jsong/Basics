@@ -622,23 +622,161 @@ public class Solution {
 		int[][] mRes = sl.multiply(A, B);
 
 		System.out.println(Arrays.toString(mRes));
+
+		// [[1,2],[3,5],[6,7],[8,10],[12,16]]
+		Interval v1 = new Interval(1, 7);
+		// new Interval(1, 2);
+		Interval v2 = new Interval(8, 8);
+		Interval v3 = new Interval(10, 10);
+		Interval v4 = new Interval(12, 13);
+		Interval v5 = new Interval(16, 19);
+
+		List<Interval> intervals = new ArrayList<Interval>();
+		intervals.add(v1);
+		intervals.add(v2);
+		intervals.add(v3);
+		intervals.add(v4);
+		intervals.add(v5);
+		//
+		Interval insert = new Interval(9, 17);
+
+		List<Interval> iRes = sl.insert(intervals, insert);
+
+		System.out.println("Inserted interval:" + iRes);
 	}
 
 	// 57. Insert Interval
 	// Company: Google Facebook LinkedIn
 	// Description: Given a set of non-overlapping intervals, insert a new interval
-	// into the intervals (merge if necessary). Initial intervals are sorted according to their 
+	// into the intervals (merge if necessary). Initial intervals are sorted
+	// according to their
 	// start times.
-	// Solution: Find the proper index of the new interval, whether it's outside of the range or 
-	// in the middle of the range. 
+	// Solution: Find the proper index of the new interval, whether it's outside of
+	// the range or
+	// in the middle of the range.
+	// TODO: Check better solution, improve performance. only beat 6%.
 	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-		int[] sortedIntervals = new int[intervals.size() * 2];
-		int j = 0;
+		int[] sorted = new int[intervals.size() * 2];
+
 		for (int i = 0; i < intervals.size(); i++) {
-			sortedIntervals[i] = intervals.get(i).start;
-			j = i + 1;
-			sortedIntervals[j] = intervals.get(i).end;
+			sorted[2 * i] = intervals.get(i).start;
+			sorted[2 * i + 1] = intervals.get(i).end;
 		}
+
+		int start = newInterval.start;
+		int end = newInterval.end;
+
+		int left = indexOf(sorted, start);
+		int right = indexOf(sorted, end);
+
+		int length = sorted.length;
+
+		ArrayList<Interval> res = new ArrayList<Interval>(intervals);
+
+		if (right == 0) { // interval is on left of the smallest
+			res.add(0, newInterval);
+		} else if (left == length) { // interval is on right of the largest.
+			res.add(newInterval);
+		} else if (right == length) { // interval is from leftmost to right.
+			int mergeStart = 0;
+
+			if (left % 2 == 1) {
+				mergeStart = (left - 1) / 2;
+			} else {
+				mergeStart = left / 2;
+			}
+
+			newInterval.start = newInterval.start > intervals.get(mergeStart).start ? intervals.get(mergeStart).start
+					: newInterval.start;
+			ArrayList<Interval> toRemove = new ArrayList<>();
+
+			for (int i = mergeStart; i < intervals.size(); i++) {
+				toRemove.add(intervals.get(i));
+			}
+			res.removeAll(toRemove);
+			res.add(newInterval);
+		} else if (left == 0) {
+			int mergeEnd = 0;
+			if (right % 2 == 0) {
+				mergeEnd = right / 2;
+			} else {
+				mergeEnd = (right - 1) / 2;
+			}
+			newInterval.end = intervals.get(mergeEnd).end;
+			ArrayList<Interval> toRemove = new ArrayList<>();
+
+			for (int i = 0; i <= mergeEnd; i++) {
+				toRemove.add(intervals.get(i));
+			}
+			res.removeAll(toRemove);
+			res.add(0, newInterval);
+		} else {
+			if ((right - left) % 2 == 1) { //
+				Interval interval = null;
+				int mergeStart = 0;
+				int mergeEnd = 0;
+				if (left % 2 == 1) {
+					mergeStart = (left - 1) / 2;
+					mergeEnd = right / 2 - 1;
+					interval = new Interval(intervals.get((left - 1) / 2).start, end);
+				} else {
+					interval = new Interval(start, intervals.get((right - 1) / 2).end);
+					mergeStart = left / 2;
+					mergeEnd = (right - 1) / 2;
+				}
+
+				ArrayList<Interval> toRemove = new ArrayList<>();
+				for (int i = mergeStart; i <= mergeEnd; i++) {
+					toRemove.add(res.get(i));
+				}
+				res.removeAll(toRemove);
+
+				res.add(mergeStart, interval);
+
+			} else if ((right - left) % 2 == 0) {
+				Interval interval = null;
+				int mergeStart = 0;
+				int mergeEnd = 0;
+				if (left % 2 == 1) {
+					interval = new Interval(intervals.get((left - 1) / 2).start, intervals.get((right - 1) / 2).end);
+					mergeStart = (left - 1) / 2;
+					mergeEnd = (right - 1) / 2;
+				} else {
+					interval = new Interval(start,
+							(intervals.get(right / 2 - 1).end > end) ? intervals.get(right / 2 - 1).end : end);
+					mergeStart = left / 2;
+					mergeEnd = right / 2 - 1;
+				}
+
+				ArrayList<Interval> toRemove = new ArrayList<>();
+				for (int i = mergeStart; i <= mergeEnd; i++) {
+					toRemove.add(res.get(i));
+				}
+				res.removeAll(toRemove);
+
+				res.add(mergeStart, interval);
+			}
+		}
+
+		return res;
+	}
+
+	// if index reaches n, means target is the largest, if index == 0, means, target
+	// is the smallest.
+	// if index in between two intervals, it will be even, otherwise is odd.
+	private int indexOf(int[] nums, int target) {
+		int index = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (target > nums[i]) {
+				index++;
+			} else if (target == nums[i]) {
+				if (i % 2 == 0) {
+					index++;
+				}
+			}
+		}
+
+		return index;
 	}
 
 	// 311. Sparse Matrix Multiplication
