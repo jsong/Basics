@@ -642,6 +642,17 @@ public class Solution {
 
 		List<Interval> iRes = sl.insert(intervals, insert);
 
+		List<Interval> meetings = new ArrayList<>();
+		Interval m1 = new Interval(6, 9);
+		Interval m2 = new Interval(8, 14);
+		Interval m3 = new Interval(12, 13);
+		meetings.add(m1);
+		meetings.add(m2);
+		meetings.add(m3);
+		Interval[] mIntervals = new Interval[meetings.size()];
+		mIntervals = meetings.toArray(mIntervals);
+		int minMeetingRoom = sl.minMeetingRooms(mIntervals);
+		
 		System.out.println("Inserted interval:" + iRes);
 	}
 
@@ -1479,7 +1490,56 @@ public class Solution {
 	// Solution:
 	
 	public int minMeetingRooms(Interval[] intervals) {
+		if (intervals.length <= 1) {
+			return intervals.length;
+		}
+		
+		Arrays.sort(intervals, new Comparator<Interval>() {
 
+			@Override
+			public int compare(Interval o1, Interval o2) {
+				return o1.start - o2.start;
+			}
+
+		});
+		
+		// merge first
+		// [4, 9], [4, 17], [9, 10]; 
+		// [6, 9], [8, 14], [12, 13];
+		
+		int mergePiviot = 0;
+		// Index of merged interval;
+		List<Interval> list = new ArrayList<>();
+		int dup = 0;
+		while (mergePiviot < intervals.length) {
+			for (int i = mergePiviot + 1; i < intervals.length; i++) {
+				if (intervals[mergePiviot].end == intervals[i].start) {
+					intervals[mergePiviot].end = intervals[i].end;
+					list.add(intervals[i]);
+				} 
+				else if (intervals[mergePiviot].end < intervals[i].start) {
+					dup++;
+				}
+			}
+			mergePiviot++;
+		}
+		
+		// convert Interval[] to ArrayList
+		List<Interval> allIntervals = new ArrayList<>(Arrays.asList(intervals));
+		allIntervals.removeAll(list);
+		// remove all the merged items; 		
+		int counter = 1;
+		int left = 0; 
+		 
+		while (left < allIntervals.size() - 1) {
+			if (allIntervals.get(left).end > allIntervals.get(left + 1).start) {
+				counter++;
+			}
+			
+			left++;
+		}
+		
+		return counter - dup;
 	}
 
 	// 252. Meeting Rooms
