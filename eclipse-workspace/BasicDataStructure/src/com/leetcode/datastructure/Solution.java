@@ -1471,6 +1471,17 @@ public class Solution {
 		return res;
 	}
 
+	// 253. Meeting Rooms II
+	// Company: Facebook Google Snapchat
+	// Description: Given an array of intervals consisting of start and end times
+	// [[s1, e1],[s2, e2]]...
+	// find the minimum number of conference rooms required.
+	// Solution:
+	
+	public int minMeetingRooms(Interval[] intervals) {
+
+	}
+
 	// 252. Meeting Rooms
 	// Company: Facebook
 	// Description: Given an list of intervals, find whether a person could attend
