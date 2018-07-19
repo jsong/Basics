@@ -33,6 +33,36 @@ public class Solution {
 		System.out.println("LIS" + LIS);
 	}
 
+	// 131. Palindrome Partitioning
+	// Company: Bloomberg
+	// Description: Given a string s, partition s such that every substring of the
+	// partition is a palindrome. Return all possible partitions.
+	// eg, aab => ["aa", "b"] and ["a", "a", "b"]
+	// Solution:
+	public List<List<String>> partition(String s) {
+		
+	}
+	
+	 
+	private boolean isPalindrome(String s) {
+		int left = 0;
+		int right = s.length() - 1;
+		while (left < right) {
+			if (s.charAt(left++) != s.charAt(right--)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	// 132. Palindrome Partitioning II
+	// Company: N/A
+	// Description: Given a string s, partition s such that every substring of the
+	// partition is a palindrome. Return minimum cut.
+	// For eg, "aab", - > 'aa' & 'b' minimum cut is 1.
+	// Solution:
+
 	// 300. Longest Increasing Subsequence
 	// Company: Microsoft.
 	// Description: Given an unsorted array of integers, find the length of longest
