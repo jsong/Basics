@@ -26,14 +26,59 @@ public class Solution {
 
 		int[] nums = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
 		sl.maxSubArray(nums);
+
+		int[] numsLIS = { 10, 9, 2, 5, 3, 7, 101, 18 };
+		int LIS = sl.lengthOfLIS(numsLIS);
+
+		System.out.println("LIS" + LIS);
+	}
+
+	// 300. Longest Increasing Subsequence
+	// Company: Microsoft.
+	// Description: Given an unsorted array of integers, find the length of longest
+	// increasing subsequence.
+	// Solution: Two loops, use i for the starter element, and then j start from i +
+	// 1, track the latter element and count.
+	// [10, 9, 2, 5, 3, 7, 101, 18]
+	public int lengthOfLIS(int[] nums) {
+		if (nums.length <= 1) {
+			return nums.length;
+		}
+
+		int res = 0;
+		// f[i]表示以i结尾的最长递增子序列的长度
+		int[] dp = new int[nums.length];
+		Arrays.fill(dp, 1);
+
+		for (int j = 1; j < nums.length; j++) {
+			for (int i = 0; i < j; i++) {
+				if (nums[j] > nums[i]) {
+					dp[j] = Math.max(dp[j], dp[i] + 1); // ending j, if nums[j] is greater than nums[i].
+				}
+			}
+			res = Math.max(dp[j], res);
+		}
+
+		return res;
 	}
 
 	// 152. Maximum Product Subarray
 	// Company: LinkedIn
-	// Description:
-	// Solution:
+	// Description: Find the Maximum product of the subarray.
+	// Solution: Use DP, record the minimum product along the way as well.
 	public int maxProduct(int[] nums) {
+		int res = nums[0];
+		int min_local = nums[0];
+		int max_local = nums[0];
 
+		for (int i = 1; i < nums.length; i++) {
+			int temp = max_local;
+			max_local = Math.max(Math.max(nums[i], temp * nums[i]), min_local * nums[i]);
+			min_local = Math.min(Math.min(nums[i], temp * nums[i]), min_local * nums[i]);
+			res = Math.max(res, max_local);
+		}
+
+		return res;
 	}
 
 	// 53. Maximum Subarray
