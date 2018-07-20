@@ -40,10 +40,9 @@ public class Solution {
 	// eg, aab => ["aa", "b"] and ["a", "a", "b"]
 	// Solution:
 	public List<List<String>> partition(String s) {
-		
+
 	}
-	
-	 
+
 	private boolean isPalindrome(String s) {
 		int left = 0;
 		int right = s.length() - 1;
@@ -52,7 +51,7 @@ public class Solution {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -62,6 +61,26 @@ public class Solution {
 	// partition is a palindrome. Return minimum cut.
 	// For eg, "aab", - > 'aa' & 'b' minimum cut is 1.
 	// Solution:
+	public int minCut(String s) {
+		char[] arr = s.toCharArray();
+		int n = s.length() - 1;
+		int m = s.length() - 1; // maximum cut is length - 1;
+		int[] dp = new int[s.length()];
+		boolean[][] p = new boolean[s.length()][s.length()]; // starting j to i.
+		 
+		for (int i = 0; i < arr.length; i++) {
+			m = i;
+			for (int j = 0; j <= i; j++) {
+				if (arr[i] == arr[j] && ((j + 1 > i - 1) || p[j + 1][i - 1])) {
+					p[j][i] = true;  //starting j to i is palindrome
+					m = j == 0 ? 0: Math.min(m, dp[j - 1] + 1);
+				}
+				dp[i] = m;
+			}
+		}
+		
+		return dp[n];
+	}
 
 	// 300. Longest Increasing Subsequence
 	// Company: Microsoft.
