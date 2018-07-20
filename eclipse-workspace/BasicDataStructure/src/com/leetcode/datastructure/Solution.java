@@ -44,6 +44,60 @@ class Point {
 	int y;
 }
 
+// This is the interface that allows for creating nested lists.
+// You should not implement it, or speculate about its implementation
+interface NestedInteger {
+
+	// @return true if this NestedInteger holds a single integer, rather than a
+	// nested list.
+	public boolean isInteger();
+
+	// @return the single integer that this NestedInteger holds, if it holds a
+	// single integer
+	// Return null if this NestedInteger holds a nested list
+	public Integer getInteger();
+
+	// @return the nested list that this NestedInteger holds, if it holds a nested
+	// list
+	// Return null if this NestedInteger holds a single integer
+	public List<NestedInteger> getList();
+}
+
+// 341. Flatten Nested List Iterator
+// Company: Google Facebook Twitter
+// Description: Given the list, [[1, 1], 2, [1, 1]] or [1, [1, 2, [1, 1,]]] return [1, 1, 2, 1, 1]
+// by calling the next();
+// Solution:
+class NestedIterator implements Iterator<Integer> {
+
+	Queue<Integer> queue;
+	public NestedIterator(List<NestedInteger> nestedList) {
+		queue = new LinkedList<Integer>();
+		dfsNested(nestedList);
+	}
+
+	private void dfsNested(List<NestedInteger> nestedList) {
+		for (int i = 0; i < nestedList.size(); i++) {
+			if (nestedList.get(i).isInteger()) {
+				queue.offer(nestedList.get(i).getInteger());
+			} else {
+				dfsNested(nestedList.get(i).getList());
+			}
+		}
+	}
+	
+	
+	@Override
+	public Integer next() {
+		return queue.poll();
+	}
+
+	@Override
+	public boolean hasNext() {
+		return !queue.isEmpty();
+	}
+}
+
 // 244. Shortest Word Distance II
 // Company: LinkedIn
 // Description: ["practice", "makes", "perfect", "coding", "makes"] find the
@@ -644,11 +698,11 @@ public class Solution {
 
 		List<Interval> meetings = new ArrayList<>();
 		Interval m1 = new Interval(0, 30);
-//				new Interval(1, 5);
+		// new Interval(1, 5);
 		Interval m2 = new Interval(5, 10);
-//		new Interval(8, 9);
+		// new Interval(8, 9);
 		Interval m3 = new Interval(15, 20);
-//		new Interval(8, 9);
+		// new Interval(8, 9);
 		meetings.add(m1);
 		meetings.add(m2);
 		meetings.add(m3);
@@ -657,6 +711,8 @@ public class Solution {
 		int minMeetingRoom = sl.minMeetingRooms(mIntervals);
 
 		System.out.println("Inserted interval:" + iRes);
+		
+		
 	}
 
 	// 57. Insert Interval
@@ -1490,9 +1546,11 @@ public class Solution {
 	// Description: Given an array of intervals consisting of start and end times
 	// [[s1, e1],[s2, e2]]...
 	// find the minimum number of conference rooms required.
-	// Solution: If meeting start time is later than the smallest end time, then that end time is not usable anymore.
-	// else if start time is less than the earliest end time, means we need another meeting room.  
-	
+	// Solution: If meeting start time is later than the smallest end time, then
+	// that end time is not usable anymore.
+	// else if start time is less than the earliest end time, means we need another
+	// meeting room.
+
 	public int minMeetingRooms(Interval[] intervals) {
 		if (intervals.length <= 1) {
 			return intervals.length;
@@ -1504,9 +1562,9 @@ public class Solution {
 				return o1.start - o2.start;
 			}
 		});
-		
+
 		PriorityQueue<Integer> pq = new PriorityQueue<>();
-		
+
 		int meetingRooms = 0;
 		for (int i = 0; i < intervals.length; i++) {
 			pq.offer(intervals[i].end);
@@ -1515,9 +1573,9 @@ public class Solution {
 			} else {
 				pq.poll();
 			}
-			
+
 		}
-			
+
 		return meetingRooms;
 	}
 
