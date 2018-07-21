@@ -65,12 +65,14 @@ interface NestedInteger {
 
 // 341. Flatten Nested List Iterator
 // Company: Google Facebook Twitter
-// Description: Given the list, [[1, 1], 2, [1, 1]] or [1, [1, 2, [1, 1,]]] return [1, 1, 2, 1, 1]
+// Description: Given the list, [[1, 1], 2, [1, 1]] or [1, [1, 2, [1, 1,]]]
+// return [1, 1, 2, 1, 1]
 // by calling the next();
 // Solution:
 class NestedIterator implements Iterator<Integer> {
 
 	Queue<Integer> queue;
+
 	public NestedIterator(List<NestedInteger> nestedList) {
 		queue = new LinkedList<Integer>();
 		dfsNested(nestedList);
@@ -85,8 +87,7 @@ class NestedIterator implements Iterator<Integer> {
 			}
 		}
 	}
-	
-	
+
 	@Override
 	public Integer next() {
 		return queue.poll();
@@ -711,8 +712,31 @@ public class Solution {
 		int minMeetingRoom = sl.minMeetingRooms(mIntervals);
 
 		System.out.println("Inserted interval:" + iRes);
-		
-		
+
+	}
+
+	// 523. Continuous Subarray Sum
+	// Company: Facebook
+	// Description: Given a non-negtive numbers and a target k, check whether at
+	// least 2 of the element sums up to n * k
+	// Solution: Add the sums up and check whehter it's continous element and mod k.
+	// TODO: Better Solution. only beat 17 %
+	public boolean checkSubarraySum(int[] nums, int k) {
+		for (int i = 0; i < nums.length; i++) {
+			int sum = nums[i];
+			for (int j = i + 1; j < nums.length; j++) {
+				sum += nums[j];
+				if (sum == 0 && k == 0) { // at least 2 element.
+					return true;
+				} else if (k == 0) {
+					return false;
+				} else if (sum % k == 0) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	// 57. Insert Interval
