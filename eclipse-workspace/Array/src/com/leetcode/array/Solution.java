@@ -1,6 +1,7 @@
 package com.leetcode.array;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Solution {
@@ -14,39 +15,83 @@ public class Solution {
 		sl.removeDuplicates2(nums2);
 	}
 
+	// 1. Two Sum
+	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
+	// Adobe Dropbox
+	// Description: Given an array, return indices of the two numbers such that they can 
+	// add up to a specific target.
+	// Solution: Use Hashmap to store the key and indexes, if target - cur has a match, then return.
+	public int[] twoSum(int[] nums, int target) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+		
+		for (int i = 0; i < nums.length; i++) {
+			if (map.containsKey(target - nums[i])) {
+				int j = map.get(target - nums[i]);
+				return new int[] {i, j};
+			}
+			map.put(nums[i], i);
+		}
+	
+		return new int[] {};
+	}
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
 	// 128. Longest Consecutive Sequence
 	// Company: Google, Facebook
-	// Description: Given an unsorted array of integers, find the length of the longest
+	// Description: Given an unsorted array of integers, find the length of the
+	// longest
 	// consecutive elements sequence.
-	// Solution: 1. Olog(n) sorted first, then seek for the consecutive next element. 2. 
-	// O(n) solution. Use Hashset to record each element, then starting for n in nums, search 
-	// up and search down. 
+	// Solution: 1. Olog(n) sorted first, then seek for the consecutive next
+	// element. 2.
+	// O(n) solution. Use Hashset to record each element, then starting for n in
+	// nums, search
+	// up and search down.
 	public int longestConsecutive2(int[] nums) {
 		HashSet<Integer> set = new HashSet<>();
-		for (int n: nums) {
+		for (int n : nums) {
 			set.add(n);
 		}
-		
+
 		int longest = 0;
-		for (int i: nums) {
+
+		for (int i : nums) {
 			int counter = 1;
-			
+
 			for (int j = i - 1; set.contains(j); j--) {
 				counter++;
 				set.remove(j);
 			}
-			
+
 			for (int j = i + 1; set.contains(j); j++) {
 				counter++;
 				set.remove(j);
 			}
-			
+
 			longest = Math.max(longest, counter);
 		}
-		
+
 		return longest;
 	}
-	
+
 	public int longestConsecutive(int[] nums) {
 		if (nums.length == 0 || nums.length == 1) {
 			return nums.length;
