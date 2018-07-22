@@ -45,6 +45,7 @@ public class Solution {
 	// nums such that a + b + c = 0?
 	// Solution: First sort, and then anchor the i, use two pointers left and right 
 	// to find the other two elements.
+	// Complexity Onlogn and On2 => On2
 	public List<List<Integer>> threeSum(int[] nums) {
 		Arrays.sort(nums);
 		List<List<Integer>> res = new ArrayList<List<Integer>>();
