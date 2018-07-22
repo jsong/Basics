@@ -1395,32 +1395,6 @@ public class Solution {
 		return res;
 	}
 
-	// 128. Longest Consecutive Sequence
-	// Description:
-	// Solution:
-	public int longestConsecutive(int[] nums) {
-		if (nums.length == 0 || nums.length == 1) {
-			return nums.length;
-		}
-
-		Arrays.sort(nums);
-		int counter = 1;
-		int res = Integer.MIN_VALUE;
-		for (int i = 0; i < nums.length - 1; i++) {
-			if (nums[i] + 1 == nums[i + 1]) {
-				counter++;
-				res = Math.max(counter, res);
-			} else if (nums[i] == nums[i + 1]) {
-				res = Math.max(counter, res);
-				continue;
-			} else {
-				res = Math.max(counter, res);
-				counter = 1;
-			}
-		}
-		return res;
-	}
-
 	// 91. Decode Ways
 	// Description: A - Z conresponding 1, 26. Given a number, 226, how many
 	// combinations can it have.
