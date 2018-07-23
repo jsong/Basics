@@ -125,8 +125,10 @@ public class Solution {
 	// Description: Given an array and a target, find a, b, c, d such that a + b + c
 	// + d = target
 	// find all unique quad tuples.
-	// Solution: Use HashMap to store the sum and the list which contains all the pairs. Then iterate through the 
-	// target - sum, find all the possible pairs, remove the duplicate and then sorted. 
+	// Solution: Use HashMap to store the sum and the list which contains all the
+	// pairs. Then iterate through the
+	// target - sum, find all the possible pairs, remove the duplicate and then
+	// sorted.
 	public List<List<Integer>> fourSum(int[] nums, int target) {
 		HashMap<Integer, List<List<Integer>>> map = new HashMap<>(); // key as sum, value as indices;
 		Arrays.sort(nums);
@@ -152,7 +154,9 @@ public class Solution {
 					List<List<Integer>> lists = map.get(sum);
 
 					for (List<Integer> list : lists) {
-						if (list.get(0) == i || list.get(1) == i || list.get(1) == j || list.get(0) == j) { // no duplicates allowed.
+						if (list.get(0) == i || list.get(1) == i || list.get(1) == j || list.get(0) == j) { // no
+																											// duplicates
+																											// allowed.
 							continue;
 						}
 
@@ -167,10 +171,41 @@ public class Solution {
 		return new ArrayList<List<Integer>>(ret);
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 27. Remove Element
+	// Company: N/A
+	// Description: Given an array, remove the target value and return the new
+	// length of the array. Must in-place and O(1) memory.
+	// Solution: Use index, check whether it's equal to val, if not then re-write
+	// the original array.
+	public int removeElement(int[] nums, int val) {
+		int index = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] != val) {
+				nums[index++] = nums[i];
+			}
+		}
+
+		return index;
+	}
+
+	// 283. Move Zeroes
+	// Company: Facebook Bloomberg
+	// Description: Given an array, move all the zero's to the back of the array
+	// while maintaining the relative order of
+	// the non-zero elements.
+	// Solution: Find non zero element, increase the index, reset from the index to length with 0. Same idea of remove element. 
+	public void moveZeroes(int[] nums) {
+		int index = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] != 0) {
+				nums[index++] = nums[i];
+			}
+		}
+		
+		for (int i = index; i < nums.length; i++) {
+			nums[i] = 0;
+		}
+	}
 
 	// 128. Longest Consecutive Sequence
 	// Company: Google, Facebook
