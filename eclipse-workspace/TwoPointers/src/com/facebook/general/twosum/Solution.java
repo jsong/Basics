@@ -211,39 +211,6 @@ public class Solution {
 		return res;
 	}
 
-	// 15. 3Sum find all nums which sums up to target.
-	// Divide the problem into two sums with unique pairs.
-	// for each nums[i] find all the other two which sums up to -nums[i];
-	// meanwhile needs to skip the duplicate by checking adjust value.
-	// Facebook, Amazon, etc.
-	public List<List<Integer>> threeSum(int[] num) {
-		Arrays.sort(num);
-		List<List<Integer>> res = new LinkedList<>();
-		for (int i = 0; i < num.length - 2; i++) {
-			// second condition is to skip the duplicate.
-			if (i == 0 || (i > 0 && num[i] != num[i - 1])) {
-				int lo = i + 1, hi = num.length - 1, sum = 0 - num[i];
-				while (lo < hi) {
-					if (num[lo] + num[hi] == sum) {
-						res.add(Arrays.asList(num[i], num[lo], num[hi]));
-						// skip duplicate.
-						while (lo < hi && num[lo] == num[lo + 1])
-							lo++;
-						while (lo < hi && num[hi] == num[hi - 1])
-							hi--;
-						lo++;
-						hi--;
-					} else if (num[lo] + num[hi] < sum) {
-						lo++;
-					} else {
-						hi--;
-					}
-				}
-			}
-		}
-
-		return res;
-	}
 
 	// LintCode 587. Two Sum Unique Pair. Find all the pairs that sums up to
 	// specific number.
