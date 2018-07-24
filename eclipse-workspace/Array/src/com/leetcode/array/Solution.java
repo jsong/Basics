@@ -24,8 +24,35 @@ public class Solution {
 		int[] fsum = { -3, -1, 0, 2, 4, 5 };
 
 		sl.fourSum(fsum, 0);
+		
+		int mod = 0; 
+		int mod2 = 0 % 2;
+		System.out.println(mod2);
 	}
 
+	// 31. Next Permutation
+	// Company: Google
+	// Description: Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+	// for eg. 
+	//	1,2,3 -> 1,3,2
+	//	3,2,1 -> 1,2,3
+	//	1,1,5 -> 1,5,1
+	// Solution:
+    public void nextPermutation(int[] nums) {
+    		
+    }
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
+	
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
 	// Adobe Dropbox
@@ -193,7 +220,8 @@ public class Solution {
 	// Description: Given an array, move all the zero's to the back of the array
 	// while maintaining the relative order of
 	// the non-zero elements.
-	// Solution: Find non zero element, increase the index, reset from the index to length with 0. Same idea of remove element. 
+	// Solution: Find non zero element, increase the index, reset from the index to
+	// length with 0. Same idea of remove element.
 	public void moveZeroes(int[] nums) {
 		int index = 0;
 		for (int i = 0; i < nums.length; i++) {
@@ -201,7 +229,7 @@ public class Solution {
 				nums[index++] = nums[i];
 			}
 		}
-		
+
 		for (int i = index; i < nums.length; i++) {
 			nums[i] = 0;
 		}
