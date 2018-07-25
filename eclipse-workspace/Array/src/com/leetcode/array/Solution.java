@@ -42,16 +42,38 @@ public class Solution {
     		
     }
 
-	//
+	// 60. Permutation Sequence
+	// Company: Amazon Bloomberg Facebook LinkedIn Twitter
+	// Description: Given n construct all n! permutations, and k which you need to return 
+    // the kth permutation. 
+	// Solution:
+	
+	// 36. Valid Sudoku
+	// Company: Google Microsoft Uber Pinterest Apple Snapchat
+	// Description: Given n * n sudoku, the row and col should not contain duplicate number, also the small 3 * 3 cube 
+    // should not contains any duplicate numbers. 
+	// Solution:
+	
+    // 42. Trapping Rain Water
+	// Company: Amazon Facebook Lyft Microsoft Intuit Google Airbnb Bloomberg Uber Alibaba Twitter Apple Zenefits.
+	// Description: Given n non-negative integers representing an elevation map, compuate how much water it's able to hold.
+	// for eg, [0,1,0,2,1,0,1,3,2,1,2,1] could hold maximum 6 units of rain water.
+    // Solution: 
+    
+    // 48. Rotate Image
+	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple
+	// Description: Given an n * n matrix representing an image, rotate the image by 90 degrees. Should do this in-place.
+	// Solution: 
+    
+    // 66. Plus One
+	// Company: Google Adobe Bloomberg eBay.
+	// Description: Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+	// Solution:
+    
+    //
 	// Company:
 	// Description:
 	// Solution:
-	
-	//
-	// Company:
-	// Description:
-	// Solution:
-	
 	
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
