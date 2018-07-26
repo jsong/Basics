@@ -25,9 +25,11 @@ public class Solution {
 
 		sl.fourSum(fsum, 0);
 		
-		int mod = 0; 
 		int mod2 = 0 % 2;
 		System.out.println(mod2);
+		
+		int[][] matrix = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+		sl.setZeroes(matrix);
 	}
 
 	// 31. Next Permutation
@@ -70,11 +72,73 @@ public class Solution {
 	// Description: Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
 	// Solution:
     
+    // 70. Climbing Stairs
+	// Company: Amazon Bloomberg LinkedIn Tencent Alibaba Uber Google Zenefits Apple Adobe 
+	// Description: Given n steps staris, each time you can either climb 1 or 2 steps, in how many distinct ways can you climb to the top.
+	// Solution: 1. when reaching stairs n, it either comes from n - 1 steps or n - 2 steps.  So F(n) = F(n- 1) + F(n - 2) will take O(n) space.
+    // 2. O(1) space.
+    public int climbStairs(int n) {
+    		int[] f = new int[n + 1]; // array starts from 0.
+    		f[0] = 1;
+    		f[1] = 1;
+    		
+    		for (int i = 2; i <= n; i++) {
+    			f[i] = f[i - 1] + f[i - 2];
+    		}
+    		
+    		return f[n];
+    }
+    
+    public int climbStairs2(int n) {
+    		int prev = 0;
+    		int cur = 1;
+    		
+    		for (int i = 1; i <=n; i++) {
+    			int tmp = cur;
+    			cur += prev;
+    			prev = tmp;
+    		}
+    		
+    		return cur;
+    }
+    
+    // Used by 73. Set Matrix Zeroes
+    class Point {
+    		int x;
+    		int y;
+    		public Point(int x, int y) {
+    			this.x = x;
+    			this.y = y;
+    		}
+    }
+    // 73. Set Matrix Zeroes
+   	// Company: Facebook Amazon Expedia Microsoft Bloomberg Google Snapchat Twitter
+   	// Description: m * n matrix, if element is 0 set its entire row and column to 0, in place. 
+   	// Solution:
+    public void setZeroes(int[][] matrix) {
+    		
+    }
+    
+    // 134. Gas Station
+   	// Company: Microsoft Amazon Google Alibaba
+   	// Description: There are N gas stations along a circular route, gas[i] indicate amount of gas at station i, 
+    // cost[i] means gas cost from station i to i + 1. Return the gas stations index if you can travel around the circuit once. 
+    // otherwise return -1;
+    // for eg. gas  = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station 3(4).
+   	// Solution:
+    
+    
+    
+    // 135. Candy
+   	// Company: Google Microsoft Uber
+   	// Description: 
+   	// Solution:
+    
     //
-	// Company:
-	// Description:
-	// Solution:
-	
+   	// Company:
+   	// Description:
+   	// Solution:
+    
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
 	// Adobe Dropbox
