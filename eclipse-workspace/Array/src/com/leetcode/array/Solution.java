@@ -37,6 +37,8 @@ public class Solution {
 		int[] mArray = {3, 2, 3};
 		int mElement = sl.majorityElement(mArray);
 		
+		int[] dup = {1, 2, 3, 1};
+		boolean dupContains = sl.containsDuplicate1(dup);
 		
 	}
 
@@ -165,7 +167,8 @@ public class Solution {
 	// Company: Amazon Google Microsoft Tencent Baidu Zenefits Adobe
 	// Description: Given an array of size n, find the majority element. The majority element is the element that appears more than 
 	// [n / 2] times. Return the majority element;
-	// Solution: 
+	// Solution: 1. Sort the array, return the middle element. 2. Not use sort, -+-+-, after it becomes 0, then the result will be 
+	// the element. 3. Use Hashtable<element, count>
 	public int majorityElement(int[] nums) {
 		Arrays.sort(nums);
 //		int counter = 1;
@@ -186,16 +189,103 @@ public class Solution {
 		return nums[mIndex];
     }
 	
-	//
-	// Company:
-	// Description:
-	// Solution:
+	public int majorityElement3(int[] nums) {
+		HashMap<Integer, Integer> myMap = new HashMap<Integer, Integer>();
+		int ret = 0;
+		
+		for (int num: nums) {
+			if( myMap.containsKey(num) ) {
+				myMap.put(num,myMap.get(num) + 1);
+			} else {
+				myMap.put(num, 1);
+			}
+			if(myMap.get(num) > nums.length/2 ) {
+				ret = num;
+				break;
+			}
+		}
+		return ret;
+	}
 	
-	//
-	// Company:
-	// Description:
+	// 189. Rotate Array
+	// Company: Microsoft Google Amazon Bloomberg
+	// Description: Given an array, rotate the array to the right by k steps, where k is non-negative.
+	// Try to think in-place O(1) space solution.
+	// Solution: 
+	public void rotate(int[] nums, int k) {
+		
+    }
+	
+	private void swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+	
+	
+	// 217. Contains Duplicate
+	// Company: Google Baidu Apple Airbnb Yahoo Palantir
+	// Description: Given an array of integers, find if the array contains any duplicate.
+	// eg, [1, 2, 3, 1] true, since 1 appears more than once.
+	// Solution: 1. Hashset 2. Sort
+	public boolean containsDuplicate2(int[] nums) {
+		Arrays.sort(nums);
+		
+		for (int i = 0; i < nums.length - 1; i++) {
+			if (nums[i] == nums[i + 1]) {
+				return true;
+			}
+		}
+		
+		return false;
+    }
+	
+	public boolean containsDuplicate1(int[] nums) {
+		HashSet<Integer> set = new HashSet<>();
+		
+		for (int i = 0; i < nums.length; i++) {
+			if (!set.add(nums[i])) {
+				return true;
+			}
+		}
+		
+		return false;
+    }
+	
+	
+	// 219. Contains Duplicate II
+	// Company: Google Uber Airbnb Palantir
+	// eg. [1, 2, 3, 1] k = 3 => true; [1, 0, 1, 1], k = 1 true; [1, 2, 3, 1, 2, 3] k = 2, false;
+	// Description: Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
+	// Solution: Use HashMap to record the previous index. 
+	public boolean containsNearbyDuplicate(int[] nums, int k) {
+		// key = nums[i], value = index; 
+		HashMap<Integer, Integer> map = new HashMap<>();
+		
+		for (int i = 0; i < nums.length; i++) {
+			if (map.containsKey(nums[i])) {
+				int preIndex = map.get(nums[i]);
+				if (i - preIndex <= k) {
+					return true;
+				} else {
+					map.put(nums[i], i);
+				}
+			} else {
+				map.put(nums[i], i);
+			}
+		}
+		
+		return false;
+    }
+	
+	// 220. Contains Duplicate III
+	// Company: Google Airbnb Palantir
+	// Description: Given an array of integers, find out whether there are two distinct indices i and j in the array such that the absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at most k.
 	// Solution:
-
+	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+		
+    }
+	
 	//
 	// Company:
 	// Description:
