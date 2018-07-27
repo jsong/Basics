@@ -24,121 +24,183 @@ public class Solution {
 		int[] fsum = { -3, -1, 0, 2, 4, 5 };
 
 		sl.fourSum(fsum, 0);
-		
+
 		int mod2 = 0 % 2;
 		System.out.println(mod2);
-		
-		int[][] matrix = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+
+		int[][] matrix = { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } };
 		sl.setZeroes(matrix);
+		
+		int[] ratings = {1, 2, 87, 87, 87, 2, 1};
+//		int candyCount = sl.candy(ratings);
+		
+		int[] mArray = {3, 2, 3};
+		int mElement = sl.majorityElement(mArray);
+		
+		
 	}
 
 	// 31. Next Permutation
 	// Company: Google
-	// Description: Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
-	// for eg. 
-	//	1,2,3 -> 1,3,2
-	//	3,2,1 -> 1,2,3
-	//	1,1,5 -> 1,5,1
+	// Description: Implement next permutation, which rearranges numbers into the
+	// lexicographically next greater permutation of numbers.
+	// for eg.
+	// 1,2,3 -> 1,3,2
+	// 3,2,1 -> 1,2,3
+	// 1,1,5 -> 1,5,1
 	// Solution:
-    public void nextPermutation(int[] nums) {
-    		
-    }
+	public void nextPermutation(int[] nums) {
+
+	}
 
 	// 60. Permutation Sequence
 	// Company: Amazon Bloomberg Facebook LinkedIn Twitter
-	// Description: Given n construct all n! permutations, and k which you need to return 
-    // the kth permutation. 
+	// Description: Given n construct all n! permutations, and k which you need to
+	// return
+	// the kth permutation.
 	// Solution:
-	
+
 	// 36. Valid Sudoku
 	// Company: Google Microsoft Uber Pinterest Apple Snapchat
-	// Description: Given n * n sudoku, the row and col should not contain duplicate number, also the small 3 * 3 cube 
-    // should not contains any duplicate numbers. 
+	// Description: Given n * n sudoku, the row and col should not contain duplicate
+	// number, also the small 3 * 3 cube
+	// should not contains any duplicate numbers.
+	// Solution:
+
+	// 42. Trapping Rain Water
+	// Company: Amazon Facebook Lyft Microsoft Intuit Google Airbnb Bloomberg Uber
+	// Alibaba Twitter Apple Zenefits.
+	// Description: Given n non-negative integers representing an elevation map,
+	// compuate how much water it's able to hold.
+	// for eg, [0,1,0,2,1,0,1,3,2,1,2,1] could hold maximum 6 units of rain water.
+	// Solution:
+
+	// 48. Rotate Image
+	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple
+	// Description: Given an n * n matrix representing an image, rotate the image by
+	// 90 degrees. Should do this in-place.
+	// Solution:
+
+	// 66. Plus One
+	// Company: Google Adobe Bloomberg eBay.
+	// Description: Given a non-empty array of digits representing a non-negative
+	// integer, plus one to the integer.
+	// Solution:
+
+	// 70. Climbing Stairs
+	// Company: Amazon Bloomberg LinkedIn Tencent Alibaba Uber Google Zenefits Apple
+	// Adobe
+	// Description: Given n steps staris, each time you can either climb 1 or 2
+	// steps, in how many distinct ways can you climb to the top.
+	// Solution: 1. when reaching stairs n, it either comes from n - 1 steps or n -
+	// 2 steps. So F(n) = F(n- 1) + F(n - 2) will take O(n) space.
+	// 2. O(1) space.
+	public int climbStairs(int n) {
+		int[] f = new int[n + 1]; // array starts from 0.
+		f[0] = 1;
+		f[1] = 1;
+
+		for (int i = 2; i <= n; i++) {
+			f[i] = f[i - 1] + f[i - 2];
+		}
+
+		return f[n];
+	}
+
+	public int climbStairs2(int n) {
+		int prev = 0;
+		int cur = 1;
+
+		for (int i = 1; i <= n; i++) {
+			int tmp = cur;
+			cur += prev;
+			prev = tmp;
+		}
+
+		return cur;
+	}
+
+	// Used by 73. Set Matrix Zeroes
+	class Point {
+		int x;
+		int y;
+
+		public Point(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+
+	// 73. Set Matrix Zeroes
+	// Company: Facebook Amazon Expedia Microsoft Bloomberg Google Snapchat Twitter
+	// Description: m * n matrix, if element is 0 set its entire row and column to
+	// 0, in place.
+	// Solution:
+	public void setZeroes(int[][] matrix) {
+
+	}
+
+	// 134. Gas Station
+	// Company: Microsoft Amazon Google Alibaba
+	// Description: There are N gas stations along a circular route, gas[i] indicate
+	// amount of gas at station i,
+	// cost[i] means gas cost from station i to i + 1. Return the gas stations index
+	// if you can travel around the circuit once.
+	// otherwise return -1;
+	// for eg. gas = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station
+	// 3(4).
+	// Solution:
+
+	// 135. Candy
+	// Company: Google Microsoft Uber
+	// Description: N children standing in line, each child is assigned a rating, 1.
+	// each child must have one candy 2. children has a higher rating ( > ) get more
+	// than their neighbors.
+	// Solution:
+	public int candy(int[] ratings) {
+		
+	}
+
+	// 169. Majority Element
+	// Company: Amazon Google Microsoft Tencent Baidu Zenefits Adobe
+	// Description: Given an array of size n, find the majority element. The majority element is the element that appears more than 
+	// [n / 2] times. Return the majority element;
+	// Solution: 
+	public int majorityElement(int[] nums) {
+		Arrays.sort(nums);
+//		int counter = 1;
+//		int mIndex = 0;
+//		for (int i = 0; i < nums.length - 1; i++) {
+//			if (nums[i] == nums[i + 1]) {
+//				counter++;
+//				if (counter > nums.length / 2) {
+//					mIndex = i;
+//					break;
+//				}
+//			} else {
+//				counter = 1;
+//			}
+//		}
+		
+		int mIndex = nums.length / 2;
+		return nums[mIndex];
+    }
+	
+	//
+	// Company:
+	// Description:
 	// Solution:
 	
-    // 42. Trapping Rain Water
-	// Company: Amazon Facebook Lyft Microsoft Intuit Google Airbnb Bloomberg Uber Alibaba Twitter Apple Zenefits.
-	// Description: Given n non-negative integers representing an elevation map, compuate how much water it's able to hold.
-	// for eg, [0,1,0,2,1,0,1,3,2,1,2,1] could hold maximum 6 units of rain water.
-    // Solution: 
-    
-    // 48. Rotate Image
-	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple
-	// Description: Given an n * n matrix representing an image, rotate the image by 90 degrees. Should do this in-place.
-	// Solution: 
-    
-    // 66. Plus One
-	// Company: Google Adobe Bloomberg eBay.
-	// Description: Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+	//
+	// Company:
+	// Description:
 	// Solution:
-    
-    // 70. Climbing Stairs
-	// Company: Amazon Bloomberg LinkedIn Tencent Alibaba Uber Google Zenefits Apple Adobe 
-	// Description: Given n steps staris, each time you can either climb 1 or 2 steps, in how many distinct ways can you climb to the top.
-	// Solution: 1. when reaching stairs n, it either comes from n - 1 steps or n - 2 steps.  So F(n) = F(n- 1) + F(n - 2) will take O(n) space.
-    // 2. O(1) space.
-    public int climbStairs(int n) {
-    		int[] f = new int[n + 1]; // array starts from 0.
-    		f[0] = 1;
-    		f[1] = 1;
-    		
-    		for (int i = 2; i <= n; i++) {
-    			f[i] = f[i - 1] + f[i - 2];
-    		}
-    		
-    		return f[n];
-    }
-    
-    public int climbStairs2(int n) {
-    		int prev = 0;
-    		int cur = 1;
-    		
-    		for (int i = 1; i <=n; i++) {
-    			int tmp = cur;
-    			cur += prev;
-    			prev = tmp;
-    		}
-    		
-    		return cur;
-    }
-    
-    // Used by 73. Set Matrix Zeroes
-    class Point {
-    		int x;
-    		int y;
-    		public Point(int x, int y) {
-    			this.x = x;
-    			this.y = y;
-    		}
-    }
-    // 73. Set Matrix Zeroes
-   	// Company: Facebook Amazon Expedia Microsoft Bloomberg Google Snapchat Twitter
-   	// Description: m * n matrix, if element is 0 set its entire row and column to 0, in place. 
-   	// Solution:
-    public void setZeroes(int[][] matrix) {
-    		
-    }
-    
-    // 134. Gas Station
-   	// Company: Microsoft Amazon Google Alibaba
-   	// Description: There are N gas stations along a circular route, gas[i] indicate amount of gas at station i, 
-    // cost[i] means gas cost from station i to i + 1. Return the gas stations index if you can travel around the circuit once. 
-    // otherwise return -1;
-    // for eg. gas  = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station 3(4).
-   	// Solution:
-    
-    
-    
-    // 135. Candy
-   	// Company: Google Microsoft Uber
-   	// Description: 
-   	// Solution:
-    
-    //
-   	// Company:
-   	// Description:
-   	// Solution:
-    
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
 	// Adobe Dropbox
