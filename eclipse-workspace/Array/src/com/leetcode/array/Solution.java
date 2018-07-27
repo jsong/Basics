@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.ArrayList;
 
 public class Solution {
@@ -283,7 +284,37 @@ public class Solution {
 	// Description: Given an array of integers, find out whether there are two distinct indices i and j in the array such that the absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at most k.
 	// Solution:
 	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+		TreeSet<Integer> set = new TreeSet<>();
 		
+    }
+	
+	// 289. Game of Life
+	// Company: Dropbox Google Uber Square Bloomberg Snapchat Two Sigma
+	// Description:
+	// Solution:
+	
+	// 334. Increasing Triplet Subsequence
+	// Company: Google Facebook
+	// Description: Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array. Formally the function should:
+	// Return true if there exists i, j, k  such that arr[i] < arr[j] < arr[k] given 0 ≤ i < j < k ≤ n-1 else return false.	
+	// Note: Your algorithm should run in O(n) time complexity and O(1) space complexity.
+	// Solution:
+	public boolean increasingTriplet(int[] nums) {
+		int base = Integer.MIN_VALUE;
+		int counter = 0;
+		
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] > base) {
+				base = nums[i];
+				counter++;
+			}
+			
+			if (counter == 3) {
+				return true;
+			}
+		}
+		
+		return false;
     }
 	
 	//
