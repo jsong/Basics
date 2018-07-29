@@ -41,6 +41,12 @@ public class Solution {
 		int[] dup = {1, 2, 3, 1};
 		boolean dupContains = sl.containsDuplicate1(dup);
 		
+		int[] increase = {2, 1, 5, 0, 3};
+		sl.increasingTriplet(increase);
+		
+		int[][] zeroes = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+		sl.setZeroes(zeroes);
+		
 	}
 
 	// 31. Next Permutation
@@ -138,10 +144,40 @@ public class Solution {
 	// Company: Facebook Amazon Expedia Microsoft Bloomberg Google Snapchat Twitter
 	// Description: m * n matrix, if element is 0 set its entire row and column to
 	// 0, in place.
-	// Solution:
+	// Solution: 1. Use extra m + n space, 2. Use no extra space. 
 	public void setZeroes(int[][] matrix) {
-
+		int[] m = new int[matrix.length]; // row 
+		int[] n = new int[matrix[0].length]; // col
+	
+		Arrays.fill(m, 1);
+		Arrays.fill(n, 1);
+	
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (matrix[i][j] == 0) {
+					m[i] = 0;
+					n[j] = 0;
+				}
+			}
+		}
+		
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (n[j] == 0) {
+					matrix[i][j] = 0;
+				}
+				
+				if (m[i] == 0) {
+					matrix[i][j] = 0;
+				}
+			}
+		}
 	}
+	
+	public void setZeroes2(int[][] matrix) {
+		
+	}
+
 
 	// 134. Gas Station
 	// Company: Microsoft Amazon Google Alibaba
@@ -290,9 +326,15 @@ public class Solution {
 	
 	// 289. Game of Life
 	// Company: Dropbox Google Uber Square Bloomberg Snapchat Two Sigma
-	// Description:
+	// Description: 
+	//	1. Any live cell with fewer than two live neighbors dies, as if caused by under-population.
+	//	2. Any live cell with two or three live neighbors lives on to the next generation.
+	//	3. Any live cell with more than three live neighbors dies, as if by over-population..
+	//	4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 	// Solution:
-	
+	 public void gameOfLife(int[][] board) {
+	        
+	 }
 	// 334. Increasing Triplet Subsequence
 	// Company: Google Facebook
 	// Description: Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array. Formally the function should:
@@ -300,20 +342,19 @@ public class Solution {
 	// Note: Your algorithm should run in O(n) time complexity and O(1) space complexity.
 	// Solution:
 	public boolean increasingTriplet(int[] nums) {
-		int base = Integer.MIN_VALUE;
-		int counter = 0;
+		int x1 = Integer.MAX_VALUE; 	// minimum
+		int x2 = Integer.MAX_VALUE;		// second minimum
 		
 		for (int i = 0; i < nums.length; i++) {
-			if (nums[i] > base) {
-				base = nums[i];
-				counter++;
-			}
-			
-			if (counter == 3) {
-				return true;
+			if (nums[i] <= x1) {
+				x1 = nums[i];
+			} else if (nums[i] <= x2) {
+				x2 = nums[i];
+			} else {
+				return true;	// x1 < x2 < nums[i];
 			}
 		}
-		
+	
 		return false;
     }
 	
