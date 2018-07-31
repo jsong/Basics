@@ -31,22 +31,22 @@ public class Solution {
 
 		int[][] matrix = { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } };
 		sl.setZeroes(matrix);
-		
-		int[] ratings = {1, 2, 87, 87, 87, 2, 1};
-//		int candyCount = sl.candy(ratings);
-		
-		int[] mArray = {3, 2, 3};
+
+		int[] ratings = { 1, 2, 87, 87, 87, 2, 1 };
+		// int candyCount = sl.candy(ratings);
+
+		int[] mArray = { 3, 2, 3 };
 		int mElement = sl.majorityElement(mArray);
-		
-		int[] dup = {1, 2, 3, 1};
+
+		int[] dup = { 1, 2, 3, 1 };
 		boolean dupContains = sl.containsDuplicate1(dup);
-		
-		int[] increase = {2, 1, 5, 0, 3};
+
+		int[] increase = { 2, 1, 5, 0, 3 };
 		sl.increasingTriplet(increase);
-		
-		int[][] zeroes = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+
+		int[][] zeroes = { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } };
 		sl.setZeroes(zeroes);
-		
+
 	}
 
 	// 31. Next Permutation
@@ -144,14 +144,14 @@ public class Solution {
 	// Company: Facebook Amazon Expedia Microsoft Bloomberg Google Snapchat Twitter
 	// Description: m * n matrix, if element is 0 set its entire row and column to
 	// 0, in place.
-	// Solution: 1. Use extra m + n space, 2. Use no extra space. 
+	// Solution: 1. Use extra m + n space, 2. Use no extra space.
 	public void setZeroes(int[][] matrix) {
-		int[] m = new int[matrix.length]; // row 
+		int[] m = new int[matrix.length]; // row
 		int[] n = new int[matrix[0].length]; // col
-	
+
 		Arrays.fill(m, 1);
 		Arrays.fill(n, 1);
-	
+
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				if (matrix[i][j] == 0) {
@@ -160,24 +160,23 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				if (n[j] == 0) {
 					matrix[i][j] = 0;
 				}
-				
+
 				if (m[i] == 0) {
 					matrix[i][j] = 0;
 				}
 			}
 		}
 	}
-	
-	public void setZeroes2(int[][] matrix) {
-		
-	}
 
+	public void setZeroes2(int[][] matrix) {
+
+	}
 
 	// 134. Gas Station
 	// Company: Microsoft Amazon Google Alibaba
@@ -197,108 +196,127 @@ public class Solution {
 	// than their neighbors.
 	// Solution:
 	public int candy(int[] ratings) {
-		
+
 	}
 
 	// 169. Majority Element
 	// Company: Amazon Google Microsoft Tencent Baidu Zenefits Adobe
-	// Description: Given an array of size n, find the majority element. The majority element is the element that appears more than 
+	// Description: Given an array of size n, find the majority element. The
+	// majority element is the element that appears more than
 	// [n / 2] times. Return the majority element;
-	// Solution: 1. Sort the array, return the middle element. 2. Not use sort, -+-+-, after it becomes 0, then the result will be 
+	// Solution: 1. Sort the array, return the middle element. 2. Not use sort,
+	// -+-+-, after it becomes 0, then the result will be
 	// the element. 3. Use Hashtable<element, count>
 	public int majorityElement(int[] nums) {
 		Arrays.sort(nums);
-//		int counter = 1;
-//		int mIndex = 0;
-//		for (int i = 0; i < nums.length - 1; i++) {
-//			if (nums[i] == nums[i + 1]) {
-//				counter++;
-//				if (counter > nums.length / 2) {
-//					mIndex = i;
-//					break;
-//				}
-//			} else {
-//				counter = 1;
-//			}
-//		}
-		
+		// int counter = 1;
+		// int mIndex = 0;
+		// for (int i = 0; i < nums.length - 1; i++) {
+		// if (nums[i] == nums[i + 1]) {
+		// counter++;
+		// if (counter > nums.length / 2) {
+		// mIndex = i;
+		// break;
+		// }
+		// } else {
+		// counter = 1;
+		// }
+		// }
+
 		int mIndex = nums.length / 2;
 		return nums[mIndex];
-    }
-	
+	}
+
 	public int majorityElement3(int[] nums) {
 		HashMap<Integer, Integer> myMap = new HashMap<Integer, Integer>();
 		int ret = 0;
-		
-		for (int num: nums) {
-			if( myMap.containsKey(num) ) {
-				myMap.put(num,myMap.get(num) + 1);
+
+		for (int num : nums) {
+			if (myMap.containsKey(num)) {
+				myMap.put(num, myMap.get(num) + 1);
 			} else {
 				myMap.put(num, 1);
 			}
-			if(myMap.get(num) > nums.length/2 ) {
+			if (myMap.get(num) > nums.length / 2) {
 				ret = num;
 				break;
 			}
 		}
 		return ret;
 	}
-	
+
 	// 189. Rotate Array
 	// Company: Microsoft Google Amazon Bloomberg
-	// Description: Given an array, rotate the array to the right by k steps, where k is non-negative.
+	// Description: Given an array, rotate the array to the right by k steps, where
+	// k is non-negative.
 	// Try to think in-place O(1) space solution.
-	// Solution: 
+	// Solution: 1. 1234 567 -> 2. 4321 765 -> 3. 567 1234; 
 	public void rotate(int[] nums, int k) {
-		
-    }
+		k %= nums.length; 	
+		reverse(nums, 0, nums.length - k - 1);
+		reverse(nums, nums.length - k, nums.length - 1);
+		reverse(nums, 0, nums.length - 1);
+	}
 	
+	private void reverse(int[] nums, int i, int j) {
+		while (i < j) {
+			int temp = nums[i];
+			nums[i] = nums[j];
+			nums[j] = temp;
+			i++;
+			j--;
+		}
+	}
+	
+	// utility method.
 	private void swap(int[] nums, int i, int j) {
 		int temp = nums[i];
 		nums[i] = nums[j];
 		nums[j] = temp;
 	}
-	
-	
+
 	// 217. Contains Duplicate
 	// Company: Google Baidu Apple Airbnb Yahoo Palantir
-	// Description: Given an array of integers, find if the array contains any duplicate.
+	// Description: Given an array of integers, find if the array contains any
+	// duplicate.
 	// eg, [1, 2, 3, 1] true, since 1 appears more than once.
 	// Solution: 1. Hashset 2. Sort
 	public boolean containsDuplicate2(int[] nums) {
 		Arrays.sort(nums);
-		
+
 		for (int i = 0; i < nums.length - 1; i++) {
 			if (nums[i] == nums[i + 1]) {
 				return true;
 			}
 		}
-		
+
 		return false;
-    }
-	
+	}
+
 	public boolean containsDuplicate1(int[] nums) {
 		HashSet<Integer> set = new HashSet<>();
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			if (!set.add(nums[i])) {
 				return true;
 			}
 		}
-		
+
 		return false;
-    }
-	
-	
+	}
+
 	// 219. Contains Duplicate II
 	// Company: Google Uber Airbnb Palantir
-	// eg. [1, 2, 3, 1] k = 3 => true; [1, 0, 1, 1], k = 1 true; [1, 2, 3, 1, 2, 3] k = 2, false;
-	// Description: Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that nums[i] = nums[j] and the absolute difference between i and j is at most k.
-	// Solution: Use HashMap to record the previous index. 
+	// eg. [1, 2, 3, 1] k = 3 => true; [1, 0, 1, 1], k = 1 true; [1, 2, 3, 1, 2, 3]
+	// k = 2, false;
+	// Description: Given an array of integers and an integer k, find out whether
+	// there are two distinct indices i and j in the array such that nums[i] =
+	// nums[j] and the absolute difference between i and j is at most k.
+	// Solution: Use HashMap to record the previous index.
 	public boolean containsNearbyDuplicate(int[] nums, int k) {
-		// key = nums[i], value = index; 
+		// key = nums[i], value = index;
 		HashMap<Integer, Integer> map = new HashMap<>();
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			if (map.containsKey(nums[i])) {
 				int preIndex = map.get(nums[i]);
@@ -311,58 +329,65 @@ public class Solution {
 				map.put(nums[i], i);
 			}
 		}
-		
+
 		return false;
-    }
-	
+	}
+
 	// 220. Contains Duplicate III
 	// Company: Google Airbnb Palantir
-	// Description: Given an array of integers, find out whether there are two distinct indices i and j in the array such that the absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at most k.
+	// Description: Given an array of integers, find out whether there are two
+	// distinct indices i and j in the array such that the absolute difference
+	// between nums[i] and nums[j] is at most t and the absolute difference between
+	// i and j is at most k.
 	// Solution:
 	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
 		TreeSet<Integer> set = new TreeSet<>();
-		
-    }
-	
+
+	}
+
 	// 289. Game of Life
 	// Company: Dropbox Google Uber Square Bloomberg Snapchat Two Sigma
-	// Description: 
-	//	1. Any live cell with fewer than two live neighbors dies, as if caused by under-population.
-	//	2. Any live cell with two or three live neighbors lives on to the next generation.
-	//	3. Any live cell with more than three live neighbors dies, as if by over-population..
-	//	4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+	// Description:
+	// 1. Any live cell with fewer than two live neighbors dies, as if caused by under-population.
+	// 2. Any live cell with two or three live neighbors lives on to the next generation.
+	// 3. Any live cell with more than three live neighbors dies, as if by over-population..
+	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
 	// Solution:
-	 public void gameOfLife(int[][] board) {
-	        
-	 }
+	public void gameOfLife(int[][] board) {
+
+	}
+
 	// 334. Increasing Triplet Subsequence
 	// Company: Google Facebook
-	// Description: Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array. Formally the function should:
-	// Return true if there exists i, j, k  such that arr[i] < arr[j] < arr[k] given 0 ≤ i < j < k ≤ n-1 else return false.	
+	// Description: Given an unsorted array return whether an increasing subsequence
+	// of length 3 exists or not in the array. Formally the function should:
+	// Return true if there exists i, j, k such that arr[i] < arr[j] < arr[k] given
+	// 0 ≤ i < j < k ≤ n-1 else return false.
 	// Note: Your algorithm should run in O(n) time complexity and O(1) space complexity.
-	// Solution:
+	// Solution: Record the minimum and the second minimum element from the array, then if there is element which is larger than 1st, 2nd, 
+	// then we should return true;
 	public boolean increasingTriplet(int[] nums) {
-		int x1 = Integer.MAX_VALUE; 	// minimum
-		int x2 = Integer.MAX_VALUE;		// second minimum
-		
+		int x1 = Integer.MAX_VALUE; // minimum
+		int x2 = Integer.MAX_VALUE; // second minimum
+
 		for (int i = 0; i < nums.length; i++) {
 			if (nums[i] <= x1) {
 				x1 = nums[i];
 			} else if (nums[i] <= x2) {
 				x2 = nums[i];
 			} else {
-				return true;	// x1 < x2 < nums[i];
+				return true; // x1 < x2 < nums[i];
 			}
 		}
-	
+
 		return false;
-    }
-	
+	}
+
 	//
 	// Company:
 	// Description:
 	// Solution:
-	
+
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
 	// Adobe Dropbox
