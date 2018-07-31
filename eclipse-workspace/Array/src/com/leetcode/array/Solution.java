@@ -46,7 +46,9 @@ public class Solution {
 
 		int[][] zeroes = { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } };
 		sl.setZeroes(zeroes);
-
+		
+		int[][] board = {{0, 1, 0}, {1, 1, 0}};
+		sl.gameOfLife(board);
 	}
 
 	// 31. Next Permutation
@@ -360,10 +362,10 @@ public class Solution {
 	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if
 	// by reproduction.
 	// Solution:
-	public void gameOfLife(int[][] board) {
-
-	}
-
+	 public void gameOfLife(int[][] board) {
+		
+	 }
+	 
 	// 334. Increasing Triplet Subsequence
 	// Company: Google Facebook
 	// Description: Given an unsorted array return whether an increasing subsequence
@@ -396,6 +398,29 @@ public class Solution {
 	// Company:
 	// Description:
 	// Solution:
+	
+	// 238. Product of Array Except Self
+	// Company: Lyft Facebook Amazon Apple Hulu Google Zenefits Expedia Microsoft Yelp LinkedIn
+	// Description: Given an array nums of n integers where n > 1,  return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+	// e.g: Input: [1, 2, 3, 4], Output: [24, 12, 8, 6]. Not use extra space(output array[n] is not consider extra).
+	// Solution: [a1, a2, a3, a4] = > left -> [1, a1, a1a2, a1a2a3]; right ->[a2a3a4, a3a4, a4, 1] 
+	public int[] productExceptSelf(int[] nums) {
+		int[] product = new int[nums.length];
+		int left = 1;
+		
+		for (int i = 0; i < nums.length; i++) {
+			product[i] = left;
+			left *= nums[i];
+		}
+		
+		int right = 1;
+		for (int i = nums.length - 1; i >= 0; i--) {
+			product[i] *= right;
+			right *= nums[i];
+		}
+		
+		return product;
+	}
 
 	// 1. Two Sum
 	// Company: Facebook Microsoft Amazon Bloomberg LinkedIn Apple Airbnb Yelp Yahoo
