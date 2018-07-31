@@ -191,7 +191,7 @@ public class Solution {
 	// 3(4).
 	// Solution:
 	public int canCompleteCircuit(int[] gas, int[] cost) {
-
+		
 	}
 
 	// 135. Candy
@@ -339,15 +339,30 @@ public class Solution {
 	}
 
 	// 220. Contains Duplicate III
-	// Company: Google Airbnb Palantir
+	// Company: Google Coursera Airbnb Palantir
 	// Description: Given an array of integers, find out whether there are two
 	// distinct indices i and j in the array such that the absolute difference
 	// between nums[i] and nums[j] is at most t and the absolute difference between
 	// i and j is at most k.
-	// Solution:
+	// Solution: Use TreeSet or double loop could solve this problem.
 	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
 		TreeSet<Integer> set = new TreeSet<>();
-
+		
+		for (int i = 0; i < nums.length; i++) {
+			int x = nums[i];
+			Integer floor = set.floor(x);
+			Integer ceiling = set.ceiling(x);
+			if ((floor != null && x <= floor + t ) || (ceiling != null && x >= ceiling - t)) {
+				return true;
+			}
+			set.add(x);
+			// sliding window.
+			if (i >= k) {
+				set.remove(nums[i - k]);
+			}
+		}
+		
+		return false;
 	}
 
 	// 289. Game of Life
