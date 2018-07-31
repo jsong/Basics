@@ -188,6 +188,9 @@ public class Solution {
 	// for eg. gas = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station
 	// 3(4).
 	// Solution:
+	public int canCompleteCircuit(int[] gas, int[] cost) {
+
+	}
 
 	// 135. Candy
 	// Company: Google Microsoft Uber
@@ -250,14 +253,14 @@ public class Solution {
 	// Description: Given an array, rotate the array to the right by k steps, where
 	// k is non-negative.
 	// Try to think in-place O(1) space solution.
-	// Solution: 1. 1234 567 -> 2. 4321 765 -> 3. 567 1234; 
+	// Solution: 1. 1234 567 -> 2. 4321 765 -> 3. 567 1234;
 	public void rotate(int[] nums, int k) {
-		k %= nums.length; 	
+		k %= nums.length;
 		reverse(nums, 0, nums.length - k - 1);
 		reverse(nums, nums.length - k, nums.length - 1);
 		reverse(nums, 0, nums.length - 1);
 	}
-	
+
 	private void reverse(int[] nums, int i, int j) {
 		while (i < j) {
 			int temp = nums[i];
@@ -267,7 +270,7 @@ public class Solution {
 			j--;
 		}
 	}
-	
+
 	// utility method.
 	private void swap(int[] nums, int i, int j) {
 		int temp = nums[i];
@@ -348,10 +351,14 @@ public class Solution {
 	// 289. Game of Life
 	// Company: Dropbox Google Uber Square Bloomberg Snapchat Two Sigma
 	// Description:
-	// 1. Any live cell with fewer than two live neighbors dies, as if caused by under-population.
-	// 2. Any live cell with two or three live neighbors lives on to the next generation.
-	// 3. Any live cell with more than three live neighbors dies, as if by over-population..
-	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+	// 1. Any live cell with fewer than two live neighbors dies, as if caused by
+	// under-population.
+	// 2. Any live cell with two or three live neighbors lives on to the next
+	// generation.
+	// 3. Any live cell with more than three live neighbors dies, as if by
+	// over-population..
+	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if
+	// by reproduction.
 	// Solution:
 	public void gameOfLife(int[][] board) {
 
@@ -363,8 +370,10 @@ public class Solution {
 	// of length 3 exists or not in the array. Formally the function should:
 	// Return true if there exists i, j, k such that arr[i] < arr[j] < arr[k] given
 	// 0 ≤ i < j < k ≤ n-1 else return false.
-	// Note: Your algorithm should run in O(n) time complexity and O(1) space complexity.
-	// Solution: Record the minimum and the second minimum element from the array, then if there is element which is larger than 1st, 2nd, 
+	// Note: Your algorithm should run in O(n) time complexity and O(1) space
+	// complexity.
+	// Solution: Record the minimum and the second minimum element from the array,
+	// then if there is element which is larger than 1st, 2nd,
 	// then we should return true;
 	public boolean increasingTriplet(int[] nums) {
 		int x1 = Integer.MAX_VALUE; // minimum
