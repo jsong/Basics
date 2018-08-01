@@ -46,9 +46,14 @@ public class Solution {
 
 		int[][] zeroes = { { 1, 1, 1 }, { 1, 0, 1 }, { 1, 1, 1 } };
 		sl.setZeroes(zeroes);
-		
-		int[][] board = {{0, 1, 0}, {1, 1, 0}};
+
+		int[][] board = { { 0, 1, 0 }, { 1, 1, 0 } };
 		sl.gameOfLife(board);
+
+		int[] gas = { 1, 2, 3, 4, 5 };
+		int[] cost = { 3, 4, 5, 1, 2 };
+
+		int start = sl.canCompleteCircuit(gas, cost);
 	}
 
 	// 31. Next Permutation
@@ -189,19 +194,52 @@ public class Solution {
 	// otherwise return -1;
 	// for eg. gas = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station
 	// 3(4).
-	// Solution:
+	// Solution: assume it starts i, then starting i, we do the calculation until we found the sum < 0, then we start move i to the next position. 
+	
 	public int canCompleteCircuit(int[] gas, int[] cost) {
-		
+		int k = -1;
+		int sum = 0;
+
+		for (int i = 0; i < gas.length; i++) {
+			k = i;
+			sum = 0;
+			boolean exitinnerLoop = false;
+			
+			for (int j = k; j < gas.length; j++) { // k till end
+				sum += gas[j] - cost[j];
+				if (sum < 0) {
+					exitinnerLoop = true;
+					break;
+				}
+			}
+
+			if (exitinnerLoop) {
+				continue;
+			}
+			
+			for (int j = 0; j < k; j++) { // 0 to k - 1.
+				sum += gas[j] - cost[j];
+				if (sum < 0) {
+					break;
+				}
+			}
+
+			if (sum >= 0) {
+				return k;
+			}
+		}
+
+		return -1;
 	}
 
 	// 135. Candy
-	// Company: Google Microsoft Uber
+	// Company: Google Microsoft Uber Snapchat Facebook Palantir
 	// Description: N children standing in line, each child is assigned a rating, 1.
 	// each child must have one candy 2. children has a higher rating ( > ) get more
 	// than their neighbors.
 	// Solution:
 	public int candy(int[] ratings) {
-
+		
 	}
 
 	// 169. Majority Element
@@ -347,12 +385,12 @@ public class Solution {
 	// Solution: Use TreeSet or double loop could solve this problem.
 	public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
 		TreeSet<Integer> set = new TreeSet<>();
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			int x = nums[i];
 			Integer floor = set.floor(x);
 			Integer ceiling = set.ceiling(x);
-			if ((floor != null && x <= floor + t ) || (ceiling != null && x >= ceiling - t)) {
+			if ((floor != null && x <= floor + t) || (ceiling != null && x >= ceiling - t)) {
 				return true;
 			}
 			set.add(x);
@@ -361,7 +399,7 @@ public class Solution {
 				set.remove(nums[i - k]);
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -377,10 +415,10 @@ public class Solution {
 	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if
 	// by reproduction.
 	// Solution:
-	 public void gameOfLife(int[][] board) {
-		
-	 }
-	 
+	public void gameOfLife(int[][] board) {
+
+	}
+
 	// 334. Increasing Triplet Subsequence
 	// Company: Google Facebook
 	// Description: Given an unsorted array return whether an increasing subsequence
@@ -413,27 +451,32 @@ public class Solution {
 	// Company:
 	// Description:
 	// Solution:
-	
+
 	// 238. Product of Array Except Self
-	// Company: Lyft Facebook Amazon Apple Hulu Google Zenefits Expedia Microsoft Yelp LinkedIn
-	// Description: Given an array nums of n integers where n > 1,  return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
-	// e.g: Input: [1, 2, 3, 4], Output: [24, 12, 8, 6]. Not use extra space(output array[n] is not consider extra).
-	// Solution: [a1, a2, a3, a4] = > left -> [1, a1, a1a2, a1a2a3]; right ->[a2a3a4, a3a4, a4, 1] 
+	// Company: Lyft Facebook Amazon Apple Hulu Google Zenefits Expedia Microsoft
+	// Yelp LinkedIn
+	// Description: Given an array nums of n integers where n > 1, return an array
+	// output such that output[i] is equal to the product of all the elements of
+	// nums except nums[i].
+	// e.g: Input: [1, 2, 3, 4], Output: [24, 12, 8, 6]. Not use extra space(output
+	// array[n] is not consider extra).
+	// Solution: [a1, a2, a3, a4] = > left -> [1, a1, a1a2, a1a2a3]; right
+	// ->[a2a3a4, a3a4, a4, 1]
 	public int[] productExceptSelf(int[] nums) {
 		int[] product = new int[nums.length];
 		int left = 1;
-		
+
 		for (int i = 0; i < nums.length; i++) {
 			product[i] = left;
 			left *= nums[i];
 		}
-		
+
 		int right = 1;
 		for (int i = nums.length - 1; i >= 0; i--) {
 			product[i] *= right;
 			right *= nums[i];
 		}
-		
+
 		return product;
 	}
 
