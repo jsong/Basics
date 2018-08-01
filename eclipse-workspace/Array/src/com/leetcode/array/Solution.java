@@ -57,17 +57,43 @@ public class Solution {
 	}
 
 	// 31. Next Permutation
-	// Company: Google
+	// Company: Facebook Google Microsoft Amazon Samsung LinkedIn
 	// Description: Implement next permutation, which rearranges numbers into the
 	// lexicographically next greater permutation of numbers.
 	// for eg.
 	// 1,2,3 -> 1,3,2
 	// 3,2,1 -> 1,2,3
 	// 1,1,5 -> 1,5,1
-	// Solution:
+	// Solution: 1. find the first number which is smaller than previous number, which is partition number. 2. find the first number which is greater than the partition number. 3. swap partition number 
+	// and the larger number. 4. reverse all the numbers start from the partition number.
 	public void nextPermutation(int[] nums) {
-
+		int partitionIndex = -1;
+		for (int i = nums.length - 2; i >= 0; i--) {
+			if (nums[i] < nums[i + 1]) {
+				partitionIndex = i;
+				break;
+			}
+		}
+		
+		if (partitionIndex == -1) { // already >>>
+			reverse(nums, 0, nums.length - 1);
+			return;
+		}
+		
+		int largerIndex = -1;
+		
+		for (int i = nums.length -1; i > partitionIndex; i--) {
+			if (nums[i] > nums[partitionIndex]) {
+				largerIndex = i;
+				break;
+			}
+		}
+		
+		swap(nums, partitionIndex, largerIndex);
+		
+		reverse(nums, partitionIndex + 1, nums.length - 1);
 	}
+	
 
 	// 60. Permutation Sequence
 	// Company: Amazon Bloomberg Facebook LinkedIn Twitter
