@@ -72,8 +72,7 @@ public class Solution {
 	// 60. Permutation Sequence
 	// Company: Amazon Bloomberg Facebook LinkedIn Twitter
 	// Description: Given n construct all n! permutations, and k which you need to
-	// return
-	// the kth permutation.
+	// return the kth permutation.
 	// Solution:
 
 	// 36. Valid Sudoku
@@ -98,10 +97,29 @@ public class Solution {
 	// Solution:
 
 	// 66. Plus One
-	// Company: Google Adobe Bloomberg eBay.
+	// Company: Google Adobe Bloomberg eBay Facebook.
 	// Description: Given a non-empty array of digits representing a non-negative
-	// integer, plus one to the integer.
-	// Solution:
+	// integer, plus one to the integer. 
+	// eg. [1, 2, 3] => [1, 2, 4]
+	// Solution: Add base on the digits[], use digits[i] to temporarily store the results.
+	public int[] plusOne(int[] digits) {
+		int c = 1; 
+		
+		for (int i = digits.length - 1; i >= 0; i--) {
+			digits[i] += c;
+			c = digits[i] / 10;
+			digits[i] %= 10;
+		}
+		
+		if (c > 0) { //has carry.
+			int[] tmp = new int[digits.length + 1];
+			System.arraycopy(digits, 0, tmp, 1, digits.length);
+			tmp[0] = c;
+			return tmp;
+		} else {
+			return digits;
+		}
+    }
 
 	// 70. Climbing Stairs
 	// Company: Amazon Bloomberg LinkedIn Tencent Alibaba Uber Google Zenefits Apple
