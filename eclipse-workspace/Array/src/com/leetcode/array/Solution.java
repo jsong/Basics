@@ -64,8 +64,11 @@ public class Solution {
 	// 1,2,3 -> 1,3,2
 	// 3,2,1 -> 1,2,3
 	// 1,1,5 -> 1,5,1
-	// Solution: 1. find the first number which is smaller than previous number, which is partition number. 2. find the first number which is greater than the partition number. 3. swap partition number 
-	// and the larger number. 4. reverse all the numbers start from the partition number.
+	// Solution: 1. find the first number which is smaller than previous number,
+	// which is partition number. 2. find the first number which is greater than the
+	// partition number. 3. swap partition number
+	// and the larger number. 4. reverse all the numbers start from the partition
+	// number.
 	public void nextPermutation(int[] nums) {
 		int partitionIndex = -1;
 		for (int i = nums.length - 2; i >= 0; i--) {
@@ -74,32 +77,53 @@ public class Solution {
 				break;
 			}
 		}
-		
+
 		if (partitionIndex == -1) { // already >>>
 			reverse(nums, 0, nums.length - 1);
 			return;
 		}
-		
+
 		int largerIndex = -1;
-		
-		for (int i = nums.length -1; i > partitionIndex; i--) {
+
+		for (int i = nums.length - 1; i > partitionIndex; i--) {
 			if (nums[i] > nums[partitionIndex]) {
 				largerIndex = i;
 				break;
 			}
 		}
-		
+
 		swap(nums, partitionIndex, largerIndex);
-		
+
 		reverse(nums, partitionIndex + 1, nums.length - 1);
 	}
-	
 
 	// 60. Permutation Sequence
-	// Company: Amazon Bloomberg Facebook LinkedIn Twitter
+	// Company: Amazon Bloomberg Facebook LinkedIn Google Twitter
 	// Description: Given n construct all n! permutations, and k which you need to
 	// return the kth permutation.
 	// Solution:
+	public String getPermutation(int n, int k) {
+		List<Integer> res = new ArrayList<>();
+	
+		int[] f = new int[n + 1]; // factorial numbers
+		f[0] = 1;
+
+		for (int i = 1; i <= n; i++) {
+			f[i] = i * f[i - 1];
+			res.add(i); // [1, 2, 3, 4];
+		}
+
+		StringBuilder sb = new StringBuilder();
+		k = k - 1; // 1th; which actuall means res[0];
+		for (int i = n; i > 0; i--) {
+			int index = k / f[n - 1];
+			sb.append(res.get(index));
+			k %= f[n - 1];
+			res.remove(index);
+		}
+
+		return sb.toString();
+	}
 
 	// 36. Valid Sudoku
 	// Company: Google Microsoft Uber Pinterest Apple Snapchat
@@ -125,19 +149,20 @@ public class Solution {
 	// 66. Plus One
 	// Company: Google Adobe Bloomberg eBay Facebook.
 	// Description: Given a non-empty array of digits representing a non-negative
-	// integer, plus one to the integer. 
+	// integer, plus one to the integer.
 	// eg. [1, 2, 3] => [1, 2, 4]
-	// Solution: Add base on the digits[], use digits[i] to temporarily store the results.
+	// Solution: Add base on the digits[], use digits[i] to temporarily store the
+	// results.
 	public int[] plusOne(int[] digits) {
-		int c = 1; 
-		
+		int c = 1;
+
 		for (int i = digits.length - 1; i >= 0; i--) {
 			digits[i] += c;
 			c = digits[i] / 10;
 			digits[i] %= 10;
 		}
-		
-		if (c > 0) { //has carry.
+
+		if (c > 0) { // has carry.
 			int[] tmp = new int[digits.length + 1];
 			System.arraycopy(digits, 0, tmp, 1, digits.length);
 			tmp[0] = c;
@@ -145,7 +170,7 @@ public class Solution {
 		} else {
 			return digits;
 		}
-    }
+	}
 
 	// 70. Climbing Stairs
 	// Company: Amazon Bloomberg LinkedIn Tencent Alibaba Uber Google Zenefits Apple
@@ -238,8 +263,9 @@ public class Solution {
 	// otherwise return -1;
 	// for eg. gas = [1,2,3,4,5] cost = [3,4,5,1,2], return 3. Starting from station
 	// 3(4).
-	// Solution: assume it starts i, then starting i, we do the calculation until we found the sum < 0, then we start move i to the next position. 
-	
+	// Solution: assume it starts i, then starting i, we do the calculation until we
+	// found the sum < 0, then we start move i to the next position.
+
 	public int canCompleteCircuit(int[] gas, int[] cost) {
 		int k = -1;
 		int sum = 0;
@@ -248,7 +274,7 @@ public class Solution {
 			k = i;
 			sum = 0;
 			boolean exitinnerLoop = false;
-			
+
 			for (int j = k; j < gas.length; j++) { // k till end
 				sum += gas[j] - cost[j];
 				if (sum < 0) {
@@ -260,7 +286,7 @@ public class Solution {
 			if (exitinnerLoop) {
 				continue;
 			}
-			
+
 			for (int j = 0; j < k; j++) { // 0 to k - 1.
 				sum += gas[j] - cost[j];
 				if (sum < 0) {
@@ -285,7 +311,7 @@ public class Solution {
 	public int candy(int[] ratings) {
 		int left = 0;
 		int[] inc = new int[ratings.length];
-		
+
 		for (int i = 1; i < ratings.length; i++) {
 			if (ratings[i - 1] < ratings[i]) {
 				inc[i] = Math.max(++left, inc[i]);
@@ -293,7 +319,7 @@ public class Solution {
 				left = 0;
 			}
 		}
-		
+
 		int right = 0;
 		// right to left;
 		for (int i = ratings.length - 2; i >= 0; i--) {
@@ -303,12 +329,12 @@ public class Solution {
 				right = 0;
 			}
 		}
-		
-		int sum = ratings.length; 
-		for (int i: inc) {
+
+		int sum = ratings.length;
+		for (int i : inc) {
 			sum += i;
 		}
-		
+
 		return sum;
 	}
 
