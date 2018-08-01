@@ -239,7 +239,33 @@ public class Solution {
 	// than their neighbors.
 	// Solution:
 	public int candy(int[] ratings) {
+		int left = 0;
+		int[] inc = new int[ratings.length];
 		
+		for (int i = 1; i < ratings.length; i++) {
+			if (ratings[i - 1] < ratings[i]) {
+				inc[i] = Math.max(++left, inc[i]);
+			} else {
+				left = 0;
+			}
+		}
+		
+		int right = 0;
+		// right to left;
+		for (int i = ratings.length - 2; i >= 0; i--) {
+			if (ratings[i] > ratings[i + 1]) {
+				inc[i] = Math.max(++right, inc[i]);
+			} else {
+				right = 0;
+			}
+		}
+		
+		int sum = ratings.length; 
+		for (int i: inc) {
+			sum += i;
+		}
+		
+		return sum;
 	}
 
 	// 169. Majority Element
