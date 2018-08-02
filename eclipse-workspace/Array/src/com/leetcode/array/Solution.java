@@ -588,9 +588,38 @@ public class Solution {
 	// over-population..
 	// 4. Any dead cell with exactly three live neighbors becomes a live cell, as if
 	// by reproduction.
-	// Solution:
+	// Solution: encode as 0, 1, 2, 3, 0 -> 0 means dead -> dead; 1 means live -> live; 2 means live to dead; 3 means dead to live;
 	public void gameOfLife(int[][] board) {
-
+		// 8 surrounding positions.
+		int[] dx = {-1, -1, -1, 0, 1, 1, 1, 0};
+		int[] dy = {-1, 0, 1, 1, 1, 0, -1, -1};
+		int m = board.length;
+		int n = board[0].length;
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				int live = 0;
+				for (int k = 0; k < 8; k++) {
+					int x = i + dx[k];
+					int y = j + dy[k];
+					if (x > -1 && x < m && y > -1 && y < n && 
+							(board[x][y] == 1 || board[x][y] == 2)) {
+						live++;
+					}
+				}
+				
+				if (board[i][j] == 0 && live == 3) { // dead -> live;
+					board[i][j] = 3;
+				} else if (board[i][j] == 1 && (live > 3 || live < 2)) { // live - > dead
+					board[i][j] = 2;
+				}
+			}
+		}
+		
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				board[i][j] %= 2;
+			}
+		}
 	}
 
 	// 334. Increasing Triplet Subsequence
