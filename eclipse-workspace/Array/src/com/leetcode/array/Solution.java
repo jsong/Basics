@@ -104,7 +104,7 @@ public class Solution {
 	// Solution:
 	public String getPermutation(int n, int k) {
 		List<Integer> res = new ArrayList<>();
-	
+
 		int[] f = new int[n + 1]; // factorial numbers
 		f[0] = 1;
 
@@ -131,31 +131,32 @@ public class Solution {
 	// number, also the small 3 * 3 cube
 	// should not contains any duplicate numbers.
 	// Solution:
-    public boolean isValidSudoku(char[][] board) {
-    		for (int i = 0; i < board.length; i++) {
-    			HashSet<Character> row = new HashSet<>();
-    			HashSet<Character> col = new HashSet<>();
-    			HashSet<Character> cube = new HashSet<>();
-    			for (int j = 0; j < board[i].length; j++) {
-    				if (board[i][j] != '.' && !row.add(board[i][j])) {
-    					return false;
-    				}
-    				
-    				if (board[j][i] != '.' && !col.add(board[j][i])) {
-    					return false;
-    				}
-    				
-    				int cubeRow = 3 * (i / 3) + j / 3;
-    				int cubeCol = 3 * (i % 3) + j % 3; // need to make sure i = 0 ... 8, all the cubes can be iterated through.
-    				
-    				if (board[cubeRow][cubeCol] != '.' && !cube.add(board[cubeRow][cubeCol])) {
-    					return false;
-    				}
-    			}
-    		}
-    		
-    		return true;
-    }
+	public boolean isValidSudoku(char[][] board) {
+		for (int i = 0; i < board.length; i++) {
+			HashSet<Character> row = new HashSet<>();
+			HashSet<Character> col = new HashSet<>();
+			HashSet<Character> cube = new HashSet<>();
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] != '.' && !row.add(board[i][j])) {
+					return false;
+				}
+
+				if (board[j][i] != '.' && !col.add(board[j][i])) {
+					return false;
+				}
+
+				int cubeRow = 3 * (i / 3) + j / 3;
+				int cubeCol = 3 * (i % 3) + j % 3; // need to make sure i = 0 ... 8, all the cubes can be iterated
+													// through.
+
+				if (board[cubeRow][cubeCol] != '.' && !cube.add(board[cubeRow][cubeCol])) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	// 42. Trapping Rain Water
 	// Company: Amazon Facebook Lyft Microsoft Intuit Google Airbnb Bloomberg Uber
@@ -166,10 +167,30 @@ public class Solution {
 	// Solution:
 
 	// 48. Rotate Image
-	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple
+	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple Bloomberg
 	// Description: Given an n * n matrix representing an image, rotate the image by
 	// 90 degrees. Should do this in-place.
-	// Solution:
+	// Solution: Rotate 45 first(j starts from i + 1), and then rotate according to j and n - j - 1;
+	public void rotate(int[][] matrix) {
+		// rotate 45
+		int n = matrix.length;	// n * n matrix.
+		for (int i = 0; i < n; i++) {
+			for (int j = i + 1; j < n; j++) {
+				int temp = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = temp;
+			}
+		}
+
+		// swap 'j' and 'length - j - 1'
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n / 2; j++) {
+				int temp = matrix[i][j];
+				matrix[i][j] = matrix[i][n - 1 - j];
+				matrix[i][n - 1 - j] = temp;
+			}
+		}
+	}
 
 	// 66. Plus One
 	// Company: Google Adobe Bloomberg eBay Facebook.
