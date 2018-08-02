@@ -164,8 +164,40 @@ public class Solution {
 	// Description: Given n non-negative integers representing an elevation map,
 	// compuate how much water it's able to hold.
 	// for eg, [0,1,0,2,1,0,1,3,2,1,2,1] could hold maximum 6 units of rain water.
-	// Solution:
-
+	// Solution: 1. Find the peak element index. 2. Split the array, which left to peak & peak to right. 
+	// water += leftPeak - currentHeight same as right part.
+	public int trap(int[] height) {
+		// find the tallest
+		int maxIndex = 0;
+		for (int i = 1; i < height.length; i++) {
+			if (height[i] > height[maxIndex]) {
+				maxIndex = i;
+			}
+		}	
+		int sum = 0;
+		int left = 0;
+		// left to highest
+		for (int i = 0; i < maxIndex; i++) {
+			if (height[i] > left) {
+				left = height[i];
+			} else {
+				sum += left - height[i];
+			}
+		}
+		
+		int right = 0;
+		// right to highest		
+		for (int j = height.length - 1; j > maxIndex; j--) {
+			if (height[j] > right) {
+				right = height[j];
+			} else {
+				sum += right - height[j];
+			}
+		}
+		
+		return sum;
+    }
+	
 	// 48. Rotate Image
 	// Company: Amazon Google Microsoft Baidu Houzz Adobe Apple Bloomberg
 	// Description: Given an n * n matrix representing an image, rotate the image by
