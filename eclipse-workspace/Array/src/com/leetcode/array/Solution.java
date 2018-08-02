@@ -114,7 +114,7 @@ public class Solution {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		k = k - 1; // 1th; which actuall means res[0];
+		k = k - 1; // 1th; which actually means res[0]
 		for (int i = n; i > 0; i--) {
 			int index = k / f[n - 1];
 			sb.append(res.get(index));
@@ -131,6 +131,31 @@ public class Solution {
 	// number, also the small 3 * 3 cube
 	// should not contains any duplicate numbers.
 	// Solution:
+    public boolean isValidSudoku(char[][] board) {
+    		for (int i = 0; i < board.length; i++) {
+    			HashSet<Character> row = new HashSet<>();
+    			HashSet<Character> col = new HashSet<>();
+    			HashSet<Character> cube = new HashSet<>();
+    			for (int j = 0; j < board[i].length; j++) {
+    				if (board[i][j] != '.' && !row.add(board[i][j])) {
+    					return false;
+    				}
+    				
+    				if (board[j][i] != '.' && !col.add(board[j][i])) {
+    					return false;
+    				}
+    				
+    				int cubeRow = 3 * (i / 3) + j / 3;
+    				int cubeCol = 3 * (i % 3) + j % 3; // need to make sure i = 0 ... 8, all the cubes can be iterated through.
+    				
+    				if (board[cubeRow][cubeCol] != '.' && !cube.add(board[cubeRow][cubeCol])) {
+    					return false;
+    				}
+    			}
+    		}
+    		
+    		return true;
+    }
 
 	// 42. Trapping Rain Water
 	// Company: Amazon Facebook Lyft Microsoft Intuit Google Airbnb Bloomberg Uber
