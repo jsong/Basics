@@ -1,6 +1,14 @@
 package com.leetcode.linkedlistcycle;
 
-import com.leetcode.linkedlist.ListNode;
+class ListNode {
+	int val;
+	public ListNode next;
+
+	ListNode(int x) {
+		val = x;
+		next = null;
+	}
+}
 
 public class Solution {
 
