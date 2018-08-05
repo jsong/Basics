@@ -21,10 +21,10 @@ public class Solution {
 		head.next.next.next = new ListNode(4);
 		head.next.next.next.next = new ListNode(5);
 		Solution sl = new Solution();
-		sl.oddEvenList(head);
+		// sl.oddEvenList(head);
 		///
 		/// 243, 564
-		
+		sl.reverseBetween(head, 2, 4);
 	}
 
 	// 206. Reverse Linked List
@@ -109,25 +109,26 @@ public class Solution {
 	// their nodes contain a single digit. Add the two numbers and return it as a
 	// linked list. eg. (2 -> 4 -> 3) + (5 -> 6 -> 4) => 7 -> 0 -> 8, explaination
 	// 342 + 464 = 807
-	// Solution: use two iterator, and one dummy linkedlist to iterate the l1 and l2.
-	
+	// Solution: use two iterator, and one dummy linkedlist to iterate the l1 and
+	// l2.
+
 	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 		ListNode head = new ListNode(0);
 		ListNode cur = head;
 		ListNode p = l1;
 		ListNode q = l2;
-		
+
 		int c = 0;
-		
+
 		while (p != null || q != null) {
 			int p1 = p == null ? 0 : p.val;
 			int p2 = q == null ? 0 : q.val;
-			
+
 			int sum = p1 + p2 + c;
 			c = sum / 10;
 			cur.next = new ListNode(sum % 10);
 			cur = cur.next;
-			
+
 			if (p != null) {
 				p = p.next;
 			}
@@ -135,17 +136,40 @@ public class Solution {
 				q = q.next;
 			}
 		}
-			
+
 		if (c > 0) {
 			cur.next = new ListNode(c);
 		}
-		
+
 		return head.next;
 	}
-	//
-	// Company:
-	// Description:
-	// Solution:
+
+	// 92. Reverse Linked List II
+	// Company: Amazon Microsoft Facebook Two Sigma Apple Tencent
+	// Description: Reverse a linked list from position m to n. Do it in one-pass.
+	// Solution: Find the preNode, and iterate through the remaining.
+	public ListNode reverseBetween(ListNode head, int m, int n) {
+		ListNode dummy = new ListNode(-1);
+		dummy.next = head;
+		ListNode pre = dummy; // after which is the last node
+		
+		for (int i = 0; i < m - 1; i++) {
+			pre = pre.next;
+		}
+		
+		ListNode head2 = pre; 
+		pre = pre.next;
+		ListNode cur = pre.next;
+		
+		for (int i = m; i < n; i++) {
+			pre.next = cur.next;
+			cur.next = head2.next;
+			head2.next = cur; //1 -> 3, 1 -> 4...
+			cur = pre.next;
+		}
+		
+		return dummy.next;
+	}
 
 	//
 	// Company:
