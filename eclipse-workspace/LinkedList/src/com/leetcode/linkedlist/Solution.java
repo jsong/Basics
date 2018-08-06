@@ -25,8 +25,8 @@ public class Solution {
 		///
 		/// 243, 564
 		// sl.reverseBetween(head, 2, 4);
-//		sl.partition(head, 3);
-//		sl.deleteDuplicates(head);
+		// sl.partition(head, 3);
+		// sl.deleteDuplicates(head);
 		ListNode r = sl.deleteDuplicates2(head);
 	}
 
@@ -209,59 +209,66 @@ public class Solution {
 
 	// 83. Remove Duplicates from Sorted List
 	// Company: Amazon Alibaba
-	// Description: Given a sorted linked list, delete all duplicates such that each element appear only once.
+	// Description: Given a sorted linked list, delete all duplicates such that each
+	// element appear only once.
 	// eg. 1 -> 1 -> 1 -> 2 ==> 1 -> 2
-	// Solution: iterate the linked list, while cur.next != null && cur.val == cur.next.val, iterate to next.
+	// Solution: iterate the linked list, while cur.next != null && cur.val ==
+	// cur.next.val, iterate to next.
 	public ListNode deleteDuplicates(ListNode head) {
-        ListNode cur = head;
-        
-        while (cur != null) {
-        	while (cur.next != null && cur.val == cur.next.val) {
-        		cur.next = cur.next.next;
-        	}
-        	
-        	cur = cur.next;
-        }
-        
-        return head;
-    }
+		ListNode cur = head;
+
+		while (cur != null) {
+			while (cur.next != null && cur.val == cur.next.val) {
+				cur.next = cur.next.next;
+			}
+
+			cur = cur.next;
+		}
+
+		return head;
+	}
 
 	// 82. Remove Duplicates from Sorted List II
 	// Company: Microsoft Amazon Baidu Bloomberg
-	// Description: Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+	// Description: Given a sorted linked list, delete all nodes that have duplicate
+	// numbers, leaving only distinct numbers from the original list.
 	// eg. 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 5 ==> 1 -> 2 -> 5;
 	// Solution: Two pointers, pre and cur.
 	public ListNode deleteDuplicates2(ListNode head) {
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode pre = dummy;
-        ListNode cur = dummy.next;
-        
-        while (cur != null) {
-        	boolean duplicate = false;
-        	while (cur.next != null && cur.val == cur.next.val) {
-        		cur = cur.next;
-        		duplicate = true;
-        	}
-        	
-        	if (duplicate) {
-        		cur = cur.next;
-        		continue;
-        	}
-        	
-        	pre.next = cur;
-        	pre = pre.next;
-        	cur = cur.next;
-        }
-        
-        pre.next = null;
-        return dummy.next;
-    }
-	
-	// 
-	// 
-	//
-	//
-	
-	
+		ListNode dummy = new ListNode(-1);
+		dummy.next = head;
+		ListNode pre = dummy;
+		ListNode cur = dummy.next;
+
+		while (cur != null) {
+			boolean duplicate = false;
+			while (cur.next != null && cur.val == cur.next.val) {
+				cur = cur.next;
+				duplicate = true;
+			}
+
+			if (duplicate) {
+				cur = cur.next;
+				continue;
+			}
+
+			pre.next = cur;
+			pre = pre.next;
+			cur = cur.next;
+		}
+
+		pre.next = null;
+		return dummy.next;
+	}
+
+	// 61. Rotate List
+	// Company:
+	// Description:
+	// Solution:
+
+	// 61. Rotate List
+	// Company:
+	// Description:
+	// Solution:
+
 }
