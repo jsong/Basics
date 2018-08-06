@@ -17,16 +17,17 @@ public class Solution {
 		//// 1-> 2 -> 3 -> 4 -> 5;
 		ListNode head = new ListNode(1);
 		head.next = new ListNode(1);
-		head.next.next = new ListNode(2);
+		head.next.next = new ListNode(1);
 		head.next.next.next = new ListNode(3);
-		head.next.next.next.next = new ListNode(3);
+		head.next.next.next.next = new ListNode(4);
 		Solution sl = new Solution();
 		// sl.oddEvenList(head);
 		///
 		/// 243, 564
 		// sl.reverseBetween(head, 2, 4);
 //		sl.partition(head, 3);
-		sl.deleteDuplicates(head);
+//		sl.deleteDuplicates(head);
+		ListNode r = sl.deleteDuplicates2(head);
 	}
 
 	// 206. Reverse Linked List
@@ -214,7 +215,7 @@ public class Solution {
 	public ListNode deleteDuplicates(ListNode head) {
         ListNode cur = head;
         
-        while (cur != null && cur.next != null) {
+        while (cur != null) {
         	while (cur.next != null && cur.val == cur.next.val) {
         		cur.next = cur.next.next;
         	}
@@ -228,5 +229,35 @@ public class Solution {
 	// 82. Remove Duplicates from Sorted List II
 	// Company: Microsoft Amazon Baidu Bloomberg
 	// Description: Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
-	// Solution:
+	// eg. 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 5 ==> 1 -> 2 -> 5;
+	// Solution: Two pointers, pre and cur.
+	public ListNode deleteDuplicates2(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode pre = dummy;
+        ListNode cur = dummy.next;
+        
+        while (cur != null) {
+        	boolean duplicate = false;
+        	while (cur.next != null && cur.val == cur.next.val) {
+        		cur = cur.next;
+        		duplicate = true;
+        	}
+        	
+        	if (duplicate) {
+        		cur = cur.next;
+        		continue;
+        	}
+        	
+        	pre.next = cur;
+        	pre = pre.next;
+        	cur = cur.next;
+        }
+        
+        pre.next = null;
+        return dummy.next;
+    }
+	
+	
+	
 }
