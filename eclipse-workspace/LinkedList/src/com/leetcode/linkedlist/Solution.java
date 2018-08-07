@@ -266,7 +266,33 @@ public class Solution {
 	// Company: Microsoft Amazon Adobe Bloomberg Apple
 	// Description: Given a linked list, rotate the list to the right by k places, where k is non-negative.
 	// eg. Input: 1->2->3->4->5->NULL, k = 2
-	// Solution:
+	// Solution: 1. Find the element, then add a dummy head for that specific element, connect head to that dummy.
+	// 2. Create a circle of list, then disconnect
+	 public ListNode rotateRight2(ListNode head, int k) {
+		 if (head == null || k == 0) {
+			 return head;
+		 }
+		 
+		 int length = 1;
+		 ListNode cur = head;
+		 while (cur.next != null) {
+			 length++;
+			 cur = cur.next;
+		 }
+		 
+		 cur.next = head; // create loop 
+		 k = length - k % length;
+		 
+		 for (int i = 0; i < k; i++) {
+			 cur = cur.next;
+		 }
+		 
+		 head = cur.next;
+		 cur.next = null;
+		 
+		 return head;
+	 }
+	
 	 public ListNode rotateRight(ListNode head, int k) {
 		 int size = 0;
 		 if (head == null || head.next == null) {
