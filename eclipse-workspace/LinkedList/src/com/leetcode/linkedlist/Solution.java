@@ -27,8 +27,11 @@ public class Solution {
 		// sl.reverseBetween(head, 2, 4);
 		// sl.partition(head, 3);
 		// sl.deleteDuplicates(head);
-//		ListNode r = sl.deleteDuplicates2(head);
-		ListNode r = sl.rotateRight(head, 2);
+		// ListNode r = sl.deleteDuplicates2(head);
+//		ListNode r = sl.rotateRight(head, 2);
+		ListNode nth = new ListNode(1);
+		nth.next = new ListNode(2);
+		sl.removeNthFromEnd(nth, 2);
 	}
 
 	// 206. Reverse Linked List
@@ -264,85 +267,138 @@ public class Solution {
 
 	// 61. Rotate List
 	// Company: Microsoft Amazon Adobe Bloomberg Apple
-	// Description: Given a linked list, rotate the list to the right by k places, where k is non-negative.
+	// Description: Given a linked list, rotate the list to the right by k places,
+	// where k is non-negative.
 	// eg. Input: 1->2->3->4->5->NULL, k = 2
-	// Solution: 1. Find the element, then add a dummy head for that specific element, connect head to that dummy.
+	// Solution: 1. Find the element, then add a dummy head for that specific
+	// element, connect head to that dummy.
 	// 2. Create a circle of list, then disconnect
-	 public ListNode rotateRight2(ListNode head, int k) {
-		 if (head == null || k == 0) {
-			 return head;
-		 }
-		 
-		 int length = 1;
-		 ListNode cur = head;
-		 while (cur.next != null) {
-			 length++;
-			 cur = cur.next;
-		 }
-		 
-		 cur.next = head; // create loop 
-		 k = length - k % length;
-		 
-		 for (int i = 0; i < k; i++) {
-			 cur = cur.next;
-		 }
-		 
-		 head = cur.next;
-		 cur.next = null;
-		 
-		 return head;
-	 }
-	
-	 public ListNode rotateRight(ListNode head, int k) {
-		 int size = 0;
-		 if (head == null || head.next == null) {
-			 return head;
-		 }
-		 
-		 ListNode cur = head;
-		 
-		 while (cur != null) {
-			 cur = cur.next;
-			 size++;
-		 }
-		 
-		 k = k % size;
-		 if (k == 0) {
-			 return head;
-		 }
-		 
-		 ListNode nHead = new ListNode(-1); 	// new head.
-		 ListNode dummy = new ListNode(-1); 	// head for shift part.
-		 ListNode shiftCur = dummy;
-		 cur = head; 	//reset iterator.
-		 int counter = 1;
-		 while (cur != null) {
-			 if (counter == size - k) {
-				 shiftCur.next = cur.next;
-				 shiftCur = shiftCur.next;
-				 cur.next = null;
-				 while (shiftCur != null) {
-					 if (shiftCur.next == null) {
-						 shiftCur.next = head;
-						 break;
-					 } else {
-						 shiftCur = shiftCur.next;	 
-					 }
-				 }
-				 
-				 break;
-			 }
-			 counter++;
-			 cur = cur.next;
-		 }
-		 
-		 nHead.next = dummy.next;
-		 return nHead.next;
-	 }
+	public ListNode rotateRight2(ListNode head, int k) {
+		if (head == null || k == 0) {
+			return head;
+		}
+
+		int length = 1;
+		ListNode cur = head;
+		while (cur.next != null) {
+			length++;
+			cur = cur.next;
+		}
+
+		cur.next = head; // create loop
+		k = length - k % length;
+
+		for (int i = 0; i < k; i++) {
+			cur = cur.next;
+		}
+
+		head = cur.next;
+		cur.next = null;
+
+		return head;
+	}
+
+	public ListNode rotateRight(ListNode head, int k) {
+		int size = 0;
+		if (head == null || head.next == null) {
+			return head;
+		}
+
+		ListNode cur = head;
+
+		while (cur != null) {
+			cur = cur.next;
+			size++;
+		}
+
+		k = k % size;
+		if (k == 0) {
+			return head;
+		}
+
+		ListNode nHead = new ListNode(-1); // new head.
+		ListNode dummy = new ListNode(-1); // head for shift part.
+		ListNode shiftCur = dummy;
+		cur = head; // reset iterator.
+		int counter = 1;
+		while (cur != null) {
+			if (counter == size - k) {
+				shiftCur.next = cur.next;
+				shiftCur = shiftCur.next;
+				cur.next = null;
+				while (shiftCur != null) {
+					if (shiftCur.next == null) {
+						shiftCur.next = head;
+						break;
+					} else {
+						shiftCur = shiftCur.next;
+					}
+				}
+
+				break;
+			}
+			counter++;
+			cur = cur.next;
+		}
+
+		nHead.next = dummy.next;
+		return nHead.next;
+	}
 
 	// 19. Remove Nth Node From End of List
-	// Company: 
-	// Description:
-	// Solution:
-
+	// Company: Microsoft Amazon Facebook Google Zenefits Aetion Adobe ebay.
+	// Description: Given a linked list, remove the n-th node from the end of list
+	// and return its head.
+	// eg. 1 -> 2 -> 3 -> 4 -> 5, n = 2; => 1 -> 2 -> 3 -> 5;
+	// Solution: 1. find the element to be removed, if it's index 0, then iterate the head to its next
+	// else just delete it in the middle. 
+	// 2. Use Two pointers, p, q, let p go n steps first, then q will go (length - n) steps, just use q to delete.
+	public ListNode removeNthFromEnd2(ListNode head, int n) {
+		ListNode dummy = new ListNode(-1);
+		dummy.next = head;
+		ListNode p = dummy; 
+		ListNode q = dummy;
+		
+		for (int i = 0; i < n; i++) {
+			p = p.next;
+		}
+		
+		while (p.next != null) { // [1] 1 case
+			p = p.next;
+			q = q.next; // q will go length - n steps;  
+		}
+		
+		q.next = q.next.next;
+		
+		return dummy.next;
+	}
+	
+	public ListNode removeNthFromEnd(ListNode head, int n) {
+		int length = 1;
+		ListNode cur = head; // iterator
+		
+        while (cur.next != null) {
+			length++;
+			cur = cur.next;
+		}
+		
+		int m = length - n; //
+        
+		if (m == 0) { // delete first element. 
+			head = head.next;
+			return head;
+		}
+        
+		cur = head;
+        
+		for (int i = 0; i < m - 1; i++) {
+			cur = cur.next;
+		}
+        
+        if (cur.next != null) {			
+            cur.next  = cur.next.next; // delete the next one.
+        }
+		
+		return head;
+	}
 }
