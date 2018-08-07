@@ -16,10 +16,10 @@ public class Solution {
 		// TODO Auto-generated method stub
 		//// 1-> 2 -> 3 -> 4 -> 5;
 		ListNode head = new ListNode(1);
-		head.next = new ListNode(1);
-		head.next.next = new ListNode(1);
-		head.next.next.next = new ListNode(3);
-		head.next.next.next.next = new ListNode(4);
+		head.next = new ListNode(2);
+		head.next.next = new ListNode(3);
+		head.next.next.next = new ListNode(4);
+		head.next.next.next.next = new ListNode(5);
 		Solution sl = new Solution();
 		// sl.oddEvenList(head);
 		///
@@ -27,7 +27,8 @@ public class Solution {
 		// sl.reverseBetween(head, 2, 4);
 		// sl.partition(head, 3);
 		// sl.deleteDuplicates(head);
-		ListNode r = sl.deleteDuplicates2(head);
+//		ListNode r = sl.deleteDuplicates2(head);
+		ListNode r = sl.rotateRight(head, 2);
 	}
 
 	// 206. Reverse Linked List
@@ -262,12 +263,59 @@ public class Solution {
 	}
 
 	// 61. Rotate List
-	// Company:
-	// Description:
+	// Company: Microsoft Amazon Adobe Bloomberg Apple
+	// Description: Given a linked list, rotate the list to the right by k places, where k is non-negative.
+	// eg. Input: 1->2->3->4->5->NULL, k = 2
 	// Solution:
+	 public ListNode rotateRight(ListNode head, int k) {
+		 int size = 0;
+		 if (head == null || head.next == null) {
+			 return head;
+		 }
+		 
+		 ListNode cur = head;
+		 
+		 while (cur != null) {
+			 cur = cur.next;
+			 size++;
+		 }
+		 
+		 k = k % size;
+		 if (k == 0) {
+			 return head;
+		 }
+		 
+		 ListNode nHead = new ListNode(-1); 	// new head.
+		 ListNode dummy = new ListNode(-1); 	// head for shift part.
+		 ListNode shiftCur = dummy;
+		 cur = head; 	//reset iterator.
+		 int counter = 1;
+		 while (cur != null) {
+			 if (counter == size - k) {
+				 shiftCur.next = cur.next;
+				 shiftCur = shiftCur.next;
+				 cur.next = null;
+				 while (shiftCur != null) {
+					 if (shiftCur.next == null) {
+						 shiftCur.next = head;
+						 break;
+					 } else {
+						 shiftCur = shiftCur.next;	 
+					 }
+				 }
+				 
+				 break;
+			 }
+			 counter++;
+			 cur = cur.next;
+		 }
+		 
+		 nHead.next = dummy.next;
+		 return nHead.next;
+	 }
 
-	// 61. Rotate List
-	// Company:
+	// 19. Remove Nth Node From End of List
+	// Company: 
 	// Description:
 	// Solution:
 
