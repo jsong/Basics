@@ -28,7 +28,7 @@ public class Solution {
 		// sl.partition(head, 3);
 		// sl.deleteDuplicates(head);
 		// ListNode r = sl.deleteDuplicates2(head);
-//		ListNode r = sl.rotateRight(head, 2);
+		// ListNode r = sl.rotateRight(head, 2);
 		ListNode nth = new ListNode(1);
 		nth.next = new ListNode(2);
 		sl.removeNthFromEnd(nth, 2);
@@ -350,55 +350,69 @@ public class Solution {
 	// Description: Given a linked list, remove the n-th node from the end of list
 	// and return its head.
 	// eg. 1 -> 2 -> 3 -> 4 -> 5, n = 2; => 1 -> 2 -> 3 -> 5;
-	// Solution: 1. find the element to be removed, if it's index 0, then iterate the head to its next
-	// else just delete it in the middle. 
-	// 2. Use Two pointers, p, q, let p go n steps first, then q will go (length - n) steps, just use q to delete.
+	// Solution: 1. find the element to be removed, if it's index 0, then iterate
+	// the head to its next
+	// else just delete it in the middle.
+	// 2. Use Two pointers, p, q, let p go n steps first, then q will go (length -
+	// n) steps, just use q to delete.
 	public ListNode removeNthFromEnd2(ListNode head, int n) {
 		ListNode dummy = new ListNode(-1);
 		dummy.next = head;
-		ListNode p = dummy; 
+		ListNode p = dummy;
 		ListNode q = dummy;
-		
+
 		for (int i = 0; i < n; i++) {
 			p = p.next;
 		}
-		
+
 		while (p.next != null) { // [1] 1 case
 			p = p.next;
-			q = q.next; // q will go length - n steps;  
+			q = q.next; // q will go length - n steps;
 		}
-		
+
 		q.next = q.next.next;
-		
+
 		return dummy.next;
 	}
-	
+
 	public ListNode removeNthFromEnd(ListNode head, int n) {
 		int length = 1;
 		ListNode cur = head; // iterator
-		
-        while (cur.next != null) {
+
+		while (cur.next != null) {
 			length++;
 			cur = cur.next;
 		}
-		
+
 		int m = length - n; //
-        
-		if (m == 0) { // delete first element. 
+
+		if (m == 0) { // delete first element.
 			head = head.next;
 			return head;
 		}
-        
+
 		cur = head;
-        
+
 		for (int i = 0; i < m - 1; i++) {
 			cur = cur.next;
 		}
-        
-        if (cur.next != null) {			
-            cur.next  = cur.next.next; // delete the next one.
-        }
-		
+
+		if (cur.next != null) {
+			cur.next = cur.next.next; // delete the next one.
+		}
+
 		return head;
 	}
+
+	// 24. Swap Nodes in Pairs
+	// Company: Microsoft Amazon Adobe Facebook Bloomberg Google Uber
+	// Description:Given a linked list, swap every two adjacent nodes and return its
+	// head. eg. Given 1->2->3->4, you should return the list as 2->1->4->3.
+	// 1. Constant space. 2. You may not modify the values in the list's nodes, only nodes itself may be changed.
+	// Solution:
+	
+	//
+	//
+	//
+	//
 }
