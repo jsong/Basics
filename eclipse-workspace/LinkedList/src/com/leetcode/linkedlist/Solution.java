@@ -409,7 +409,11 @@ public class Solution {
 	// Description:Given a linked list, swap every two adjacent nodes and return its
 	// head. eg. Given 1->2->3->4, you should return the list as 2->1->4->3.
 	// 1. Constant space. 2. You may not modify the values in the list's nodes, only nodes itself may be changed.
-	// Solution:
+	// Solution: 1. NOT ALLOWED, swap value 1 and 2, then p went to next next. continue;
+	// 2. Use pre, cur, next iterate. 
+	public ListNode swapPairs(ListNode head) {
+		
+    }
 	
 	//
 	//
