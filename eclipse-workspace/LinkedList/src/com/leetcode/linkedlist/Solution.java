@@ -415,8 +415,18 @@ public class Solution {
 		
     }
 	
-	//
-	//
-	//
-	//
+	// 25. Reverse Nodes in k-Group
+	// Company: Microsoft Google Mathworks Bloomberg Aamzon Goo
+	// Description: Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+	// eg. 1->2->3->4->5 k = 2 => 2->1->4->3->5, k = 3 => 3->2->1->4->5.
+	// Solution: 
+	public ListNode reverseKGroup(ListNode head, int k) {
+        
+    }
+	
+	
+	// 
+	// Company:
+	// Description:
+	// Solution:
 }
