@@ -10,6 +10,15 @@ class ListNode {
 	}
 }
 
+// Definition for singly-linked list with a random pointer.
+class RandomListNode {
+	int label;
+	RandomListNode next, random;
+	RandomListNode(int x) {
+		this.label = x;
+	}
+};
+
 public class Solution {
 
 	public static void main(String[] args) {
@@ -408,24 +417,36 @@ public class Solution {
 	// Company: Microsoft Amazon Adobe Facebook Bloomberg Google Uber
 	// Description:Given a linked list, swap every two adjacent nodes and return its
 	// head. eg. Given 1->2->3->4, you should return the list as 2->1->4->3.
-	// 1. Constant space. 2. You may not modify the values in the list's nodes, only nodes itself may be changed.
-	// Solution: 1. NOT ALLOWED, swap value 1 and 2, then p went to next next. continue;
-	// 2. Use pre, cur, next iterate. 
+	// 1. Constant space. 2. You may not modify the values in the list's nodes, only
+	// nodes itself may be changed.
+	// Solution: 1. NOT ALLOWED, swap value 1 and 2, then p went to next next.
+	// continue;
+	// 2. Use pre, cur, next iterate.
 	public ListNode swapPairs(ListNode head) {
-		
-    }
-	
+
+	}
+
 	// 25. Reverse Nodes in k-Group
 	// Company: Microsoft Google Mathworks Bloomberg Aamzon Goo
-	// Description: Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+	// Description: Given a linked list, reverse the nodes of a linked list k at a
+	// time and return its modified list.
 	// eg. 1->2->3->4->5 k = 2 => 2->1->4->3->5, k = 3 => 3->2->1->4->5.
-	// Solution: 
+	// Solution:
 	public ListNode reverseKGroup(ListNode head, int k) {
-        
-    }
-	
-	
-	// 
+
+	}
+
+	// 138. Copy List with Random Pointer
+	// Company: Amazon Microsoft Bloomberg Facebook Google Alibaba LinkedIn
+	// Mathworks GoldmanSachs Adobe
+	// Description: A linked list is given such that each node contains an
+	// additional random pointer which could point to any node in the list or null.
+	// Return a deep copy of the list.
+	// Solution:
+	public RandomListNode copyRandomList(RandomListNode head) {
+
+	}
+	//
 	// Company:
 	// Description:
 	// Solution:
