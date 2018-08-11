@@ -14,6 +14,7 @@ class ListNode {
 class RandomListNode {
 	int label;
 	RandomListNode next, random;
+
 	RandomListNode(int x) {
 		this.label = x;
 	}
@@ -446,6 +447,49 @@ public class Solution {
 	public RandomListNode copyRandomList(RandomListNode head) {
 
 	}
+
+	// 141. Linked List Cycle
+	// Company: Tencent Apple Baidu Alibaba Microsoft Amazon Facebook
+	// Description: Given a linked list, determine if it has a cycle in it. Solve it
+	// without using extra space.
+	// Solution: 1. Two pointers, slow & fast, if they meet in the mid, then it must have circle. If they run into the end of list, 
+	// which means it does not have circle.
+	public boolean hasCycle(ListNode head) {
+		if (head == null || head.next == null) {
+			return false;
+		}
+		
+		ListNode slow = head;
+		ListNode fast = head.next;
+		
+		while (slow != fast) {
+			
+			if (fast == null || fast.next == null) {
+				return false;
+			}
+			
+			fast = fast.next.next;
+			slow = slow.next;
+		}
+		
+		return true;
+	}
+	
+	public boolean hasCycle2(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
+        }
+        return false;
+	}
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+
 	//
 	// Company:
 	// Description:
