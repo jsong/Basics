@@ -1,5 +1,7 @@
 package com.leetcode.linkedlist;
 
+import java.util.HashSet;
+
 class ListNode {
 	int val;
 	public ListNode next;
@@ -452,44 +454,105 @@ public class Solution {
 	// Company: Tencent Apple Baidu Alibaba Microsoft Amazon Facebook
 	// Description: Given a linked list, determine if it has a cycle in it. Solve it
 	// without using extra space.
-	// Solution: 1. Two pointers, slow & fast, if they meet in the mid, then it must have circle. If they run into the end of list, 
+	// Solution: 1. Two pointers, slow & fast, if they meet in the mid, then it must
+	// have circle. If they run into the end of list,
 	// which means it does not have circle.
 	public boolean hasCycle(ListNode head) {
 		if (head == null || head.next == null) {
 			return false;
 		}
-		
+
 		ListNode slow = head;
 		ListNode fast = head.next;
-		
+
 		while (slow != fast) {
-			
+
 			if (fast == null || fast.next == null) {
 				return false;
 			}
-			
+
 			fast = fast.next.next;
 			slow = slow.next;
 		}
-		
+
 		return true;
 	}
-	
+
 	public boolean hasCycle2(ListNode head) {
-        ListNode slow = head, fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-            if (slow == fast) return true;
-        }
-        return false;
+		ListNode slow = head, fast = head;
+		while (fast != null && fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+			if (slow == fast)
+				return true;
+		}
+		return false;
 	}
+
+	// 142. Linked List Cycle II
+	// Company: Bloomberg Microsoft Google Adobe Tencent
+	// Description: Given a linked list, return the node where the cycle begins. If
+	// there is no cycle, return null.
+	// Can you solve it without using extra space.
+	// Solution: 1. Use extra space, hashset check whether it's already been added. 
+	// 2. Not use extra space. When slow and fast meet, start slow2 from head.
+	public ListNode detectCycle2(ListNode head) {
+		if (head == null || head.next == null) {
+			return null;
+		}
+		
+		HashSet<ListNode> set = new HashSet<>();
+		ListNode cur = head;
+		
+		while (cur != null) {
+			if (!set.add(cur)) {
+				return cur;
+			}
+			cur = cur.next;
+		}
+		
+		return null;
+	}
+	
+	//
+	public ListNode detectCycle(ListNode head) {
+		ListNode fast = head;
+		ListNode slow = head;
+		
+		while (fast != null && fast.next != null) {
+			fast = fast.next.next;
+			slow = slow.next;
+			
+			if (fast == slow) {
+				ListNode slow2 = head;
+				
+				while (slow2 != slow) {
+					slow2 = slow2.next;
+					slow  = slow.next;
+				}
+				
+				return slow2;
+			}
+		}
+		
+		return null;
+	}
+
+	//
+	// Company:
+	// Description:
+	// Solution:
 	
 	//
 	// Company:
 	// Description:
 	// Solution:
-
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
 	//
 	// Company:
 	// Description:
