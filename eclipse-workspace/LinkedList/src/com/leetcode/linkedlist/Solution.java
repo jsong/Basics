@@ -494,65 +494,147 @@ public class Solution {
 	// Description: Given a linked list, return the node where the cycle begins. If
 	// there is no cycle, return null.
 	// Can you solve it without using extra space.
-	// Solution: 1. Use extra space, hashset check whether it's already been added. 
+	// Solution: 1. Use extra space, hashset check whether it's already been added.
 	// 2. Not use extra space. When slow and fast meet, start slow2 from head.
 	public ListNode detectCycle2(ListNode head) {
 		if (head == null || head.next == null) {
 			return null;
 		}
-		
+
 		HashSet<ListNode> set = new HashSet<>();
 		ListNode cur = head;
-		
+
 		while (cur != null) {
 			if (!set.add(cur)) {
 				return cur;
 			}
 			cur = cur.next;
 		}
-		
-		return null;
-	}
-	
-	//
-	public ListNode detectCycle(ListNode head) {
-		ListNode fast = head;
-		ListNode slow = head;
-		
-		while (fast != null && fast.next != null) {
-			fast = fast.next.next;
-			slow = slow.next;
-			
-			if (fast == slow) {
-				ListNode slow2 = head;
-				
-				while (slow2 != slow) {
-					slow2 = slow2.next;
-					slow  = slow.next;
-				}
-				
-				return slow2;
-			}
-		}
-		
+
 		return null;
 	}
 
 	//
+	public ListNode detectCycle(ListNode head) {
+		ListNode fast = head;
+		ListNode slow = head;
+
+		while (fast != null && fast.next != null) {
+			fast = fast.next.next;
+			slow = slow.next;
+
+			if (fast == slow) {
+				ListNode slow2 = head;
+
+				while (slow2 != slow) {
+					slow2 = slow2.next;
+					slow = slow.next;
+				}
+
+				return slow2;
+			}
+		}
+
+		return null;
+	}
+
+	// 143. Reorder List
+	// Company: Facebook Microsoft Amazon Hulu Bloomberg
+	// Description: Given a singly linked list L: L0→L1→…→Ln-1→Ln, reorder it to:
+	// L0→Ln→L1→Ln-1→L2→Ln-2→…
+	// May Not modify the values in the list's nodes, only nodes itselft may be
+	// changed.
+	// Solution:
+	public void reorderList(ListNode head) {
+		// split the lists from the middle into two parts.
+		if (head == null || head.next == null) {
+			return;
+		}
+
+		ListNode slow = head;
+		ListNode fast = head;
+		ListNode pre = null;
+
+		while (fast != null && fast.next != null) {
+			pre = slow;
+			slow = slow.next;
+			fast = fast.next.next; // runner
+		}
+
+		pre.next = null; // cut in the middle.
+		slow = reverse(slow);
+
+		ListNode cur = head;
+
+		while (cur.next != null) {
+			ListNode next = cur.next;
+			cur.next = slow;
+			slow = slow.next;
+			cur.next.next = next;
+			cur = next;
+		}
+
+		cur.next = slow; // 1 -> 2 && 5 -> 4 -> 3 - > null;
+	}
+
+	// reverse
+	private ListNode reverse(ListNode head) {
+		ListNode pre = null;
+		ListNode cur = head;
+
+		while (cur != null) {
+			ListNode next = cur.next;
+			cur.next = pre;
+			pre = cur;
+			cur = next;
+		}
+
+		return pre;
+	}
+
+	// 234. Palindrome Linked List
+	// Company: Microsoft Bloomberg Twitter IXL Amazon Facebook Alibaba Adobe
+	// NetEase
+	// Description: Given a singly linked list, determine if it is a palindrome
+	// Follow up: Could you do it in O(n) time and O(1) space?
+	// Solution: Find the middle element, cut in the middle, and then reverse the second part.
+	// compare the first & second part node value.
+	public boolean isPalindrome(ListNode head) {
+		if (head == null || head.next == null) {
+			return true;
+		}
+		
+		ListNode pre = null;
+		ListNode slow = head;
+		ListNode fast = head;
+		
+		while (fast != null && fast.next != null) {
+			pre = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		
+		pre.next = null; // 1->2->null 3->2->1(3->4);  
+		slow = reverse(slow);
+		ListNode cur = head;
+		
+		while (cur != null) {
+			if (cur.val == slow.val) {
+				cur = cur.next;
+				slow = slow.next;
+			} else {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	// 146. LRU Cache
 	// Company:
 	// Description:
 	// Solution:
-	
-	//
-	// Company:
-	// Description:
-	// Solution:
-	
-	//
-	// Company:
-	// Description:
-	// Solution:
-	
+
 	//
 	// Company:
 	// Description:
