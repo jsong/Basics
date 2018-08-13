@@ -1,5 +1,6 @@
 package com.leetcode.linkedlist;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 class ListNode {
@@ -597,27 +598,28 @@ public class Solution {
 	// NetEase
 	// Description: Given a singly linked list, determine if it is a palindrome
 	// Follow up: Could you do it in O(n) time and O(1) space?
-	// Solution: Find the middle element, cut in the middle, and then reverse the second part.
+	// Solution: Find the middle element, cut in the middle, and then reverse the
+	// second part.
 	// compare the first & second part node value.
 	public boolean isPalindrome(ListNode head) {
 		if (head == null || head.next == null) {
 			return true;
 		}
-		
+
 		ListNode pre = null;
 		ListNode slow = head;
 		ListNode fast = head;
-		
+
 		while (fast != null && fast.next != null) {
 			pre = slow;
 			slow = slow.next;
 			fast = fast.next.next;
 		}
-		
-		pre.next = null; // 1->2->null 3->2->1(3->4);  
+
+		pre.next = null; // 1->2->null 3->2->1(3->4);
 		slow = reverse(slow);
 		ListNode cur = head;
-		
+
 		while (cur != null) {
 			if (cur.val == slow.val) {
 				cur = cur.next;
@@ -626,15 +628,89 @@ public class Solution {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
 	// 146. LRU Cache
-	// Company:
-	// Description:
-	// Solution:
+	// Company: Amazon Apple Facebook Google Microsoft Uber Bloomberg Two Sigma eBay
+	// Baidu Alibaba Palantir Lyft Affirm Intuit Yelp Wish Dropbox Hulu Adobe
+	// Citadel Snapchat LinkedIn Twitter Yahoo
+	// Description: Design and implement a data structure for Least Recently Used
+	// (LRU) cache. It should support the following operations: get and put.
+	// get(key) - Get the value (will always be positive) of the key if the key
+	// exists in the cache, otherwise return -1. put(key, value) - Set or insert the
+	// value if the key is not already present. When the cache reached its capacity,
+	// it should invalidate the least recently used item before inserting a new
+	// item. Could you do both operations in O(1) time complexity?
+	// Solution: 1. Use HashMap for get O(1) access, use double linked list for O(1) remove and update. 
+	// Idea is tail node is most used, head node is LRU node, so if reaches capacity, we need to remove from the head;
+	// Meanwhile any updated node will be moved to tail.
 
+	class LRUCache {
+		class Node {
+			int key;
+			int value;
+			Node prev;
+			Node next;
+			public Node(int key, int value) {
+				this.key = key;
+				this.value = value;
+				prev = null;
+				next = null;
+			}
+		}
+		
+		int capacity;
+		Node tail;
+		Node head;
+		HashMap<Integer, Node> map;
+		public LRUCache(int capacity) {
+			this.capacity = capacity;
+			this.map = new HashMap<>();
+			this.head = new Node(-1, -1);
+			this.tail = new Node(-1, -1);
+			this.head.next = this.tail;
+			this.tail.prev = this.head;
+		}
+
+		public int get(int key) {
+			Node cur = this.map.get(key);
+			if (cur == null) {
+				return -1;
+			}
+			// move cur to tail.
+			cur.prev.next = cur.next;
+			cur.next.prev = cur.prev;
+			move_to_tail(cur);
+			
+			return cur.value;
+		}
+
+		public void put(int key, int value) {
+			if (get(key) != -1) {
+				this.map.get(key).value = value; // update the value as well.
+				return;
+			}
+			
+			if (this.map.size() == this.capacity) { //remove head.
+				this.map.remove(this.head.next.key);
+				this.head.next = this.head.next.next;
+				this.head.next.prev = this.head;
+			}
+			
+			Node node = new Node(key, value);
+			map.put(key, node);
+			move_to_tail(node);
+		}
+		
+		private void move_to_tail(Node node) {
+			tail.prev.next = node;
+			node.prev = tail.prev;
+			node.next = tail;
+			tail.prev = node;
+		}
+	}
 	//
 	// Company:
 	// Description:
