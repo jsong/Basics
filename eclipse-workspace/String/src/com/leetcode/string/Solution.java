@@ -9,6 +9,8 @@ public class Solution {
 		// 012345678901234567890123456789
 		boolean pa = sl.isPalindrome(p);
 		System.out.println("pa:" + pa);
+		String common = "0123";
+		System.out.println(common.substring(0, 2));
 	}
 
 	// 125. Valid Palindrome
@@ -51,24 +53,22 @@ public class Solution {
 	// Description: Write a function to find the longest common prefix string
 	// amongst an array of strings. If there is no common prefix, return an empty string "".
 	// Input: ["flower","flow","flight"] Output: "fl"
-	// Solution: 1. Find the shortest string, iterate the string to check whether other strings also contains the 'prefix'. 
+	// Solution: Compare each character position by position with first string, until reaches other strings length or not equal 
+	// to each other.
 	public String longestCommonPrefix(String[] strs) {
-		int s_Index = -1; // shortest index;
-		int s_length = Integer.MAX_VALUE;
-		for (int i = 0; i < strs.length; i++) {
-			if (strs[i].length() < s_length) {
-				s_length = strs[i].length();
-				s_Index = i;
+		if (strs.length == 0) {
+			return "";
+		}
+		
+		for (int j = 0; j < strs[0].length(); j++) {
+			for (int i = 1; i < strs.length; i++) {
+				if (j == strs[i].length() || strs[i].charAt(j) != strs[0].charAt(j)) {
+					return strs[0].substring(0, j); // j is not included.
+				}
 			}
 		}
 		
-		String s_string = strs[s_Index];
-		
-		for (int i = 0; i < s_string.length(); i++) {
-			
-		}
-		
-		
+		return strs[0];
 	}
 	
 	// 14. Longest Common Prefix
