@@ -81,8 +81,8 @@ public class Solution {
 	// "0" => true " 0.1 " => true "abc" => false "1 a" => false "2e10" => true
 	// Note: It is intended for the problem statement to be ambiguous. You should
 	// gather all requirements up front before implementing one.
-	// Solution: 1. check number, '.', 'e', '+/-', excludes all the illegal cases. 2. Use infinite automata.
-	
+	// Solution: 1. check number, '.', 'e', '+/-', excludes all the illegal cases.
+	// 2. Use infinite automata.
 	public boolean isNumber(String s) {
 		s = s.trim();
 		boolean numberSeen = false;
@@ -116,7 +116,40 @@ public class Solution {
 		return numberSeen;
 	}
 
-	// 14. Longest Common Prefix
+	// 12. Integer to Roman
+	// Company: Amazon LinkedIn Microsoft Adobe Alibaba Facebook Google Bloomberg
+	// Intuit Airbnb
+	// Description: I:1 V:5 X:10 L:50 C:100 D:500 M:1000, subtraction: I can be
+	// placed before V (5) and X (10) to make 4 and 9. X can be placed before L (50)
+	// and C (100) to make 40 and 90. C can be placed before D (500) and M (1000) to
+	// make 400 and 900.
+	// Solution: Use mapping table for every Roman number, / get the count and % get the next number.
+	public String intToRoman(int num) {
+		int[] radix = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+		String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; num != 0; i++) {
+			int count = num / radix[i];
+			num %= radix[i];
+			for (; count > 0; count--) {
+				sb.append(symbols[i]);
+			}
+		}
+		
+		return sb.toString();
+	}
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
 	// Company:
 	// Description:
 	// Solution:
