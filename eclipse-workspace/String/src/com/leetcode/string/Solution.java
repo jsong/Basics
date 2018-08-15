@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 public class Solution {
 
@@ -20,6 +21,10 @@ public class Solution {
 		System.out.println(common.substring(0, 2));
 		String num = "1.0e5";
 		boolean isNum = sl.isNumber(num);
+		
+		String path = "/.";
+		String simpfy = sl.simplifyPath(path);
+		System.out.println("Simpfy:" + simpfy);
 	}
 
 	// 125. Valid Palindrome
@@ -228,56 +233,95 @@ public class Solution {
 	}
 
 	// 242. Valid Anagram
-	// Company: Bloomberg Google Microsoft Amazon Apple Goldman Sachs Facebook Snapchat
+	// Company: Bloomberg Google Microsoft Amazon Apple Goldman Sachs Facebook
+	// Snapchat
 	// Description: Given two strings s and t , write a function to determine if t
 	// is an anagram of s.
-	// eg, Input: s = "anagram", t = "nagaram" => true, Input: s = "rat", t = "car" => false;
+	// eg, Input: s = "anagram", t = "nagaram" => true, Input: s = "rat", t = "car"
+	// => false;
 	// Solution: 1. Use O(1) memory 2. Use sort and compare side by side.
 	public boolean isAnagram(String s, String t) {
 		if (s.length() != t.length()) {
 			return false;
 		}
-		
+
 		int[] alpha = new int[26];
-		
+
 		for (int i = 0; i < s.length(); i++) {
 			++alpha[s.charAt(i) - 'a'];
 			--alpha[t.charAt(i) - 'a'];
 		}
-		
+
 		for (int i = 0; i < alpha.length; i++) {
 			if (alpha[i] != 0) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	public boolean isAnagram2(String s, String t) {
 		char[] s_char = s.toCharArray();
 		char[] t_char = t.toCharArray();
-		
+
 		Arrays.sort(s_char);
 		Arrays.sort(t_char);
-		
+
 		if (s_char.length != t_char.length) {
 			return false;
 		}
-		
+
 		for (int i = 0; i < s_char.length; i++) {
 			if (s_char[i] != t_char[i]) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
+	// 71. Simplify Path
+	// Company: Microsoft Amazon Facebook
+	// Description: Given an absolute path for a file (Unix-style), simplify it. eg. /home/ => /home
+	// "/a/./b/../../c/" => /c, "/../" => "/", "/home//foo/" => "/home/foo"
 	// Solution:
+	public String simplifyPath(String path) {
+		Stack<String> stack = new Stack<>();
+		
+		for (int i = 0; i < path.length();) {
+			i++;
+			int j = path.indexOf('/', i);
+			if (j < 0) {
+				j = path.length();
+			}
+			
+			String dir = path.substring(i, j);
+			
+			if (!dir.isEmpty() && !dir.equals(".")) { // multiple '///' will cause dir equals empty, '.' means current path, which we should skip.
+				if (dir.equals("..")) {
+					if (!stack.isEmpty()) {
+						stack.pop();
+					}
+				} else {
+					stack.push(dir);
+				}
+			}
+			
+			i = j;
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		if (stack.isEmpty()) {
+			sb.append("/");
+		} else {
+			for (String s: stack) {
+				sb.append("/").append(s);
+			}
+		}
+		
+		return sb.toString();
+	}
 
 	// 242. Valid Anagram
 	// Company:
