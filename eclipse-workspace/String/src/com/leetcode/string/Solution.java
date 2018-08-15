@@ -21,10 +21,13 @@ public class Solution {
 		System.out.println(common.substring(0, 2));
 		String num = "1.0e5";
 		boolean isNum = sl.isNumber(num);
-		
+
 		String path = "/.";
 		String simpfy = sl.simplifyPath(path);
 		System.out.println("Simpfy:" + simpfy);
+
+		String lastWord = "        ";
+		sl.lengthOfLastWord(lastWord);
 	}
 
 	// 125. Valid Palindrome
@@ -283,22 +286,25 @@ public class Solution {
 
 	// 71. Simplify Path
 	// Company: Microsoft Amazon Facebook
-	// Description: Given an absolute path for a file (Unix-style), simplify it. eg. /home/ => /home
+	// Description: Given an absolute path for a file (Unix-style), simplify it. eg.
+	// /home/ => /home
 	// "/a/./b/../../c/" => /c, "/../" => "/", "/home//foo/" => "/home/foo"
-	// Solution:
+	// Solution: Use stack, find the next '/', if multiple '/' or '.' we should skip
+	// them. ".." we need to pop the stack.
 	public String simplifyPath(String path) {
 		Stack<String> stack = new Stack<>();
-		
+
 		for (int i = 0; i < path.length();) {
 			i++;
 			int j = path.indexOf('/', i);
 			if (j < 0) {
 				j = path.length();
 			}
-			
+
 			String dir = path.substring(i, j);
-			
-			if (!dir.isEmpty() && !dir.equals(".")) { // multiple '///' will cause dir equals empty, '.' means current path, which we should skip.
+
+			if (!dir.isEmpty() && !dir.equals(".")) { // multiple '///' will cause dir equals empty, '.' means current
+														// path, which we should skip.
 				if (dir.equals("..")) {
 					if (!stack.isEmpty()) {
 						stack.pop();
@@ -307,26 +313,57 @@ public class Solution {
 					stack.push(dir);
 				}
 			}
-			
+
 			i = j;
 		}
-		
+
 		StringBuffer sb = new StringBuffer();
 		if (stack.isEmpty()) {
 			sb.append("/");
 		} else {
-			for (String s: stack) {
+			for (String s : stack) {
 				sb.append("/").append(s);
 			}
 		}
-		
+
 		return sb.toString();
 	}
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
-	// Solution:
+	// 58. Length of Last Word
+	// Company: Alibaba
+	// Description: Given a string s consists of upper/lower-case alphabets and
+	// empty space characters ' ', return the length of last word in the string.
+	// If the last word does not exist, return 0;
+	// eg. "Hello World", return 5;
+	// Solution: 1. Continues length++ until reach first non-alpha character. 2. Use
+	// split to find the last word, but multiple "space" will return empty.
+	public int lengthOfLastWord2(String s) {
+		if (s.length() == 0) {
+			return 0;
+		}
+
+		String[] arr = s.split(" ");
+		if (arr.length == 0) { // "multiple spaces"
+			return 0;
+		}
+
+		return arr[arr.length - 1].trim().length() != 0 ? arr[arr.length - 1].trim().length() : 0;
+	}
+
+	public int lengthOfLastWord(String s) {
+		int length = 0;
+		char[] c_arr = s.trim().toCharArray();
+		for (int i = c_arr.length - 1; i >= 0; i--) {
+			char c = c_arr[i];
+			if (c != ' ') {
+				length++;
+			} else {
+				return length; // start from alpha and find the first non alpha,
+			}
+		}
+
+		return length;
+	}
 
 	// 242. Valid Anagram
 	// Company:
