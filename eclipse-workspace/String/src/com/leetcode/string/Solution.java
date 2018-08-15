@@ -200,7 +200,8 @@ public class Solution {
 	// ["nat","tan"],
 	// ["bat"]
 	// ]
-	// Solution: Sort the input string, use adjacent list to store the other anagrams.
+	// Solution: Sort the input string, use adjacent list to store the other
+	// anagrams.
 	public List<List<String>> groupAnagrams(String[] strs) {
 		HashMap<String, ArrayList<String>> map = new HashMap<>();
 
@@ -226,7 +227,74 @@ public class Solution {
 		return result;
 	}
 
-	//
+	// 242. Valid Anagram
+	// Company: Bloomberg Google Microsoft Amazon Apple Goldman Sachs Facebook Snapchat
+	// Description: Given two strings s and t , write a function to determine if t
+	// is an anagram of s.
+	// eg, Input: s = "anagram", t = "nagaram" => true, Input: s = "rat", t = "car" => false;
+	// Solution: 1. Use O(1) memory 2. Use sort and compare side by side.
+	public boolean isAnagram(String s, String t) {
+		if (s.length() != t.length()) {
+			return false;
+		}
+		
+		int[] alpha = new int[26];
+		
+		for (int i = 0; i < s.length(); i++) {
+			++alpha[s.charAt(i) - 'a'];
+			--alpha[t.charAt(i) - 'a'];
+		}
+		
+		for (int i = 0; i < alpha.length; i++) {
+			if (alpha[i] != 0) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean isAnagram2(String s, String t) {
+		char[] s_char = s.toCharArray();
+		char[] t_char = t.toCharArray();
+		
+		Arrays.sort(s_char);
+		Arrays.sort(t_char);
+		
+		if (s_char.length != t_char.length) {
+			return false;
+		}
+		
+		for (int i = 0; i < s_char.length; i++) {
+			if (s_char[i] != t_char[i]) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
 	// Company:
 	// Description:
 	// Solution:
