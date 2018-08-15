@@ -123,10 +123,11 @@ public class Solution {
 	// placed before V (5) and X (10) to make 4 and 9. X can be placed before L (50)
 	// and C (100) to make 40 and 90. C can be placed before D (500) and M (1000) to
 	// make 400 and 900.
-	// Solution: Use mapping table for every Roman number, / get the count and % get the next number.
+	// Solution: Use mapping table for every Roman number, / get the count and % get
+	// the next number.
 	public String intToRoman(int num) {
-		int[] radix = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-		String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+		int[] radix = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+		String[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; num != 0; i++) {
 			int count = num / radix[i];
@@ -135,15 +136,49 @@ public class Solution {
 				sb.append(symbols[i]);
 			}
 		}
-		
+
 		return sb.toString();
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 38. Count and Say
+	// Company: Google Facebook Intuit Microsoft Amazon Adobe Apple eBay Airbnb
+	// Description: The count-and-say sequence is the sequence of integers beginning
+	// as follows:
+	// 1, 11, 21, 1211, 111221, ...
+	// 1 is read off as "one 1" or 11.
+	// 11 is read off as "two 1s" or 21.
+	// 21 is read off as "one 2", then "one 1" or 1211.
+	// Given an integer n, generate the nth sequence.
+	// Solution: Use count to count how many times, and char to form the current string.
+	public String countAndSay(int n) {
+		if (n <= 0) {
+			return "";
+		}
 
+		String base = "1";
+
+		while (--n > 0) {
+			StringBuffer sb = new StringBuffer();
+			int count = 1;
+
+			for (int j = 1; j < base.length(); j++) {
+
+				if (base.charAt(j) == base.charAt(j - 1)) {
+					count++;
+				} else {
+					sb.append(count);
+					sb.append(base.charAt(j - 1));
+					count = 1;
+				}
+			}
+
+			sb.append(count);
+			sb.append(base.charAt(base.length() - 1));
+			base = sb.toString();
+		}
+
+		return base;
+	}
 	//
 	// Company:
 	// Description:
