@@ -1,5 +1,12 @@
 package com.leetcode.string;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 public class Solution {
 
 	public static void main(String[] args) {
@@ -149,7 +156,8 @@ public class Solution {
 	// 11 is read off as "two 1s" or 21.
 	// 21 is read off as "one 2", then "one 1" or 1211.
 	// Given an integer n, generate the nth sequence.
-	// Solution: Use count to count how many times, and char to form the current string.
+	// Solution: Use count to count how many times, and char to form the current
+	// string.
 	public String countAndSay(int n) {
 		if (n <= 0) {
 			return "";
@@ -179,10 +187,44 @@ public class Solution {
 
 		return base;
 	}
-	//
-	// Company:
-	// Description:
-	// Solution:
+
+	// 49. Group Anagrams
+	// Company: Amazon Microsoft Google Uber Yelp Goldman Sachs Facebook Apple
+	// Alibaba
+	// Adobe Yahoo Airbnb Twitter Bloomberg Pinterest
+	// Description: Given an array of strings, group anagrams together.
+	// Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+	// Output:
+	// [
+	// ["ate","eat","tea"],
+	// ["nat","tan"],
+	// ["bat"]
+	// ]
+	// Solution: Sort the input string, use adjacent list to store the other anagrams.
+	public List<List<String>> groupAnagrams(String[] strs) {
+		HashMap<String, ArrayList<String>> map = new HashMap<>();
+
+		for (String str : strs) {
+			char[] tmp = str.toCharArray();
+			Arrays.sort(tmp);
+
+			String key = new String(tmp);
+
+			if (!map.containsKey(key)) {
+				map.put(key, new ArrayList<>());
+			}
+			map.get(key).add(str);
+		}
+
+		List<List<String>> result = new ArrayList<>();
+
+		for (Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
+			List<String> value = entry.getValue();
+			result.add(value);
+		}
+
+		return result;
+	}
 
 	//
 	// Company:
