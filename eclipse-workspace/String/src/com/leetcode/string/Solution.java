@@ -365,10 +365,14 @@ public class Solution {
 		return length;
 	}
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
+	// 205. Isomorphic Strings
+	// Company: Google LinkedIn Bloomberg Yahoo Yelp
+	// Description: Given two strings s and t, determine if they are isomorphic. Two
+	// strings are isomorphic if the characters in s can be replaced to get t.
 	// Solution:
+	public boolean isIsomorphic(String s, String t) {
+
+	}
 
 	// 242. Valid Anagram
 	// Company:
