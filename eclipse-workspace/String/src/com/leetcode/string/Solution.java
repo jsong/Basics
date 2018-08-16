@@ -369,9 +369,37 @@ public class Solution {
 	// Company: Google LinkedIn Bloomberg Yahoo Yelp
 	// Description: Given two strings s and t, determine if they are isomorphic. Two
 	// strings are isomorphic if the characters in s can be replaced to get t.
-	// Solution:
+	// Input could have numeric like "13" "42".
+	// Solution: Use HashMap mapping s char to t char and vice versa.
 	public boolean isIsomorphic(String s, String t) {
+//		int[] s_char = new int[256];
+//		int[] t_char = new int[256];
 
+		HashMap<Character, Character> s_char = new HashMap<>();
+		HashMap<Character, Character> t_char = new HashMap<>();
+		// s and t have the same length;
+		for (int i = 0; i < s.length(); i++) {
+			char sc = s.charAt(i);
+			char tc = t.charAt(i);
+
+			if (!s_char.containsKey(sc)) {
+				s_char.put(sc, tc);
+			} else {
+				if (s_char.get(sc) != tc) {
+					return false;
+				}
+			}
+			
+			if (!t_char.containsKey(tc)) {
+				t_char.put(tc, sc);
+			} else {
+				if (t_char.get(tc) != sc) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 	// 242. Valid Anagram
