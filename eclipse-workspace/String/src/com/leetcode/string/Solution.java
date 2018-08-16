@@ -372,8 +372,8 @@ public class Solution {
 	// Input could have numeric like "13" "42".
 	// Solution: Use HashMap mapping s char to t char and vice versa.
 	public boolean isIsomorphic(String s, String t) {
-//		int[] s_char = new int[256];
-//		int[] t_char = new int[256];
+		// int[] s_char = new int[256];
+		// int[] t_char = new int[256];
 
 		HashMap<Character, Character> s_char = new HashMap<>();
 		HashMap<Character, Character> t_char = new HashMap<>();
@@ -389,7 +389,7 @@ public class Solution {
 					return false;
 				}
 			}
-			
+
 			if (!t_char.containsKey(tc)) {
 				t_char.put(tc, sc);
 			} else {
@@ -398,14 +398,47 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
-	// Solution:
+	// 290. Word Pattern
+	// Company: Dropbox
+	// Description: Given a pattern and a string str, find if str follows the same
+	// pattern. Here follow means a full match, such that there is a bijection
+	// between a letter in pattern and a non-empty word in str.
+	// Solution: Use two hashmap to mapping the character to string and vice versa. Same as 205.
+	public boolean wordPattern(String pattern, String str) {
+		String[] words = str.split(" "); // use space to seperate.
+		if (pattern.length() != words.length) {
+			return false;
+		}
+		
+		HashMap<Character, String> p_s = new HashMap<>();
+		HashMap<String, Character> s_p = new HashMap<>();
+		for (int i = 0; i < pattern.length(); i++) {
+			char p = pattern.charAt(i);
+			String s = words[i];
+			
+			if (!p_s.containsKey(p)) {
+				p_s.put(p, s);
+			} else {
+				if (!p_s.get(p).equals(s)) {
+					return false;
+				}
+			}
+			
+			if (!s_p.containsKey(s)) {
+				s_p.put(s, p);
+			} else {
+				if (s_p.get(s) != p) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 
 	// 242. Valid Anagram
 	// Company:
