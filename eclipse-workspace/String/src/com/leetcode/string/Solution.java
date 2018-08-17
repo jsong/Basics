@@ -28,7 +28,61 @@ public class Solution {
 
 		String lastWord = "        ";
 		sl.lengthOfLastWord(lastWord);
+		String source = "mississippi";
+		String target = "issip";
+		int idx = sl.strStr(source, target);
+		//"mississippi"
+//		"issip"
 	}
+
+	// 28. Implement strStr()
+	// Company: Facebook Amazon Microsoft Google Tencent Alibaba
+	// Description: Implement strStr(). Return the index of the first occurrence of
+	// needle in haystack, or -1 if needle is not part of haystack.
+	// Solution:
+	public int strStr(String source, String target) {
+		// return 0 if target is empty.
+		if (target.isEmpty()) {
+			return 0;
+		}
+		// assume source is equal or greater than target.
+		int j = 0;
+		for (int i = 0; i< source.length(); i++) {
+			char s = source.charAt(i);
+			char t = target.charAt(j);
+			if (s == t) {
+				j++;
+				if (j == target.length()) {
+					return i - j + 1;
+				}
+			} else {
+				i = i - 1;
+				j = 0;
+			}
+		}
+		
+		return -1;
+	}
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
+
+	// 242. Valid Anagram
+	// Company:
+	// Description:
+	// Solution:
 
 	// 125. Valid Palindrome
 	// Company: Facebook Apple Amazon Google Microsoft Adobe Snapchat
@@ -407,19 +461,20 @@ public class Solution {
 	// Description: Given a pattern and a string str, find if str follows the same
 	// pattern. Here follow means a full match, such that there is a bijection
 	// between a letter in pattern and a non-empty word in str.
-	// Solution: Use two hashmap to mapping the character to string and vice versa. Same as 205.
+	// Solution: Use two hashmap to mapping the character to string and vice versa.
+	// Same as 205.
 	public boolean wordPattern(String pattern, String str) {
 		String[] words = str.split(" "); // use space to seperate.
 		if (pattern.length() != words.length) {
 			return false;
 		}
-		
+
 		HashMap<Character, String> p_s = new HashMap<>();
 		HashMap<String, Character> s_p = new HashMap<>();
 		for (int i = 0; i < pattern.length(); i++) {
 			char p = pattern.charAt(i);
 			String s = words[i];
-			
+
 			if (!p_s.containsKey(p)) {
 				p_s.put(p, s);
 			} else {
@@ -427,7 +482,7 @@ public class Solution {
 					return false;
 				}
 			}
-			
+
 			if (!s_p.containsKey(s)) {
 				s_p.put(s, p);
 			} else {
@@ -436,7 +491,7 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
