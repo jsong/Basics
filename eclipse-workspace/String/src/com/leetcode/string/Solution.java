@@ -39,30 +39,31 @@ public class Solution {
 	// Company: Facebook Amazon Microsoft Google Tencent Alibaba
 	// Description: Implement strStr(). Return the index of the first occurrence of
 	// needle in haystack, or -1 if needle is not part of haystack.
-	// Solution:
+	// Solution: O(m * n) complexity, iterate the source string, at each i, starting j, 
+	// starting k, increasing the j and k, until the k is equal to target's length;
 	public int strStr(String source, String target) {
 		// return 0 if target is empty.
-		if (target.isEmpty()) {
-			return 0;
-		}
-		// assume source is equal or greater than target.
-		int j = 0;
-		for (int i = 0; i< source.length(); i++) {
-			char s = source.charAt(i);
-			char t = target.charAt(j);
-			if (s == t) {
-				j++;
-				if (j == target.length()) {
-					return i - j + 1;
-				}
-			} else {
-				i = i - 1;
-				j = 0;
-			}
-		}
-		
-		return -1;
-	}
+		if (target.length() == 0) {
+            return 0;
+        }
+        
+        int n = source.length() - target.length() + 1;
+        
+        for (int i = 0; i < n; i++) {
+            int j = i; 
+            int k = 0;
+            
+            while (source.charAt(j) == target.charAt(k)) {
+                j++;
+                k++;
+                if (k == target.length()) {
+                    return i;
+                }
+            }
+        }
+        
+        return -1;
+    }
 
 	// 242. Valid Anagram
 	// Company:
