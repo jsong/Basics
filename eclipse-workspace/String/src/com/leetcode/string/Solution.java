@@ -65,9 +65,9 @@ public class Solution {
         return -1;
     }
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
+	// 8. String to Integer (atoi)
+	// Company: Microsoft Apple Amazon Adobe Facebook LinkedIn Google Goldman Sachs Bloomberg
+	// Description: Implement atoi which converts a string to an integer.
 	// Solution:
 
 	// 242. Valid Anagram
