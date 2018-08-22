@@ -33,6 +33,8 @@ public class Solution {
 		int idx = sl.strStr(source, target);
 		//"mississippi"
 //		"issip"
+		String intValue = "+1";
+		int value = sl.myAtoi(intValue);
 	}
 
 	// 28. Implement strStr()
@@ -66,9 +68,48 @@ public class Solution {
     }
 
 	// 8. String to Integer (atoi)
-	// Company: Microsoft Apple Amazon Adobe Facebook LinkedIn Google Goldman Sachs Bloomberg
+	// Company: Microsoft Apple Amazon Adobe Facebook LinkedIn Google Goldman Sachs Bloomberg Alibaba Yahoo Airbnb Baidu
 	// Description: Implement atoi which converts a string to an integer.
-	// Solution:
+	// Solution: Handle 1. space. 2. sign +/- 3. non number. 4. exceeding boundary. 5. normal case. 
+    public int myAtoi(String str) {
+    	int num = 0; // value
+    	int sign = 1; // +-
+    	int i = 0; // indicator
+    	
+    	str = str.trim();
+    	int length = str.length();
+    	// 1. empty space.
+    	while (i < length && str.charAt(i) == ' ') {
+    		i++;
+    	}
+    	
+    	if (i == length) {
+    		return num;
+    	}
+    	
+    	// 2. sign
+    	if (str.charAt(i) == '-' || str.charAt(i) == '+') {
+    		sign = (str.charAt(i) == '-' ? -1: 1);
+    		i++;
+    	}
+		
+    	while (i < length) {
+    		char c = str.charAt(i);
+    		if (c > '9' || c < '0') { // 3. not num 
+    			break;
+    		}
+    		
+    		// 4. overflow case.
+    		if (num > Integer.MAX_VALUE / 10 || (num == Integer.MAX_VALUE / 10 && (c - '0') > Integer.MAX_VALUE % 10)) {
+    			return sign == 1 ? Integer.MAX_VALUE: Integer.MIN_VALUE;
+    		}
+    		
+    		num = 10 * num + (c - '0');
+    		i++;
+    	}
+    	
+    	return num * sign;
+    }
 
 	// 242. Valid Anagram
 	// Company:
