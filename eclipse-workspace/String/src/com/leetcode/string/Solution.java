@@ -119,29 +119,34 @@ public class Solution {
 	// Description: Given two binary strings, return their sum (also a binary
 	// string). The input strings are both non-empty and contains only characters 1
 	// or 0.
-	// Solution: 
+	// Solution: while loop until i < 0 && j < 0 && carry == 0, sum a + b + carry
+	// up.
+	// insert them backward, using string buffer.
 	public String addBinary(String a, String b) {
-		int carry = 0; 
+		int carry = 0;
 		int i = a.length() - 1;
 		int j = b.length() - 1;
 		StringBuilder sb = new StringBuilder();
-		
+
 		while (i >= 0 || j >= 0 || carry > 0) {
-			int A = (i < 0 ? 0: a.charAt(i--) - '0');
-			int B = (j < 0 ? 0: b.charAt(j--) - '0');
+			int A = (i < 0 ? 0 : a.charAt(i--) - '0');
+			int B = (j < 0 ? 0 : b.charAt(j--) - '0');
 			int sum = A + B + carry;
-			sb.insert(0, Character.forDigit(sum % 2, 10));
+			sb.insert(0, Character.forDigit(sum % 2, 10)); // 1 . 0 . 0
 			carry = sum / 2;
 		}
-		
+
 		return sb.toString();
 	}
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
+	// 5. Longest Palindromic Substring
+	// Company: Amazon Adobe Microsoft Google Tencent Alibaba Baidu Uber Facebook Twitter Yelp Bloomberg Expedia eBay Yahoo Zenefits Goo 'Pure Storage' Apple Lyft 'Works Application'.
+	// Description: Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+	// Input: eg. "cbbd" Output: "bb"; Input: "babad" Output: "bab" Note: "aba" is also a valid answer.
 	// Solution:
-
+	public String longestPalindrome(String s) {
+        
+    }
 	// 242. Valid Anagram
 	// Company:
 	// Description:
@@ -558,8 +563,8 @@ public class Solution {
 		return true;
 	}
 
-	// 242. Valid Anagram
-	// Company:
+	// 516. Longest Palindromic Subsequence
+	// Company: 
 	// Description:
 	// Solution:
 }
