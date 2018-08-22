@@ -31,8 +31,8 @@ public class Solution {
 		String source = "mississippi";
 		String target = "issip";
 		int idx = sl.strStr(source, target);
-		//"mississippi"
-//		"issip"
+		// "mississippi"
+		// "issip"
 		String intValue = "+1";
 		int value = sl.myAtoi(intValue);
 	}
@@ -41,80 +41,101 @@ public class Solution {
 	// Company: Facebook Amazon Microsoft Google Tencent Alibaba
 	// Description: Implement strStr(). Return the index of the first occurrence of
 	// needle in haystack, or -1 if needle is not part of haystack.
-	// Solution: O(m * n) complexity, iterate the source string, at each i, starting j, 
+	// Solution: O(m * n) complexity, iterate the source string, at each i, starting
+	// j,
 	// starting k, increasing the j and k, until the k is equal to target's length;
 	public int strStr(String source, String target) {
 		// return 0 if target is empty.
 		if (target.length() == 0) {
-            return 0;
-        }
-        
-        int n = source.length() - target.length() + 1;
-        
-        for (int i = 0; i < n; i++) {
-            int j = i; 
-            int k = 0;
-            
-            while (source.charAt(j) == target.charAt(k)) {
-                j++;
-                k++;
-                if (k == target.length()) {
-                    return i;
-                }
-            }
-        }
-        
-        return -1;
-    }
+			return 0;
+		}
+
+		int n = source.length() - target.length() + 1;
+
+		for (int i = 0; i < n; i++) {
+			int j = i;
+			int k = 0;
+
+			while (source.charAt(j) == target.charAt(k)) {
+				j++;
+				k++;
+				if (k == target.length()) {
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
 
 	// 8. String to Integer (atoi)
-	// Company: Microsoft Apple Amazon Adobe Facebook LinkedIn Google Goldman Sachs Bloomberg Alibaba Yahoo Airbnb Baidu
+	// Company: Microsoft Apple Amazon Adobe Facebook LinkedIn Google Goldman Sachs
+	// Bloomberg Alibaba Yahoo Airbnb Baidu
 	// Description: Implement atoi which converts a string to an integer.
-	// Solution: Handle 1. space. 2. sign +/- 3. non number. 4. exceeding boundary. 5. normal case. 
-    public int myAtoi(String str) {
-    	int num = 0; // value
-    	int sign = 1; // +-
-    	int i = 0; // indicator
-    	
-    	str = str.trim();
-    	int length = str.length();
-    	// 1. empty space.
-    	while (i < length && str.charAt(i) == ' ') {
-    		i++;
-    	}
-    	
-    	if (i == length) {
-    		return num;
-    	}
-    	
-    	// 2. sign
-    	if (str.charAt(i) == '-' || str.charAt(i) == '+') {
-    		sign = (str.charAt(i) == '-' ? -1: 1);
-    		i++;
-    	}
-		
-    	while (i < length) {
-    		char c = str.charAt(i);
-    		if (c > '9' || c < '0') { // 3. not num 
-    			break;
-    		}
-    		
-    		// 4. overflow case.
-    		if (num > Integer.MAX_VALUE / 10 || (num == Integer.MAX_VALUE / 10 && (c - '0') > Integer.MAX_VALUE % 10)) {
-    			return sign == 1 ? Integer.MAX_VALUE: Integer.MIN_VALUE;
-    		}
-    		
-    		num = 10 * num + (c - '0');
-    		i++;
-    	}
-    	
-    	return num * sign;
-    }
+	// Solution: Handle 1. space. 2. sign +/- 3. non number. 4. exceeding boundary.
+	// 5. normal case.
+	public int myAtoi(String str) {
+		int num = 0; // value
+		int sign = 1; // +-
+		int i = 0; // indicator
 
-	// 242. Valid Anagram
-	// Company:
-	// Description:
-	// Solution:
+		str = str.trim();
+		int length = str.length();
+		// 1. empty space.
+		while (i < length && str.charAt(i) == ' ') {
+			i++;
+		}
+
+		if (i == length) {
+			return num;
+		}
+
+		// 2. sign
+		if (str.charAt(i) == '-' || str.charAt(i) == '+') {
+			sign = (str.charAt(i) == '-' ? -1 : 1);
+			i++;
+		}
+
+		while (i < length) {
+			char c = str.charAt(i);
+			if (c > '9' || c < '0') { // 3. not num
+				break;
+			}
+
+			// 4. overflow case.
+			if (num > Integer.MAX_VALUE / 10 || (num == Integer.MAX_VALUE / 10 && (c - '0') > Integer.MAX_VALUE % 10)) {
+				return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+			}
+
+			num = 10 * num + (c - '0');
+			i++;
+		}
+
+		return num * sign;
+	}
+
+	// 67. Add Binary
+	// Company: Facebook Alibaba Google Adobe Intuit
+	// Description: Given two binary strings, return their sum (also a binary
+	// string). The input strings are both non-empty and contains only characters 1
+	// or 0.
+	// Solution: 
+	public String addBinary(String a, String b) {
+		int carry = 0; 
+		int i = a.length() - 1;
+		int j = b.length() - 1;
+		StringBuilder sb = new StringBuilder();
+		
+		while (i >= 0 || j >= 0 || carry > 0) {
+			int A = (i < 0 ? 0: a.charAt(i--) - '0');
+			int B = (j < 0 ? 0: b.charAt(j--) - '0');
+			int sum = A + B + carry;
+			sb.insert(0, Character.forDigit(sum % 2, 10));
+			carry = sum / 2;
+		}
+		
+		return sb.toString();
+	}
 
 	// 242. Valid Anagram
 	// Company:
