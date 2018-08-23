@@ -145,7 +145,23 @@ public class Solution {
 	// Input: eg. "cbbd" Output: "bb"; Input: "babad" Output: "bab" Note: "aba" is also a valid answer.
 	// Solution:
 	public String longestPalindrome(String s) {
+        int start = 0;
+        int maxLength = 0;
+        int n = s.length();
+        boolean dp[][] = new boolean[n + 1][n + 1];
         
+        for (int i = n - 1; i >= 0; i--) {
+        	for (int j = i; j < n; j++) {
+        		dp[i][j] = (s.charAt(i) == s.charAt(j)) && (j - i < 3 || dp[i + 1][j - 1]);
+        		
+        		if (dp[i][j] && j - i + 1 > maxLength) {
+        			maxLength = j - i + 1;
+        			start = i;
+            	}
+        	}
+        }
+        
+        return s.substring(start, start + maxLength);
     }
 	// 242. Valid Anagram
 	// Company:
