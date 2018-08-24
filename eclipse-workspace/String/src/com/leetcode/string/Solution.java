@@ -140,29 +140,36 @@ public class Solution {
 	}
 
 	// 5. Longest Palindromic Substring
-	// Company: Amazon Adobe Microsoft Google Tencent Alibaba Baidu Uber Facebook Twitter Yelp Bloomberg Expedia eBay Yahoo Zenefits Goo 'Pure Storage' Apple Lyft 'Works Application'.
-	// Description: Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
-	// Input: eg. "cbbd" Output: "bb"; Input: "babad" Output: "bab" Note: "aba" is also a valid answer.
-	// Solution:
+	// Company: Amazon Adobe Microsoft Google Tencent Alibaba Baidu Uber Facebook
+	// Twitter Yelp Bloomberg Expedia eBay Yahoo Zenefits Goo 'Pure Storage' Apple
+	// Lyft 'Works Application'.
+	// Description: Given a string s, find the longest palindromic substring in s.
+	// You may assume that the maximum length of s is 1000.
+	// Input: eg. "cbbd" Output: "bb"; Input: "babad" Output: "bab" Note: "aba" is
+	// also a valid answer.
+	// Solution: Use DP, dp[i][j] stands for starting from i to j, the longest
+	// palindromic substring. if dp[i][j] is true, which means the char at i and j
+	// are equal and dp[i + 1][j - 1]
+	// must be true as well.
 	public String longestPalindrome(String s) {
-        int start = 0;
-        int maxLength = 0;
-        int n = s.length();
-        boolean dp[][] = new boolean[n + 1][n + 1];
-        
-        for (int i = n - 1; i >= 0; i--) {
-        	for (int j = i; j < n; j++) {
-        		dp[i][j] = (s.charAt(i) == s.charAt(j)) && (j - i < 3 || dp[i + 1][j - 1]);
-        		
-        		if (dp[i][j] && j - i + 1 > maxLength) {
-        			maxLength = j - i + 1;
-        			start = i;
-            	}
-        	}
-        }
-        
-        return s.substring(start, start + maxLength);
-    }
+		int start = 0;
+		int maxLength = 0;
+		int n = s.length();
+		boolean dp[][] = new boolean[n + 1][n + 1];
+
+		for (int i = n - 1; i >= 0; i--) {
+			for (int j = i; j < n; j++) {
+				dp[i][j] = (s.charAt(i) == s.charAt(j)) && (j - i < 3 || dp[i + 1][j - 1]);
+
+				if (dp[i][j] && j - i + 1 > maxLength) {
+					maxLength = j - i + 1;
+					start = i;
+				}
+			}
+		}
+
+		return s.substring(start, start + maxLength);
+	}
 	// 242. Valid Anagram
 	// Company:
 	// Description:
@@ -579,8 +586,24 @@ public class Solution {
 		return true;
 	}
 
+	// 10. Regular Expression Matching
+	// Company: Facebook Microsoft Google Bloomberg Apple # Uber Adobe Yelp Two Sigma Amazon Twitter
+	// Description: Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
+	// '.' Matches any single character. '*' Matches zero or more of the preceding element.
+	// Solution: 1. DP solution, 2. Use dfs + visited memo.
+	
+	public boolean isMatch(String s, String p) {
+	        
+	    
+	}
+
+	// 44. Wildcard Matching
+	// Company:
+	// Description:
+	// Solution:
+
 	// 516. Longest Palindromic Subsequence
-	// Company: 
+	// Company:
 	// Description:
 	// Solution:
 }
