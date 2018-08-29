@@ -35,6 +35,10 @@ public class Solution {
 		// "issip"
 		String intValue = "+1";
 		int value = sl.myAtoi(intValue);
+
+		String s = "abcde";
+		String t = "ab*df";
+		boolean match = sl.isMatchWildcard(s, t);
 	}
 
 	// 28. Implement strStr()
@@ -587,20 +591,52 @@ public class Solution {
 	}
 
 	// 10. Regular Expression Matching
-	// Company: Facebook Microsoft Google Bloomberg Apple # Uber Adobe Yelp Two Sigma Amazon Twitter
-	// Description: Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
-	// '.' Matches any single character. '*' Matches zero or more of the preceding element.
+	// Company: Facebook Microsoft Google Bloomberg Apple # Uber Adobe Yelp Two
+	// Sigma Amazon Twitter
+	// Description: Given an input string (s) and a pattern (p), implement regular
+	// expression matching with support for '.' and '*'.
+	// '.' Matches any single character. '*' Matches zero or more of the preceding
+	// element.
 	// Solution: 1. DP solution, 2. Use dfs + visited memo.
-	
+
 	public boolean isMatch(String s, String p) {
-	        
-	    
+
 	}
 
 	// 44. Wildcard Matching
-	// Company:
-	// Description:
-	// Solution:
+	// Company: Microsoft Facebook Adobe # Amazon Bloomberg Google Uber Coursera Two
+	// Sigma
+	// Description: "* can match any sequence of char and ? can match any char, except empty." Find out whether s matches p.
+	// Solution: 1. DFS solution without backtracking. 2. DFS solution with
+	// backtracking. 3. DP solution
+	public boolean isMatchWildcard(String s, String p) {
+		int m = s.length();
+		int n = p.length();
+		
+		boolean[][] dp = new boolean[m + 1][n + 1];
+		dp[0][0] = true;
+		
+		for (int j = 1; j < n + 1; j++) {
+			if (p.charAt(j - 1) == '*') {
+				dp[0][j] = dp[0][j - 1]; // * can act as empty.
+			}
+		}
+		
+		for (int i = 1; i < m + 1; i++) {
+			for (int j = 1; j < n + 1; j++) {
+				if (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '?') {
+					dp[i][j] = dp[i - 1][j - 1];
+				} else if (p.charAt(j - 1) == '*') {
+					dp[i][j] = dp[i - 1][j] || 	// "* act as any character"
+							   dp[i][j - 1]; 	// "* act as empty character"
+				} else {
+					dp[i][j] = false;
+				}
+			}
+		}
+		
+		return dp[m][n];
+	}
 
 	// 516. Longest Palindromic Subsequence
 	// Company:
