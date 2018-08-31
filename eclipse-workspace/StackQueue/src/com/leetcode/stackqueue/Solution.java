@@ -74,32 +74,82 @@ public class Solution {
 		if (s.length() == 0) {
 			return true;
 		}
-		
+
 		Stack<Character> stack = new Stack<>();
-		
-		for (char c: s.toCharArray()) {
+
+		for (char c : s.toCharArray()) {
 			if (c == '(' || c == '{' || c == '[') {
 				stack.push(c);
 			} else if (c == ')' || c == '}' || c == ']') {
 				if (stack.isEmpty()) {
 					return false;
 				}
-				
+
 				char l = stack.pop();
 				if (!isMatch(l, c)) {
 					return false;
 				}
 			}
 		}
-		
+
 		return stack.isEmpty();
 	}
-	
+
 	private boolean isMatch(char left, char right) {
 		if ((left == '(' && right == ')') || (left == '{' && right == '}') || (left == '[' && right == ']')) {
 			return true;
 		}
-		
+
 		return false;
 	}
+
+	// 32. Longest Valid Parentheses
+	// Company: Facebook Amazon Adobe Expedia # Google Alibaba Uber Goupang
+	// Salesforce
+	// Description: Given a string containing just the characters '(' and ')', find
+	// the length of the longest valid (well-formed) parentheses substring.
+	// NOTE: ()(() should return 2 instead of 4, so it's basically continuous substring length.
+	// So LVP2 won't work.
+	// Solution: 
+	public int longestValidParentheses(String s) {
+		// TODO: DP
+	}
+	
+	public int longestValidParentheses2(String s) {
+		Stack<Character> stack = new Stack<>();
+		
+		char[] arr = s.toCharArray();
+		int count = 0;
+		
+		for (char c: arr) {
+			if (c == '(') {
+				stack.push(c);
+			} else {
+				if (!stack.isEmpty()) {
+					char l = stack.pop();
+					if (l == '(' && c == ')') {
+						count++;
+					}
+				}
+			}
+		}
+		
+		// pair of parentheses.
+		return count * 2;
+	}
+
+	// 32. Longest Valid Parentheses
+	// Company:
+	// Description:
+	// Solution:
+
+	// 32. Longest Valid Parentheses
+	// Company:
+	// Description:
+	// Solution:
+
+	// 32. Longest Valid Parentheses
+	// Company:
+	// Description:
+	// Solution:
 }
