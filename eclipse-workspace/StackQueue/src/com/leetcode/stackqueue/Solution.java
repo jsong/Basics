@@ -108,40 +108,52 @@ public class Solution {
 	// Salesforce
 	// Description: Given a string containing just the characters '(' and ')', find
 	// the length of the longest valid (well-formed) parentheses substring.
-	// NOTE: ()(() should return 2 instead of 4, so it's basically continuous substring length.
-	// So LVP2 won't work.
-	// Solution: 
+	// NOTE: ()(() should return 2 instead of 4, so it's basically continuous
+	// substring length.
+	// Solution: Use stack to record position of ( and last to track the last
+	// non-pairing ).
 	public int longestValidParentheses(String s) {
 		// TODO: DP
 	}
-	
+
 	public int longestValidParentheses2(String s) {
-		Stack<Character> stack = new Stack<>();
-		
+		Stack<Integer> stack = new Stack<>(); // position of '('
+
 		char[] arr = s.toCharArray();
-		int count = 0;
-		
-		for (char c: arr) {
+		int last = -1; // last position of non-matching ')'
+		int maxLen = 0;
+
+		for (int i = 0; i < arr.length; i++) {
+			char c = arr[i];
 			if (c == '(') {
-				stack.push(c);
+				stack.push(i);
 			} else {
-				if (!stack.isEmpty()) {
-					char l = stack.pop();
-					if (l == '(' && c == ')') {
-						count++;
+				if (stack.isEmpty()) {
+					//
+					last = i;
+				} else {
+					stack.pop();
+					if (stack.isEmpty()) { // we have equal ( and )
+						maxLen = Math.max(maxLen, i - last);
+					} else { // we have more (
+						maxLen = Math.max(maxLen, i - stack.peek());
 					}
 				}
 			}
 		}
-		
-		// pair of parentheses.
-		return count * 2;
+
+		return maxLen;
 	}
 
-	// 32. Longest Valid Parentheses
-	// Company:
-	// Description:
+	// 84. Largest Rectangle in Histogram
+	// Company: Amazon Google Facebook #
+	// Description: Given n non-negative integers representing the histogram's bar
+	// height where the width of each bar is 1, find the area of largest rectangle
+	// in the histogram.
 	// Solution:
+	public int largestRectangleArea(int[] heights) {
+
+	}
 
 	// 32. Longest Valid Parentheses
 	// Company:
