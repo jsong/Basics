@@ -6,7 +6,10 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		Solution sl = new Solution();
+		String[] s = { "2", "1", "+", "3", "*" };
+		String temp = "";
+		int result = sl.evalRPN(s);
 	}
 
 	// 155. Min Stack
@@ -150,30 +153,78 @@ public class Solution {
 	// Description: Given n non-negative integers representing the histogram's bar
 	// height where the width of each bar is 1, find the area of largest rectangle
 	// in the histogram.
-	// Solution: Use a increase stack to record the heights, the maximum area must within the increase stack. 
-	// if the element in heights starts to decrease, then start to calculate the area.
+	// Solution: Use a increase stack to record the heights, the maximum area must
+	// within the increase stack.
+	// if the element in heights starts to decrease, then start to calculate the
+	// area.
 	public int largestRectangleArea(int[] heights) {
 		Stack<Integer> stack = new Stack<>();
 		int maxArea = 0;
-		
+
 		for (int i = 0; i <= heights.length;) {
 			int value = i < heights.length ? heights[i] : 0;
-			
+
 			if (stack.isEmpty() || value > heights[stack.peek()]) {
 				stack.push(i++);
 			} else {
 				int tmp = stack.pop();
-				maxArea = Math.max(maxArea, heights[tmp] * (stack.isEmpty() ? i: i - stack.peek() - 1));
+				maxArea = Math.max(maxArea, heights[tmp] * (stack.isEmpty() ? i : i - stack.peek() - 1));
 			}
 		}
-		
+
 		return maxArea;
 	}
 
-	// 32. Longest Valid Parentheses
-	// Company:
-	// Description:
-	// Solution:
+	// 150. Evaluate Reverse Polish Notation
+	// Company: LinkedIn Google Amazon # Uber Two Sigma Microsoft Adobe
+	// Description: Evaluate the value of an arithmetic expression in Reverse Polish
+	// Notation. Valid operators are +, -, *, /. Each operand may be an integer or
+	// another expression.
+	// Solution: Use stack, always push the number, if operator, then pop the previous numbers and do the 
+	// calculation. Tree, postorder RPN. child as numbers, root are operator.
+	public int evalRPN(String[] tokens) {
+		Stack<String> stack = new Stack<>();
+
+		for (String s : tokens) {
+			if (!isOperator(s)) {
+				stack.push(s);
+			} else {
+				int x = Integer.parseInt(stack.pop());
+				int y = Integer.parseInt(stack.pop());
+				switch (s) {
+				case "+":
+					y += x;
+					break;
+				case "-":
+					y -= x;
+					break;
+				case "*":
+					y *= x;
+					break;
+				case "/":
+					y /= x;
+					break;
+				default:
+					break;
+				}
+				stack.push(String.valueOf(y));
+			}
+		}
+
+		return Integer.parseInt(stack.peek());
+	}
+
+	private boolean isOperator(String c) {
+		// if (c == "+" || c == "-" || c == "*" || c == "/") {
+		// return true;
+		// }
+		String oper = "+-*/";
+		if (oper.indexOf(c) != -1) {
+			return true;
+		}
+
+		return false;
+	}
 
 	// 32. Longest Valid Parentheses
 	// Company:
