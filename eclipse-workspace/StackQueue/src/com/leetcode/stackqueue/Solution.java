@@ -1,5 +1,7 @@
 package com.leetcode.stackqueue;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Solution {
@@ -117,6 +119,7 @@ public class Solution {
 	// non-pairing ).
 	public int longestValidParentheses(String s) {
 		// TODO: DP
+		return 0;
 	}
 
 	public int longestValidParentheses2(String s) {
@@ -226,8 +229,47 @@ public class Solution {
 		return false;
 	}
 
-	// 32. Longest Valid Parentheses
-	// Company:
-	// Description:
-	// Solution:
+	// 225. Implement Stack using Queues
+	// Company: Apple Microsoft # Google LinkedIn Amazon Bloomberg
+	// Description: Implement the following operations of a stack using queues. 
+	// Only use standard operations of queue, push to back, peek/pop from front, size, and is empty operations are valid.
+	// Solution: Use two queues. 
+	
+	class MyStack {
+		Queue<Integer> queue;
+		Queue<Integer> temp;
+	    /** Initialize your data structure here. */
+	    public MyStack() {
+	        queue = new LinkedList<>();
+	        temp = new LinkedList<>();
+	    }
+	    
+	    /** Push element x onto stack. */
+	    public void push(int x) {
+	    	temp.add(x);
+	    	while (!queue.isEmpty()) {
+	    		temp.add(queue.poll());
+	    	}
+	    	
+	    	Queue<Integer> tmp = temp;
+	    	temp = queue;
+	    	queue = tmp;
+	    }
+	    
+	    /** Removes the element on top of the stack and returns that element. */
+	    public int pop() {
+	    	return queue.poll();
+	    }
+	    
+	    /** Get the top element. */
+	    public int top() {
+	    	return queue.peek();
+	    }
+	    
+	    /** Returns whether the stack is empty. */
+	    public boolean empty() {
+	        return queue.isEmpty();
+	    }
+	}
+
 }
