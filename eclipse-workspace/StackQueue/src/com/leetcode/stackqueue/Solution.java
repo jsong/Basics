@@ -146,13 +146,28 @@ public class Solution {
 	}
 
 	// 84. Largest Rectangle in Histogram
-	// Company: Amazon Google Facebook #
+	// Company: Amazon Google Facebook # Microsoft
 	// Description: Given n non-negative integers representing the histogram's bar
 	// height where the width of each bar is 1, find the area of largest rectangle
 	// in the histogram.
-	// Solution:
+	// Solution: Use a increase stack to record the heights, the maximum area must within the increase stack. 
+	// if the element in heights starts to decrease, then start to calculate the area.
 	public int largestRectangleArea(int[] heights) {
-
+		Stack<Integer> stack = new Stack<>();
+		int maxArea = 0;
+		
+		for (int i = 0; i <= heights.length;) {
+			int value = i < heights.length ? heights[i] : 0;
+			
+			if (stack.isEmpty() || value > heights[stack.peek()]) {
+				stack.push(i++);
+			} else {
+				int tmp = stack.pop();
+				maxArea = Math.max(maxArea, heights[tmp] * (stack.isEmpty() ? i: i - stack.peek() - 1));
+			}
+		}
+		
+		return maxArea;
 	}
 
 	// 32. Longest Valid Parentheses
