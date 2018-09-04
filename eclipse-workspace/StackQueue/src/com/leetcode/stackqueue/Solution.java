@@ -271,5 +271,59 @@ public class Solution {
 	        return queue.isEmpty();
 	    }
 	}
-
+	
+	// 232. Implement Queue using Stacks
+	// Company: eBay Amazon # Yandex Salesforce Mathworks Apple
+	// Description: Implement the following operations of a queue using stacks.
+	// Solution: Use mid stack to reverse the stack order, so that the temp will have 
+	// the correct order.
+	class MyQueue {
+		Stack<Integer> stack;
+		Stack<Integer> temp;
+	    /** Initialize your data structure here. */
+	    public MyQueue() {
+	        stack = new Stack<>();
+	        temp = new Stack<>();
+	    }
+	    
+	    /** Push element x to the back of queue. */
+	    public void push(int x) {
+	    	while (!stack.isEmpty()) {
+	    		temp.push(stack.pop());
+	    	}
+	    	
+	    	temp.push(x);
+	    	while (!temp.isEmpty()) {
+	    		stack.push(temp.pop());
+	    	}
+//	        temp.push(x);
+//	        Stack<Integer> mid = new Stack<>();
+//	        while (!stack.isEmpty()) {
+//	        	mid.push(stack.pop());
+//	        }
+//	        
+//	        while (!mid.isEmpty()) {
+//	        	temp.push(mid.pop());
+//	        }
+//	        
+//	        Stack<Integer> tmp = temp;
+//	        temp = stack;
+//	        stack = tmp;
+	    }
+	    
+	    /** Removes the element from in front of queue and returns that element. */
+	    public int pop() {
+	        return stack.pop();
+	    }
+	    
+	    /** Get the front element. */
+	    public int peek() {
+	        return stack.peek();
+	    }
+	    
+	    /** Returns whether the queue is empty. */
+	    public boolean empty() {
+	        return stack.isEmpty();
+	    }
+	}
 }
