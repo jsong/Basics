@@ -12,7 +12,7 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		Tr
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -99,15 +99,19 @@ public class Solution {
     		} else {
     			TreeNode top = stack.pop();
     			res.add(top.val);
-    			TreeNode newTop = stack.peek();
-    			res.add(newTop.val);
     			
-    			if (newTop.right != null) {
-    				stack.push(newTop.right);
+    			if (!stack.isEmpty()) {
+    				TreeNode newTop = stack.peek();
+    				newTop.left = null;
     			}
+    			
+    			if (top.right != null) {
+    				stack.push(top.right);
+    			}    			
     		}
     	}
     	
+    	return res;
     }
 	// 94. Binary Tree Inorder Traversal
 	// Company:
