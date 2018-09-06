@@ -12,7 +12,6 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Tr
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -65,7 +64,7 @@ public class Solution {
 	// 94. Binary Tree Inorder Traversal
 	// Company: Adobe Amazon # Facebook Microsoft Palantir Tech
 	// Description: Given a binary tree, return the inorder traversal of its nodes' values.
-	// Solution: 1. DFS 2. BFS
+	// Solution: 1. DFS 2. BFS 3. Still BFS without modify the original tree.
     public List<Integer> inorderTraversal(TreeNode root) {
     	List<Integer> res = new ArrayList<>();
     	inorder(root, res);
@@ -80,6 +79,26 @@ public class Solution {
     	inorder(node.left, res);
     	res.add(node.val);
     	inorder(node.right, res);
+    }
+    
+    public List<Integer> inorderTraversal3(TreeNode root) {
+    	Stack<TreeNode> stack = new Stack<>();
+    	List<Integer> res = new ArrayList<>();
+    	
+    	TreeNode p = root;
+    	
+    	while (p != null || !stack.isEmpty()) {
+    		while (p != null) {
+    			stack.push(p);
+    			p = p.left;
+    		}
+    		
+    		p = stack.pop();
+    		res.add(p.val);
+    		p = p.right;
+    	}
+    	
+    	return res;
     }
     
     public List<Integer> inorderTraversal2(TreeNode root) {
