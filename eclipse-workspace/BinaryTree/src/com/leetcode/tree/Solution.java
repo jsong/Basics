@@ -229,10 +229,10 @@ public class Solution {
 		return res;
     }
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 199. Binary Tree Right Side View
+	// Company: Amazon Facebook Apple # Mathworks Adobe Zenefits
+	// Description: Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+	// Solution: 
 
 	//
 	// Company:
