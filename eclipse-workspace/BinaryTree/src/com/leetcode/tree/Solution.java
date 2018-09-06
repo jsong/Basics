@@ -193,10 +193,41 @@ public class Solution {
 		return res;
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 107. Binary Tree Level Order Traversal II
+	// Company: Microsoft # Google Airbnb
+	// Description: Given a binary tree, return the "bottom-up" level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+	// Solution: Same as 102, except when adding the res, always insert the result at "0".
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+    	Queue<TreeNode> queue = new LinkedList<>();
+		List<List<Integer>> res = new ArrayList<>();
+
+		if (root == null) {
+			return res;
+		}
+
+		queue.offer(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			List<Integer> level = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				level.add(node.val);
+
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+
+			res.add(0, level);
+		}
+
+		return res;
+    }
 
 	//
 	// Company:
