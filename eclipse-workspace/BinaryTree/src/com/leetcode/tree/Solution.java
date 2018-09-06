@@ -132,11 +132,28 @@ public class Solution {
     	
     	return res;
     }
-	// 94. Binary Tree Inorder Traversal
-	// Company:
-	// Description:
-	// Solution:
-
+    
+	// 145. Binary Tree Postorder Traversal
+	// Company: Facebook # Google
+	// Description: Given a binary tree, return the postorder traversal of its nodes' values.
+	// Solution: 1. DFS
+    public List<Integer> postorderTraversal(TreeNode root) {
+    	List<Integer> res = new ArrayList<>();
+    	postorder(root, res);
+    	return res;
+    }
+    
+    private void postorder(TreeNode node, List<Integer> res) {
+    	if (node == null) {
+    		return;
+    	}
+    	
+    	postorder(node.left, res);
+    	postorder(node.right, res);
+    	res.add(node.val);
+    }
+    
+    
 	// 94. Binary Tree Inorder Traversal
 	// Company:
 	// Description:
