@@ -63,98 +63,152 @@ public class Solution {
 
 	// 94. Binary Tree Inorder Traversal
 	// Company: Adobe Amazon # Facebook Microsoft Palantir Tech
-	// Description: Given a binary tree, return the inorder traversal of its nodes' values.
+	// Description: Given a binary tree, return the inorder traversal of its nodes'
+	// values.
 	// Solution: 1. DFS 2. BFS 3. Still BFS without modify the original tree.
-    public List<Integer> inorderTraversal(TreeNode root) {
-    	List<Integer> res = new ArrayList<>();
-    	inorder(root, res);
-    	return res;
-    }
-    
-    private void inorder(TreeNode node, List<Integer> res) {
-    	if (node == null) {
-    		return;
-    	}
-    	
-    	inorder(node.left, res);
-    	res.add(node.val);
-    	inorder(node.right, res);
-    }
-    
-    public List<Integer> inorderTraversal3(TreeNode root) {
-    	Stack<TreeNode> stack = new Stack<>();
-    	List<Integer> res = new ArrayList<>();
-    	
-    	TreeNode p = root;
-    	
-    	while (p != null || !stack.isEmpty()) {
-    		while (p != null) {
-    			stack.push(p);
-    			p = p.left;
-    		}
-    		
-    		p = stack.pop();
-    		res.add(p.val);
-    		p = p.right;
-    	}
-    	
-    	return res;
-    }
-    
-    public List<Integer> inorderTraversal2(TreeNode root) {
-    	Stack<TreeNode> stack = new Stack<>();
-    	List<Integer> res = new ArrayList<>();
-    	
-    	if (root == null) {
-    		return res;
-    	}
-    	
-    	stack.push(root);
-    	
-    	while (!stack.isEmpty()) {
-    		TreeNode node = stack.peek();
-    		if (node.left != null) {
-    			stack.push(node.left);
-    		} else {
-    			TreeNode top = stack.pop();
-    			res.add(top.val);
-    			
-    			if (!stack.isEmpty()) {
-    				TreeNode newTop = stack.peek();
-    				newTop.left = null;
-    			}
-    			
-    			if (top.right != null) {
-    				stack.push(top.right);
-    			}    			
-    		}
-    	}
-    	
-    	return res;
-    }
-    
+	public List<Integer> inorderTraversal(TreeNode root) {
+		List<Integer> res = new ArrayList<>();
+		inorder(root, res);
+		return res;
+	}
+
+	private void inorder(TreeNode node, List<Integer> res) {
+		if (node == null) {
+			return;
+		}
+
+		inorder(node.left, res);
+		res.add(node.val);
+		inorder(node.right, res);
+	}
+
+	public List<Integer> inorderTraversal3(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		List<Integer> res = new ArrayList<>();
+
+		TreeNode p = root;
+
+		while (p != null || !stack.isEmpty()) {
+			while (p != null) {
+				stack.push(p);
+				p = p.left;
+			}
+
+			p = stack.pop();
+			res.add(p.val);
+			p = p.right;
+		}
+
+		return res;
+	}
+
+	public List<Integer> inorderTraversal2(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		List<Integer> res = new ArrayList<>();
+
+		if (root == null) {
+			return res;
+		}
+
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			TreeNode node = stack.peek();
+			if (node.left != null) {
+				stack.push(node.left);
+			} else {
+				TreeNode top = stack.pop();
+				res.add(top.val);
+
+				if (!stack.isEmpty()) {
+					TreeNode newTop = stack.peek();
+					newTop.left = null;
+				}
+
+				if (top.right != null) {
+					stack.push(top.right);
+				}
+			}
+		}
+
+		return res;
+	}
+
 	// 145. Binary Tree Postorder Traversal
 	// Company: Facebook # Google
-	// Description: Given a binary tree, return the postorder traversal of its nodes' values.
+	// Description: Given a binary tree, return the postorder traversal of its
+	// nodes' values.
 	// Solution: 1. DFS
-    public List<Integer> postorderTraversal(TreeNode root) {
-    	List<Integer> res = new ArrayList<>();
-    	postorder(root, res);
-    	return res;
-    }
-    
-    private void postorder(TreeNode node, List<Integer> res) {
-    	if (node == null) {
-    		return;
-    	}
-    	
-    	postorder(node.left, res);
-    	postorder(node.right, res);
-    	res.add(node.val);
-    }
-    
-    
-	// 94. Binary Tree Inorder Traversal
+	public List<Integer> postorderTraversal(TreeNode root) {
+		List<Integer> res = new ArrayList<>();
+		postorder(root, res);
+		return res;
+	}
+
+	private void postorder(TreeNode node, List<Integer> res) {
+		if (node == null) {
+			return;
+		}
+
+		postorder(node.left, res);
+		postorder(node.right, res);
+		res.add(node.val);
+	}
+
+	// 102. Binary Tree Level Order Traversal
+	// Company: Amazon Apple Google Microsoft Bloomberg Facebook LinkedIn eBay #
+	// Paypal Adobe TripAdvisor
+	// Description: Given a binary tree, return the level order traversal of its
+	// nodes' values. (ie, from left to right, level by level).
+	// Solution: Use queue to track each level nodes.
+	public List<List<Integer>> levelOrder(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<>();
+		List<List<Integer>> res = new ArrayList<>();
+
+		if (root == null) {
+			return res;
+		}
+
+		queue.offer(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			List<Integer> level = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				level.add(node.val);
+
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+
+			res.add(level);
+		}
+
+		return res;
+	}
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
 	// Company:
 	// Description:
 	// Solution:
