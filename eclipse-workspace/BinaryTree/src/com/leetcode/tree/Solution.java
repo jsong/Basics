@@ -195,10 +195,13 @@ public class Solution {
 
 	// 107. Binary Tree Level Order Traversal II
 	// Company: Microsoft # Google Airbnb
-	// Description: Given a binary tree, return the "bottom-up" level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
-	// Solution: Same as 102, except when adding the res, always insert the result at "0".
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-    	Queue<TreeNode> queue = new LinkedList<>();
+	// Description: Given a binary tree, return the "bottom-up" level order
+	// traversal of its nodes' values. (ie, from left to right, level by level from
+	// leaf to root).
+	// Solution: Same as 102, except when adding the res, always insert the result
+	// at "0".
+	public List<List<Integer>> levelOrderBottom(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<>();
 		List<List<Integer>> res = new ArrayList<>();
 
 		if (root == null) {
@@ -227,13 +230,43 @@ public class Solution {
 		}
 
 		return res;
-    }
+	}
 
 	// 199. Binary Tree Right Side View
 	// Company: Amazon Facebook Apple # Mathworks Adobe Zenefits
-	// Description: Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
-	// Solution: 
+	// Description: Given a binary tree, imagine yourself standing on the right side
+	// of it, return the values of the nodes you can see ordered from top to bottom.
+	// Solution: BFS level traversal, record the right most element.
+	public List<Integer> rightSideView(TreeNode root) {
+		List<Integer> res = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
 
+		if (root == null) {
+			return res;
+		}
+
+		queue.offer(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+				if (i == size - 1) { // right most
+					res.add(node.val);
+				}
+			}
+		}
+
+		return res;
+	}
 	//
 	// Company:
 	// Description:
