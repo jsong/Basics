@@ -271,19 +271,20 @@ public class Solution {
 	// 226. Invert Binary Tree
 	// Company: Google Uber # Bloomberg Baidu
 	// Description: Invert a binary tree.
-	// Solution: Use BFS level traverse and swap the left and right node.
+	// Solution: 1. Use BFS level traverse and swap the left and right node. 2. Use
+	// recursion.
 	public TreeNode invertTree(TreeNode root) {
 		Queue<TreeNode> queue = new LinkedList<>();
-		
+
 		if (root == null) {
 			return root;
 		}
-		
+
 		queue.offer(root);
-		
+
 		while (!queue.isEmpty()) {
 			int size = queue.size();
-			
+
 			for (int i = 0; i < size; i++) {
 				TreeNode node = queue.poll();
 				// swap
@@ -291,7 +292,51 @@ public class Solution {
 				TreeNode right = node.right;
 				node.left = right;
 				node.right = left;
-				// 
+				//
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+		}
+
+		return root;
+	}
+
+	// 103. Binary Tree Zigzag Level Order Traversal
+	// Company: Microsoft Amazon Facebook eBay Uber Tencent Google Apple Alibaba #
+	// Baidu Pinterest
+	// Description: Given a binary tree, return the zigzag level order traversal of
+	// its nodes' values. (ie, from left to right, then right to left for the next
+	// level and alternate between).
+	// Solution: Use counter to track whether left -> right or right -> left. BFS.
+	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+		List<List<Integer>> res = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
+		
+		if (root == null) {
+			return res;
+		}
+		
+		queue.offer(root);
+		int counter = 0; 
+		
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			counter++;
+			List<Integer> level = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				
+				if (counter % 2 == 1) { 
+					level.add(node.val); // left -> right;
+				} else { 
+					level.add(0, node.val); // right -> left; 
+				}
+				
 				if (node.left != null) {
 					queue.offer(node.left);
 				}
@@ -300,9 +345,11 @@ public class Solution {
 					queue.offer(node.right);
 				}
 			}
+			
+			res.add(level);
 		}
 		
-		return root;
+		return res;
 	}
 
 	//
@@ -310,4 +357,13 @@ public class Solution {
 	// Description:
 	// Solution:
 
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
 }
