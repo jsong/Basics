@@ -267,10 +267,43 @@ public class Solution {
 
 		return res;
 	}
-	//
-	// Company:
-	// Description:
-	// Solution:
+
+	// 226. Invert Binary Tree
+	// Company: Google Uber # Bloomberg Baidu
+	// Description: Invert a binary tree.
+	// Solution: Use BFS level traverse and swap the left and right node.
+	public TreeNode invertTree(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<>();
+		
+		if (root == null) {
+			return root;
+		}
+		
+		queue.offer(root);
+		
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				// swap
+				TreeNode left = node.left;
+				TreeNode right = node.right;
+				node.left = right;
+				node.right = left;
+				// 
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+				
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+		}
+		
+		return root;
+	}
 
 	//
 	// Company:
