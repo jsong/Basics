@@ -272,8 +272,8 @@ public class Solution {
 	// Company: Google Uber # Bloomberg Baidu
 	// Description: Invert a binary tree.
 	// Solution: 1. Use BFS level traverse and swap the left and right node. 2. Use
-	// recursion.
-	public TreeNode invertTree(TreeNode root) {
+	// recursion. 2. Recursion 
+	public TreeNode invertTree2(TreeNode root) {
 		Queue<TreeNode> queue = new LinkedList<>();
 
 		if (root == null) {
@@ -306,6 +306,18 @@ public class Solution {
 		return root;
 	}
 
+	public TreeNode invertTree(TreeNode root) {
+		if (root == null) {
+			return root;
+		}
+		
+		TreeNode tmp = root.left;
+		root.left = invertTree(root.right);
+		root.right = invertTree(tmp);
+		
+		return root;
+	}
+	
 	// 103. Binary Tree Zigzag Level Order Traversal
 	// Company: Microsoft Amazon Facebook eBay Uber Tencent Google Apple Alibaba #
 	// Baidu Pinterest
@@ -352,13 +364,78 @@ public class Solution {
 		return res;
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 173. Binary Search Tree Iterator
+	// Company: Facebook Microsoft Oracle Amazon Qualtrics # Cloudera Google Bloomberg Uber LinkedIn
+	// Description: Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.Calling next() will return the next smallest number in the BST. Note: next() and hasNext() should run in average O(1) time and uses O(h) memory, where h is the height of the tree.
+	// Solution: 1. BST inorder traverse will form a sorted array. By using the sorted array, will get the expected output. 2. 
+	public class BSTIterator {
+		int curIndex = 0;
+		List<Integer> res = new ArrayList<>();
+	    public BSTIterator(TreeNode root) {
+	        Stack<TreeNode> stack = new Stack<>();
+	    	TreeNode p = root;
+	        
+	    	while (!stack.isEmpty() || p != null) {
+	    		while (p != null) {
+	    			stack.push(p);
+	    			p = p.left;
+	    		}
+	    		
+	    		p = stack.pop();
+	    		res.add(p.val);
+	    		p = p.right;
+	    	}
+	    }
 
-	//
-	// Company:
+	    /** @return whether we have a next smallest number */
+	    public boolean hasNext() {
+	        return curIndex < res.size();
+	    }
+
+	    /** @return the next smallest number */
+	    public int next() {
+	        if (curIndex < res.size()) {
+	        	return res.get(curIndex++);
+	        }
+	        
+	        return -1;
+	    }	    
+	}
+
+	// Solution 2: 
+	public class BSTIterator2 {
+		Stack<TreeNode> stack;
+	    public BSTIterator2(TreeNode root) {
+	        stack = new Stack<>();
+	    	TreeNode p = root;
+	    	while (p != null) {
+	    		stack.push(p);
+	    		p = p.left;
+	    	}
+	    }
+
+	    /** @return whether we have a next smallest number */
+	    public boolean hasNext() {
+	    	return !stack.isEmpty();
+	    }
+
+	    /** @return the next smallest number */
+	    public int next() {
+	        TreeNode p = stack.pop();
+	        if (p.right != null) {
+	        	TreeNode node = p.right;
+	        	while (node != null) {
+	        		stack.push(node);
+	        		node = node.left;
+	        	}
+	        }
+	        
+	        return p.val;
+	    }	    
+	}
+	
+	// 99. Recover Binary Search Tree
+	// Company: 
 	// Description:
 	// Solution:
 
