@@ -481,6 +481,73 @@ public class Solution {
 		inorder(node.right);
 	}
 
+	// 100. Same Tree
+	// Company: Amazon # Facebook LinkedIn
+	// Description:Given two binary trees, write a function to check if they are the
+	// same or not. Two binary trees are considered the same if they are
+	// structurally identical and the nodes have the same value.
+	// Solution: 1. Origin version which runs more time. 2. Pruning based on 1. 
+	public boolean isSameTree(TreeNode p, TreeNode q) {
+		if (p == null && q != null) {
+			return false;
+		}
+		
+		if (p != null && q == null) {
+			return false;
+		}
+		
+		if (p == null && q == null) {
+			return true;
+		}
+		
+		if (p.val != q.val) {
+			return false;
+		}
+		
+		boolean sameLeft = isSameTree(p.left, q.left);
+		
+		if (sameLeft) {
+			boolean sameRight = isSameTree(p.right, q.right);
+			
+			return sameLeft && sameRight;
+		} 
+		
+		return false;
+	}
+	
+	public boolean isSameTree2(TreeNode p, TreeNode q) {
+		if (p == null && q == null) {
+			return true;
+		}
+		
+		if (p == null || q == null) {
+			return false;
+		}
+		
+		if (p.val == q.val) {
+			if (isSameTree(p.left, q.left) &&  isSameTree(p.right, q.right)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
 	//
 	// Company:
 	// Description:
