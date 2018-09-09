@@ -272,7 +272,7 @@ public class Solution {
 	// Company: Google Uber # Bloomberg Baidu
 	// Description: Invert a binary tree.
 	// Solution: 1. Use BFS level traverse and swap the left and right node. 2. Use
-	// recursion. 2. Recursion 
+	// recursion. 2. Recursion
 	public TreeNode invertTree2(TreeNode root) {
 		Queue<TreeNode> queue = new LinkedList<>();
 
@@ -310,14 +310,14 @@ public class Solution {
 		if (root == null) {
 			return root;
 		}
-		
+
 		TreeNode tmp = root.left;
 		root.left = invertTree(root.right);
 		root.right = invertTree(tmp);
-		
+
 		return root;
 	}
-	
+
 	// 103. Binary Tree Zigzag Level Order Traversal
 	// Company: Microsoft Amazon Facebook eBay Uber Tencent Google Apple Alibaba #
 	// Baidu Pinterest
@@ -328,116 +328,158 @@ public class Solution {
 	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
 		List<List<Integer>> res = new ArrayList<>();
 		Queue<TreeNode> queue = new LinkedList<>();
-		
+
 		if (root == null) {
 			return res;
 		}
-		
+
 		queue.offer(root);
-		int counter = 0; 
-		
+		int counter = 0;
+
 		while (!queue.isEmpty()) {
 			int size = queue.size();
 			counter++;
 			List<Integer> level = new ArrayList<>();
 			for (int i = 0; i < size; i++) {
 				TreeNode node = queue.poll();
-				
-				if (counter % 2 == 1) { 
+
+				if (counter % 2 == 1) {
 					level.add(node.val); // left -> right;
-				} else { 
-					level.add(0, node.val); // right -> left; 
+				} else {
+					level.add(0, node.val); // right -> left;
 				}
-				
+
 				if (node.left != null) {
 					queue.offer(node.left);
 				}
-				
+
 				if (node.right != null) {
 					queue.offer(node.right);
 				}
 			}
-			
+
 			res.add(level);
 		}
-		
+
 		return res;
 	}
 
 	// 173. Binary Search Tree Iterator
-	// Company: Facebook Microsoft Oracle Amazon Qualtrics # Cloudera Google Bloomberg Uber LinkedIn
-	// Description: Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.Calling next() will return the next smallest number in the BST. Note: next() and hasNext() should run in average O(1) time and uses O(h) memory, where h is the height of the tree.
-	// Solution: 1. BST inorder traverse will form a sorted array. By using the sorted array, will get the expected output. 2. 
+	// Company: Facebook Microsoft Oracle Amazon Qualtrics # Cloudera Google
+	// Bloomberg Uber LinkedIn
+	// Description: Implement an iterator over a binary search tree (BST). Your
+	// iterator will be initialized with the root node of a BST.Calling next() will
+	// return the next smallest number in the BST. Note: next() and hasNext() should
+	// run in average O(1) time and uses O(h) memory, where h is the height of the
+	// tree.
+	// Solution: 1. BST inorder traverse will form a sorted array. By using the
+	// sorted array, will get the expected output. 2.
 	public class BSTIterator {
 		int curIndex = 0;
 		List<Integer> res = new ArrayList<>();
-	    public BSTIterator(TreeNode root) {
-	        Stack<TreeNode> stack = new Stack<>();
-	    	TreeNode p = root;
-	        
-	    	while (!stack.isEmpty() || p != null) {
-	    		while (p != null) {
-	    			stack.push(p);
-	    			p = p.left;
-	    		}
-	    		
-	    		p = stack.pop();
-	    		res.add(p.val);
-	    		p = p.right;
-	    	}
-	    }
 
-	    /** @return whether we have a next smallest number */
-	    public boolean hasNext() {
-	        return curIndex < res.size();
-	    }
+		public BSTIterator(TreeNode root) {
+			Stack<TreeNode> stack = new Stack<>();
+			TreeNode p = root;
 
-	    /** @return the next smallest number */
-	    public int next() {
-	        if (curIndex < res.size()) {
-	        	return res.get(curIndex++);
-	        }
-	        
-	        return -1;
-	    }	    
+			while (!stack.isEmpty() || p != null) {
+				while (p != null) {
+					stack.push(p);
+					p = p.left;
+				}
+
+				p = stack.pop();
+				res.add(p.val);
+				p = p.right;
+			}
+		}
+
+		/** @return whether we have a next smallest number */
+		public boolean hasNext() {
+			return curIndex < res.size();
+		}
+
+		/** @return the next smallest number */
+		public int next() {
+			if (curIndex < res.size()) {
+				return res.get(curIndex++);
+			}
+
+			return -1;
+		}
 	}
 
-	// Solution 2: 
+	// Solution 2:
 	public class BSTIterator2 {
 		Stack<TreeNode> stack;
-	    public BSTIterator2(TreeNode root) {
-	        stack = new Stack<>();
-	    	TreeNode p = root;
-	    	while (p != null) {
-	    		stack.push(p);
-	    		p = p.left;
-	    	}
-	    }
 
-	    /** @return whether we have a next smallest number */
-	    public boolean hasNext() {
-	    	return !stack.isEmpty();
-	    }
+		public BSTIterator2(TreeNode root) {
+			stack = new Stack<>();
+			TreeNode p = root;
+			while (p != null) {
+				stack.push(p);
+				p = p.left;
+			}
+		}
 
-	    /** @return the next smallest number */
-	    public int next() {
-	        TreeNode p = stack.pop();
-	        if (p.right != null) {
-	        	TreeNode node = p.right;
-	        	while (node != null) {
-	        		stack.push(node);
-	        		node = node.left;
-	        	}
-	        }
-	        
-	        return p.val;
-	    }	    
+		/** @return whether we have a next smallest number */
+		public boolean hasNext() {
+			return !stack.isEmpty();
+		}
+
+		/** @return the next smallest number */
+		public int next() {
+			TreeNode p = stack.pop();
+			if (p.right != null) {
+				TreeNode node = p.right;
+				while (node != null) {
+					stack.push(node);
+					node = node.left;
+				}
+			}
+
+			return p.val;
+		}
 	}
-	
+
 	// 99. Recover Binary Search Tree
-	// Company: 
-	// Description:
-	// Solution:
+	// Company: Facebook Amazon # Uber Google Microsoft
+	// Description: Two elements of a binary search tree (BST) are swapped by
+	// mistake. Recover the tree without changing its structure.
+	// Solution: Use in order traverse, re
+	TreeNode prev; // check whether it's in the correct order
+	TreeNode p1; // store the wrong swapped nodes.
+	TreeNode p2;
+
+	public void recoverTree(TreeNode root) {
+		inorder(root);
+		if (p1 != null && p2 != null) {
+			int tmp = p1.val;
+			p1.val = p2.val;
+			p2.val = tmp;
+		}
+	}
+
+	// in order prints the tree in ascending order
+	private void inorder(TreeNode node) {
+		if (node == null) {
+			return;
+		}
+
+		inorder(node.left);
+
+		if (prev != null && prev.val > node.val) {
+			if (p1 == null) {
+				p1 = prev;
+				p2 = node;
+			} else {
+				p2 = node;
+			}
+		}
+
+		prev = node;
+		inorder(node.right);
+	}
 
 	//
 	// Company:
