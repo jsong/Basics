@@ -12,6 +12,13 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		TreeNode root = new TreeNode(8);
+		
+		root.left = new TreeNode(6);
+		root.left.left = new TreeNode(4);
+		root.left.left.left = new TreeNode(2);
+		Solution sl = new Solution();
+		boolean balanced = sl.isBalanced(root);
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -486,62 +493,106 @@ public class Solution {
 	// Description:Given two binary trees, write a function to check if they are the
 	// same or not. Two binary trees are considered the same if they are
 	// structurally identical and the nodes have the same value.
-	// Solution: 1. Origin version which runs more time. 2. Pruning based on 1. 
+	// Solution: 1. Origin version which runs more time. 2. Pruning based on 1.
 	public boolean isSameTree(TreeNode p, TreeNode q) {
 		if (p == null && q != null) {
 			return false;
 		}
-		
+
 		if (p != null && q == null) {
 			return false;
 		}
-		
+
 		if (p == null && q == null) {
 			return true;
 		}
-		
+
 		if (p.val != q.val) {
 			return false;
 		}
-		
+
 		boolean sameLeft = isSameTree(p.left, q.left);
-		
+
 		if (sameLeft) {
 			boolean sameRight = isSameTree(p.right, q.right);
-			
+
 			return sameLeft && sameRight;
-		} 
-		
+		}
+
 		return false;
 	}
-	
+
 	public boolean isSameTree2(TreeNode p, TreeNode q) {
 		if (p == null && q == null) {
 			return true;
 		}
-		
+
 		if (p == null || q == null) {
 			return false;
 		}
-		
-		if (p.val == q.val) {
-			if (isSameTree(p.left, q.left) &&  isSameTree(p.right, q.right)) {
-				return true;
-			}
+
+		// if (p.val == q.val) {
+		// if (isSameTree(p.left, q.left) && isSameTree(p.right, q.right)) {
+		// return true;
+		// }
+		// }
+		//
+		// return false;
+		return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+	}
+
+	// 101. Symmetric Tree
+	// Company: LinkedIn Amazon Facebook Apple # Microsoft Uber Google
+	// Description: Given a binary tree, check whether it is a mirror of itself (ie,
+	// symmetric around its center).
+	// Solution: 1. Recursion left should equal to right. Similar to isSame Tree.
+	public boolean isSymmetric(TreeNode root) {
+		if (root == null) {
+			return true;
 		}
+
+		return isMirror(root.left, root.right);
+	}
+
+	private boolean isMirror(TreeNode p, TreeNode q) {
+		if (p == null && q == null) {
+			return true;
+		}
+
+		if (p == null || q == null) {
+			return false;
+		}
+
+		return (p.val == q.val) && isMirror(p.left, q.right) && isMirror(p.right, q.left);
+	}
+
+	// 110. Balanced Binary Tree
+	// Company: Amazon Facebook Google # Paypal
+	// Description: Given a binary tree, determine if it is height-balanced. For
+	// this problem, a height-balanced binary tree is defined as: a binary tree in
+	// which the depth of the two subtrees of every node never differ by more than 1.
+	// NOTE: Recursive concept, so original solution won't work.
+	// Solution: 1. Recursive solution, check left and right, return the depth + 1; 2. 
+	public boolean isBalanced(TreeNode root) {
 		
-		return false;
+		return treeHeight(root) >= 0;
 	}
 	
-	//
-	// Company:
-	// Description:
-	// Solution:
-
-	//
-	// Company:
-	// Description:
-	// Solution:
+	private int treeHeight(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+		
+		int left = treeHeight(node.left);
+		int right = treeHeight(node.right);
+		
+		// Pruning
+		if (left < 0 || right < 0 || Math.abs(left - right) > 1) {
+			return -1;
+		}
+		
+		return Math.max(left, right) + 1;
+ 	}
 
 	//
 	// Company:
