@@ -597,7 +597,7 @@ public class Solution {
 	// 114. Flatten Binary Tree to Linked List
 	// Company: Facebook # Bloomberg Apple Nutanix Amazon Microsoft
 	// Description: Given a binary tree, flatten it to a linked list in-place.
-	// Solution: 1. Iterative solution. 2. Recursion.
+	// Solution: 1. Iterative solution. 2. Recursion. Draw 
 	public void flatten(TreeNode root) {
 		if (root == null) {
 			return;
@@ -626,8 +626,17 @@ public class Solution {
         }
     }
 	
+	TreeNode previous = null;
 	public void flatten2(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		flatten2(root.right);
+		flatten2(root.left);
 		
+		root.right = previous;
+		previous = root;
+		root.left = null;
 	}
 
 	// 117. Populating Next Right Pointers in Each Node II
