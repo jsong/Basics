@@ -630,11 +630,51 @@ public class Solution {
 		
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 117. Populating Next Right Pointers in Each Node II
+	// Company: Microsoft Amazon # Bloomberg Facebook
+	// Description: Given a binary tree. Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+	// Solution: 1. BFS, keep the previous pointer, each time move the pointer, and connect it.
+	TreeLinkNode pre = null;
+	public void connect(TreeLinkNode root) {
+        if (root == null) {
+        	return;
+        }
+        
+        Queue<TreeLinkNode> queue = new LinkedList<>();
+        queue.offer(root);
+        
+        while (!queue.isEmpty()) {
+        	int size = queue.size();
+        	
+        	for (int i = 0; i < size; i++) {
+        		TreeLinkNode node = queue.poll();
+        		if (pre == null) {
+        			pre = node;
+        		} else {
+        			pre.next = node;
+        			pre = node;   // pre should move to node. 
+        		}
+        		
+        		if (node.left != null) {
+        			queue.offer(node.left);
+        		}
+        		
+        		if (node.right != null) {
+        			queue.offer(node.right);
+        		}
+        	}
+        	
+        	pre = null; 	// reaches next level.
+        }
+    }
 	
+	public class TreeLinkNode {
+		int val;
+		TreeLinkNode left, right, next;
+		TreeLinkNode(int x) {
+			val = x;
+		}
+	}
 	//
 	// Company:
 	// Description:
