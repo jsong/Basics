@@ -684,6 +684,48 @@ public class Solution {
 			val = x;
 		}
 	}
+	
+	// 105. Construct Binary Tree from Preorder and Inorder Traversal
+	// Company: Bloomberg Facebook Microsoft # Amazon Google
+	// Description: Given preorder and inorder traversal of a tree, construct the binary tree.
+	// Solution: Recursion build the tree. Preorder: root -> left -> right, Inorder: left -> root -> right; Make sure get the correct index.
+	public TreeNode buildTree(int[] preorder, int[] inorder) {
+        
+		return generateNode(preorder, 0, preorder.length, inorder, 0, inorder.length);
+    }
+	
+	private TreeNode generateNode(int[] preorder, int begin1, int end1, int[] inorder, int begin2, int end2) {
+		if (begin1 == end1) {
+			return null;
+		}
+		
+		if (begin2 == end2) {
+			return null;
+		}
+		
+		int rootValue = preorder[begin1];
+		TreeNode root = new TreeNode(rootValue);
+		int rootIndex = findRoot(begin2, end2, rootValue, inorder);
+		int leftsize = rootIndex - begin2;
+		
+		root.left = generateNode(preorder, begin1 + 1, begin1 + leftsize + 1, inorder, begin2, begin2 + leftsize);
+		root.right = generateNode(preorder, begin1 + leftsize + 1, end1, inorder, begin2 + leftsize + 1, end2);
+		
+		return root;
+	}
+	
+	// inorder left | root | right
+	private int findRoot(int begin2, int end2, int val, int[] inorder) {
+		// no duplicates allowed.
+		for (int i = begin2; i < end2; i++) {
+			if (inorder[i] == val) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+
 	//
 	// Company:
 	// Description:
