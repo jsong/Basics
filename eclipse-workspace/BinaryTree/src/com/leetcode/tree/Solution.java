@@ -13,7 +13,7 @@ public class Solution {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode root = new TreeNode(8);
-		
+
 		root.left = new TreeNode(6);
 		root.left.left = new TreeNode(4);
 		root.left.left.left = new TreeNode(2);
@@ -570,70 +570,73 @@ public class Solution {
 	// Company: Amazon Facebook Google # Paypal
 	// Description: Given a binary tree, determine if it is height-balanced. For
 	// this problem, a height-balanced binary tree is defined as: a binary tree in
-	// which the depth of the two subtrees of every node never differ by more than 1.
+	// which the depth of the two subtrees of every node never differ by more than
+	// 1.
 	// NOTE: Recursive concept, so original solution won't work.
-	// Solution: 1. Recursive solution, check left and right, return the depth + 1; 2. 
+	// Solution: 1. Recursive solution, check left and right, return the depth + 1;
+	// 2.
 	public boolean isBalanced(TreeNode root) {
-		
+
 		return treeHeight(root) >= 0;
 	}
-	
+
 	private int treeHeight(TreeNode node) {
 		if (node == null) {
 			return 0;
 		}
-		
+
 		int left = treeHeight(node.left);
 		int right = treeHeight(node.right);
-		
+
 		// Pruning
 		if (left < 0 || right < 0 || Math.abs(left - right) > 1) {
 			return -1;
 		}
-		
+
 		return Math.max(left, right) + 1;
- 	}
+	}
 
 	// 114. Flatten Binary Tree to Linked List
 	// Company: Facebook # Bloomberg Apple Nutanix Amazon Microsoft
 	// Description: Given a binary tree, flatten it to a linked list in-place.
-	// Solution: 1. Iterative solution. 2. Recursion. Draw 
+	// Solution: 1. Iterative solution. 2. Recursion. Draw
 	public void flatten(TreeNode root) {
 		if (root == null) {
 			return;
 		}
-		
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        
-        while (!stack.isEmpty()) {
-        	TreeNode cur = stack.pop();
-        	
-        	if (cur.right != null) {
-        		stack.push(cur.right);
-        	}
-        	
-        	if (cur.left != null) {
-        		stack.push(cur.left);
-        	}
-        	
-        	if (!stack.empty()) {
-        		TreeNode top = stack.peek();
-        		cur.right = top;
-        	}
-        	
-        	cur.left = null;
-        }
-    }
-	
+
+		Stack<TreeNode> stack = new Stack<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			TreeNode cur = stack.pop();
+
+			if (cur.right != null) {
+				stack.push(cur.right);
+			}
+
+			if (cur.left != null) {
+				stack.push(cur.left);
+			}
+
+			if (!stack.empty()) {
+				TreeNode top = stack.peek();
+				cur.right = top;
+			}
+
+			cur.left = null;
+		}
+	}
+
 	TreeNode previous = null;
+
 	public void flatten2(TreeNode root) {
 		if (root == null) {
 			return;
 		}
 		flatten2(root.right);
 		flatten2(root.left);
-		
+
 		root.right = previous;
 		previous = root;
 		root.left = null;
@@ -641,79 +644,86 @@ public class Solution {
 
 	// 117. Populating Next Right Pointers in Each Node II
 	// Company: Microsoft Amazon # Bloomberg Facebook
-	// Description: Given a binary tree. Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
-	// Solution: 1. BFS, keep the previous pointer, each time move the pointer, and connect it.
+	// Description: Given a binary tree. Populate each next pointer to point to its
+	// next right node. If there is no next right node, the next pointer should be
+	// set to NULL.
+	// Solution: 1. BFS, keep the previous pointer, each time move the pointer, and
+	// connect it.
 	TreeLinkNode pre = null;
+
 	public void connect(TreeLinkNode root) {
-        if (root == null) {
-        	return;
-        }
-        
-        Queue<TreeLinkNode> queue = new LinkedList<>();
-        queue.offer(root);
-        
-        while (!queue.isEmpty()) {
-        	int size = queue.size();
-        	
-        	for (int i = 0; i < size; i++) {
-        		TreeLinkNode node = queue.poll();
-        		if (pre == null) {
-        			pre = node;
-        		} else {
-        			pre.next = node;
-        			pre = node;   // pre should move to node. 
-        		}
-        		
-        		if (node.left != null) {
-        			queue.offer(node.left);
-        		}
-        		
-        		if (node.right != null) {
-        			queue.offer(node.right);
-        		}
-        	}
-        	
-        	pre = null; 	// reaches next level.
-        }
-    }
-	
+		if (root == null) {
+			return;
+		}
+
+		Queue<TreeLinkNode> queue = new LinkedList<>();
+		queue.offer(root);
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+
+			for (int i = 0; i < size; i++) {
+				TreeLinkNode node = queue.poll();
+				if (pre == null) {
+					pre = node;
+				} else {
+					pre.next = node;
+					pre = node; // pre should move to node.
+				}
+
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+
+			pre = null; // reaches next level.
+		}
+	}
+
 	public class TreeLinkNode {
 		int val;
 		TreeLinkNode left, right, next;
+
 		TreeLinkNode(int x) {
 			val = x;
 		}
 	}
-	
+
 	// 105. Construct Binary Tree from Preorder and Inorder Traversal
 	// Company: Bloomberg Facebook Microsoft # Amazon Google
-	// Description: Given preorder and inorder traversal of a tree, construct the binary tree.
-	// Solution: Recursion build the tree. Preorder: root -> left -> right, Inorder: left -> root -> right; Make sure get the correct index.
+	// Description: Given preorder and inorder traversal of a tree, construct the
+	// binary tree.
+	// Solution: Recursion build the tree. Preorder: root -> left -> right, Inorder:
+	// left -> root -> right; Make sure get the correct index.
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
-        
+
 		return generateNode(preorder, 0, preorder.length, inorder, 0, inorder.length);
-    }
-	
+	}
+
 	private TreeNode generateNode(int[] preorder, int begin1, int end1, int[] inorder, int begin2, int end2) {
 		if (begin1 == end1) {
 			return null;
 		}
-		
+
 		if (begin2 == end2) {
 			return null;
 		}
-		
+
 		int rootValue = preorder[begin1];
 		TreeNode root = new TreeNode(rootValue);
 		int rootIndex = findRoot(begin2, end2, rootValue, inorder);
 		int leftsize = rootIndex - begin2;
-		
+
 		root.left = generateNode(preorder, begin1 + 1, begin1 + leftsize + 1, inorder, begin2, begin2 + leftsize);
 		root.right = generateNode(preorder, begin1 + leftsize + 1, end1, inorder, begin2 + leftsize + 1, end2);
-		
+
 		return root;
 	}
-	
+
 	// inorder left | root | right
 	private int findRoot(int begin2, int end2, int val, int[] inorder) {
 		// no duplicates allowed.
@@ -722,14 +732,41 @@ public class Solution {
 				return i;
 			}
 		}
-		
+
 		return -1;
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 106. Construct Binary Tree from Inorder and Postorder Traversal
+	// Company: Microsoft # Facebook Amazon
+	// Description: Given inorder and postorder traversal of a tree, construct the
+	// binary tree.
+	// Solution: Same idea as 105. 
+	public TreeNode buildTree2(int[] inorder, int[] postorder) {
+		return constructTree(0, inorder.length, inorder, 0, postorder.length, postorder);
+	}
+	
+	private TreeNode constructTree(int begin1, int end1, int[] inorder, int begin2, int end2, int[] postorder) {
+		if (begin1 == end1) {
+			return null;
+		}
+		
+		if (begin2 == end2) {
+			return null;
+		}
+		
+		int rootVal = postorder[end2 - 1];
+		TreeNode root = new TreeNode(rootVal);
+		
+		int rootPos = findRoot(begin1, end1, rootVal, inorder);
+		int leftsize = rootPos - begin1;
+		
+		root.left = constructTree(begin1, begin1 + leftsize, inorder, begin2, begin2 + leftsize, postorder);
+		root.right = constructTree(begin1 + leftsize + 1, end1, inorder, begin2 + leftsize, end2 -1, postorder);
+		
+		return root;
+	}
+	
+	
 	
 	//
 	// Company:
