@@ -766,7 +766,30 @@ public class Solution {
 		return root;
 	}
 	
+	// 96. Unique Binary Search Trees
+	// Company: Amazon # Google Adobe VMWare Snapchat Yahoo
+	// Description: Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
+	// Solution: DP solution, f(i) means [1, i] how many unique binary search tree could be generated. 
+	// for eg, f[3] = f[1 as root] + f[2 as root] + f[3 as root]; when i as root, then left tree [1, i- 1]; right tree [i + 1, n];
+	// left * right = nums of possible solutions. 
+	 public int numTrees(int n) {
+		 int[] f = new int[n + 1];
+		 f[0] = 1;
+		 f[1] = 1;
+		 
+		 for (int i = 2; i <=n; i++) {
+			 for (int k = 1; k <=i; k++) {
+				 f[i] += f[k - 1] * f[i - k];
+			 }
+		 }
+		 
+		 return f[n];
+	 }
 	
+	//
+	// Company:
+	// Description:
+	// Solution:
 	
 	//
 	// Company:
