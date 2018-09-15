@@ -19,6 +19,9 @@ public class Solution {
 		root.left.left.left = new TreeNode(2);
 		Solution sl = new Solution();
 		boolean balanced = sl.isBalanced(root);
+		
+		List<TreeNode> lists = sl.generateTrees(5);
+		
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -814,6 +817,7 @@ public class Solution {
 			List<TreeNode> leftNodes = generateTreeNodes(start, k - 1);
 			List<TreeNode> rightNodes = generateTreeNodes(k + 1, end);
 			
+			// for arbitrary left node, combine right nodes, left * right
 			for (TreeNode i: leftNodes) {
 				for (TreeNode j: rightNodes) {
 					TreeNode node = new TreeNode(k);
