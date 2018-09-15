@@ -740,57 +740,93 @@ public class Solution {
 	// Company: Microsoft # Facebook Amazon
 	// Description: Given inorder and postorder traversal of a tree, construct the
 	// binary tree.
-	// Solution: Same idea as 105. 
+	// Solution: Same idea as 105.
 	public TreeNode buildTree2(int[] inorder, int[] postorder) {
 		return constructTree(0, inorder.length, inorder, 0, postorder.length, postorder);
 	}
-	
+
 	private TreeNode constructTree(int begin1, int end1, int[] inorder, int begin2, int end2, int[] postorder) {
 		if (begin1 == end1) {
 			return null;
 		}
-		
+
 		if (begin2 == end2) {
 			return null;
 		}
-		
+
 		int rootVal = postorder[end2 - 1];
 		TreeNode root = new TreeNode(rootVal);
-		
+
 		int rootPos = findRoot(begin1, end1, rootVal, inorder);
 		int leftsize = rootPos - begin1;
-		
+
 		root.left = constructTree(begin1, begin1 + leftsize, inorder, begin2, begin2 + leftsize, postorder);
-		root.right = constructTree(begin1 + leftsize + 1, end1, inorder, begin2 + leftsize, end2 -1, postorder);
-		
+		root.right = constructTree(begin1 + leftsize + 1, end1, inorder, begin2 + leftsize, end2 - 1, postorder);
+
 		return root;
 	}
-	
+
 	// 96. Unique Binary Search Trees
 	// Company: Amazon # Google Adobe VMWare Snapchat Yahoo
-	// Description: Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
-	// Solution: DP solution, f(i) means [1, i] how many unique binary search tree could be generated. 
-	// for eg, f[3] = f[1 as root] + f[2 as root] + f[3 as root]; when i as root, then left tree [1, i- 1]; right tree [i + 1, n];
-	// left * right = nums of possible solutions. 
-	 public int numTrees(int n) {
-		 int[] f = new int[n + 1];
-		 f[0] = 1;
-		 f[1] = 1;
-		 
-		 for (int i = 2; i <=n; i++) {
-			 for (int k = 1; k <=i; k++) {
-				 f[i] += f[k - 1] * f[i - k];
-			 }
-		 }
-		 
-		 return f[n];
-	 }
+	// Description: Given n, how many structurally unique BST's (binary search
+	// trees) that store values 1 ... n?
+	// Solution: DP solution, f(i) means [1, i] how many unique binary search tree
+	// could be generated.
+	// for eg, f[3] = f[1 as root] + f[2 as root] + f[3 as root]; when i as root,
+	// then left tree [1, i- 1]; right tree [i + 1, n];
+	// left * right = nums of possible solutions.
+	public int numTrees(int n) {
+		int[] f = new int[n + 1];
+		f[0] = 1;
+		f[1] = 1;
+
+		for (int i = 2; i <= n; i++) {
+			for (int k = 1; k <= i; k++) {
+				f[i] += f[k - 1] * f[i - k];
+			}
+		}
+
+		return f[n];
+	}
+
+	// 95. Unique Binary Search Trees II
+	// Company: Bloomberg # Google Alibaba Adobe
+	// Description: Given an integer n, generate all structurally unique BST's
+	// (binary search trees) that store values 1 ... n.
+	// Solution: Use Recursion, left nodes starts from (start, k - 1), right nodes starts from (k + 1, end);
+	public List<TreeNode> generateTrees(int n) {
+		if (n == 0) {
+			return new ArrayList<>();
+		}
+		
+		return generateTreeNodes(1, n);
+	}
 	
-	//
-	// Company:
-	// Description:
-	// Solution:
-	
+	private List<TreeNode> generateTreeNodes(int start, int end) {
+		List<TreeNode> subTree = new ArrayList<>();
+		
+		if (start > end) {
+			subTree.add(null);
+			return subTree;
+		}
+		
+		for (int k = start; k <= end; k++) {
+			List<TreeNode> leftNodes = generateTreeNodes(start, k - 1);
+			List<TreeNode> rightNodes = generateTreeNodes(k + 1, end);
+			
+			for (TreeNode i: leftNodes) {
+				for (TreeNode j: rightNodes) {
+					TreeNode node = new TreeNode(k);
+					node.left = i;
+					node.right = j;
+					subTree.add(node);
+				}
+			}
+		}
+		
+		return subTree;
+	}
+
 	//
 	// Company:
 	// Description:
