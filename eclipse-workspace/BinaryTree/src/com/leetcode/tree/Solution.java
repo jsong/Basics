@@ -858,31 +858,76 @@ public class Solution {
 
 	// 108. Convert Sorted Array to Binary Search Tree
 	// Company: Google Apple # VMWare Microsoft Baidu Bloomberg Facebook
-	// Description: Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
-	// Solution: Recursion find the mid element as current 'root' and find the left and right nodes accordingly.
+	// Description: Given an array where elements are sorted in ascending order,
+	// convert it to a height balanced BST.
+	// Solution: Recursion find the mid element as current 'root' and find the left
+	// and right nodes accordingly.
 	public TreeNode sortedArrayToBST(int[] nums) {
 		return generateBST(nums, 0, nums.length - 1);
 	}
-	
+
 	private TreeNode generateBST(int[] nums, int begin, int end) {
 		if (begin > end) {
 			return null;
 		}
-		
+
 		int mid = begin + (end - begin) / 2;
-		
+
 		TreeNode node = new TreeNode(nums[mid]);
 		node.left = generateBST(nums, begin, mid - 1);
 		node.right = generateBST(nums, mid + 1, end);
-		
+
 		return node;
 	}
-	//
-	// Company:
-	// Description:
-	// Solution:
 
-	//
+	// 109. Convert Sorted List to Binary Search Tree
+	// Company: Google Facebook # Amazon Adobe Oracle Uber Zenefits
+	// Description: Given a singly linked list where elements are sorted in
+	// ascending order, convert it to a height balanced BST.
+	// Solution: Runner method find the mid each time, and recursive to add left and right node.
+
+	public TreeNode sortedListToBST(ListNode head) {
+		if (head == null) {
+			return null;
+		}
+		
+		if (head.next == null) {
+			return new TreeNode(head.val);
+		}
+		ListNode mid = cutInMid(head);
+		TreeNode root = new TreeNode(mid.val);
+		root.left = sortedListToBST(head);
+		root.right = sortedListToBST(mid.next);
+		
+		return root;
+	}
+	
+	// return the mid node
+	private ListNode cutInMid(ListNode head) {
+		if (head == null) {
+			return null;
+		}
+		
+		ListNode fast = head;
+		ListNode slow = head;
+		ListNode pre_slow = head;
+		
+		while (fast != null && fast.next != null) {
+			pre_slow = slow;
+			fast = fast.next.next;
+			slow = slow.next;
+		}
+		
+		pre_slow.next = null; // cut in mid;
+		return slow;
+	}
+
+	public class ListNode {
+	     int val;
+	     ListNode next;
+	     ListNode(int x) { val = x; }
+	 }
+	
 	// Company:
 	// Description:
 	// Solution:
