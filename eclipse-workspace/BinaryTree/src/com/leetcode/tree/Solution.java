@@ -19,9 +19,9 @@ public class Solution {
 		root.left.left.left = new TreeNode(2);
 		Solution sl = new Solution();
 		boolean balanced = sl.isBalanced(root);
-		
+
 		List<TreeNode> lists = sl.generateTrees(5);
-		
+
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -796,30 +796,31 @@ public class Solution {
 	// Company: Bloomberg # Google Alibaba Adobe
 	// Description: Given an integer n, generate all structurally unique BST's
 	// (binary search trees) that store values 1 ... n.
-	// Solution: Use Recursion, left nodes starts from (start, k - 1), right nodes starts from (k + 1, end);
+	// Solution: Use Recursion, left nodes starts from (start, k - 1), right nodes
+	// starts from (k + 1, end);
 	public List<TreeNode> generateTrees(int n) {
 		if (n == 0) {
 			return new ArrayList<>();
 		}
-		
+
 		return generateTreeNodes(1, n);
 	}
-	
+
 	private List<TreeNode> generateTreeNodes(int start, int end) {
 		List<TreeNode> subTree = new ArrayList<>();
-		
+
 		if (start > end) {
 			subTree.add(null);
 			return subTree;
 		}
-		
+
 		for (int k = start; k <= end; k++) {
 			List<TreeNode> leftNodes = generateTreeNodes(start, k - 1);
 			List<TreeNode> rightNodes = generateTreeNodes(k + 1, end);
-			
+
 			// for arbitrary left node, combine right nodes, left * right
-			for (TreeNode i: leftNodes) {
-				for (TreeNode j: rightNodes) {
+			for (TreeNode i : leftNodes) {
+				for (TreeNode j : rightNodes) {
 					TreeNode node = new TreeNode(k);
 					node.left = i;
 					node.right = j;
@@ -827,39 +828,60 @@ public class Solution {
 				}
 			}
 		}
-		
+
 		return subTree;
 	}
 
 	// 98. Validate Binary Search Tree
-	// Company: Facebook Amazon Bloomberg Microsoft Google Qualtrics TripAdvisor # Capital One Apple LinkedIn Square Snapchat VMWare
-	// Description: Given a binary tree, determine if it is a valid binary search tree (BST).
-	// Solution: Recursion, define lower and upper make sure left and right all valid BST.
-	 public boolean isValidBST(TreeNode root) {
+	// Company: Facebook Amazon Bloomberg Microsoft Google Qualtrics TripAdvisor #
+	// Capital One Apple LinkedIn Square Snapchat VMWare
+	// Description: Given a binary tree, determine if it is a valid binary search
+	// tree (BST).
+	// Solution: Recursion, define lower and upper make sure left and right all
+	// valid BST.
+	public boolean isValidBST(TreeNode root) {
 		return isValidBST(root, null, null);
-	 }
-	 
-	 private boolean isValidBST(TreeNode node, Integer lower, Integer upper) {
-		 if (node == null) {
-			 return true;
-		 }
-		 
-		 if (lower != null && node.val <= lower) return false;
-		 if (upper != null && node.val >= upper) return false;
-		 
-		 return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper); 
-	 }
+	}
+
+	private boolean isValidBST(TreeNode node, Integer lower, Integer upper) {
+		if (node == null) {
+			return true;
+		}
+
+		if (lower != null && node.val <= lower)
+			return false;
+		if (upper != null && node.val >= upper)
+			return false;
+
+		return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper);
+	}
+
+	// 108. Convert Sorted Array to Binary Search Tree
+	// Company: Google Apple # VMWare Microsoft Baidu Bloomberg Facebook
+	// Description: Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+	// Solution: Recursion find the mid element as current 'root' and find the left and right nodes accordingly.
+	public TreeNode sortedArrayToBST(int[] nums) {
+		return generateBST(nums, 0, nums.length - 1);
+	}
 	
+	private TreeNode generateBST(int[] nums, int begin, int end) {
+		if (begin > end) {
+			return null;
+		}
+		
+		int mid = begin + (end - begin) / 2;
+		
+		TreeNode node = new TreeNode(nums[mid]);
+		node.left = generateBST(nums, begin, mid - 1);
+		node.right = generateBST(nums, mid + 1, end);
+		
+		return node;
+	}
 	//
 	// Company:
 	// Description:
 	// Solution:
-	
-	//
-	// Company:
-	// Description:
-	// Solution:
-	
+
 	//
 	// Company:
 	// Description:
