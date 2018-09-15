@@ -831,6 +831,35 @@ public class Solution {
 		return subTree;
 	}
 
+	// 98. Validate Binary Search Tree
+	// Company: Facebook Amazon Bloomberg Microsoft Google Qualtrics TripAdvisor # Capital One Apple LinkedIn Square Snapchat VMWare
+	// Description: Given a binary tree, determine if it is a valid binary search tree (BST).
+	// Solution: Recursion, define lower and upper make sure left and right all valid BST.
+	 public boolean isValidBST(TreeNode root) {
+		return isValidBST(root, null, null);
+	 }
+	 
+	 private boolean isValidBST(TreeNode node, Integer lower, Integer upper) {
+		 if (node == null) {
+			 return true;
+		 }
+		 
+		 if (lower != null && node.val <= lower) return false;
+		 if (upper != null && node.val >= upper) return false;
+		 
+		 return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper); 
+	 }
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
+	//
+	// Company:
+	// Description:
+	// Solution:
+	
 	//
 	// Company:
 	// Description:
