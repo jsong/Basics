@@ -1084,13 +1084,26 @@ public class Solution {
 		
 		return 1 + Math.max(maxDepth2(root.left), maxDepth2(root.right));
 	}
-	//
-	// Company:
-	// Description:
-	// Solution:
-
-	//
-	// Company:
+	
+	// 112. Path Sum
+	// Company: Amazon # LinkedIn Google
+	// Description: Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+	// Solution: Recursive solution, check when reach leaf, whether the sum reaches 0;
+	public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) { 
+        	return false;
+        }
+        
+        // leaf
+        if (root.left == null && root.right == null) {
+        	return root.val == sum;
+        }
+        
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+	
+	// 113. Path Sum II
+	// Company: 
 	// Description:
 	// Solution:
 
