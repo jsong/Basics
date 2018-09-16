@@ -966,12 +966,33 @@ public class Solution {
 	}
 	
 	// 230. Kth Smallest Element in a BST
+	// Company: Amazon Walmart Labs TripleByte # Facebook Microsoft Bloomberg Google 
+	// Description: Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
+	// Solution: Inorder traverse will have the ascending.
+	private int kth = 0;
+	private int kthValue = 0;
+	
+	public int kthSmallest(TreeNode root, int k) {
+		kth = k;
+		inorder2(root);
+		return kthValue;
+	}
+	
+	private void inorder2(TreeNode node) {
+		if (node == null) {
+			return;
+		}
+		
+		inorder2(node.left);
+		kth--;
+		if (kth == 0) {
+			kthValue = node.val;
+		}
+		inorder2(node.right);
+	}
+	
+	// 111. Minimum Depth of Binary Tree
 	// Company: 
-	// Description:
-	// Solution:
-
-	// 
-	// Company:
 	// Description:
 	// Solution:
 
