@@ -995,32 +995,77 @@ public class Solution {
 
 	// 111. Minimum Depth of Binary Tree
 	// Company: Facebook Amazon # Google Adobe Alibaba Goldman Sachs
-	// Description: Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
-	// Solution: 1. BFS check leaf node 2. DFS check leaf node. 
+	// Description: Given a binary tree, find its minimum depth. The minimum depth
+	// is the number of nodes along the shortest path from the root node down to the
+	// nearest leaf node.
+	// Solution: 1. BFS check leaf node 2. DFS check leaf node.
 	public int minDepth(TreeNode root) {
 		int depth = 1;
 		if (root == null) {
 			return 0;
 		}
-		
+
 		Queue<TreeNode> queue = new LinkedList<>();
 		queue.offer(root);
-        
-		outerloop:
+
+		outerloop: while (!queue.isEmpty()) {
+			int size = queue.size();
+
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				// if node is leaf;
+				if (node.left == null && node.right == null) {
+					break outerloop;
+				}
+
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+
+			depth++;
+		}
+
+		return depth;
+	}
+
+	public int minDepth2(TreeNode root) {
+		return minDepth(root, root == null);
+	}
+
+	private int minDepth(TreeNode node, boolean isLeaf) {
+		if (node == null) {
+			return isLeaf ? 0 : Integer.MAX_VALUE;
+		}
+
+		return 1 + Math.min(minDepth(node.left, node.right == null), minDepth(node.right, node.left == null));
+	}
+
+	// 104. Maximum Depth of Binary Tree
+	// Company: LinkedIn Amazon Google # Alibaba Bloomberg Tencent Facebook
+	// Description: Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+	// Solution: 1. BFS traverse until there are no further levels. 2. DFS left right recursively.
+	public int maxDepth(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		
+		int depth = 0; 
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root);
+		
 		while (!queue.isEmpty()) {
 			int size = queue.size();
 			
 			for (int i = 0; i < size; i++) {
 				TreeNode node = queue.poll();
-				// if node is leaf; 
-				if (node.left == null && node.right == null) {
-					break outerloop;
-				}
-				
 				if (node.left != null) {
 					queue.offer(node.left);
 				}
-				
 				if (node.right != null) {
 					queue.offer(node.right);
 				}
@@ -1032,17 +1077,22 @@ public class Solution {
 		return depth;
 	}
 	
-	public int minDepth2(TreeNode root) {
-		return minDepth(root, root == null);
-	}
-	
-	private int minDepth(TreeNode node, boolean isLeaf) {
-		if (node == null) {
-			return isLeaf? 0: Integer.MAX_VALUE;
+	public int maxDepth2(TreeNode root) {
+		if (root == null) {
+			return 0;
 		}
 		
-		return 1 + Math.min(minDepth(node.left, node.right == null), minDepth(node.right, node.left == null));
+		return 1 + Math.max(maxDepth2(root.left), maxDepth2(root.right));
 	}
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
 
 	//
 	// Company:
