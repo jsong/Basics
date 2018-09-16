@@ -1047,20 +1047,23 @@ public class Solution {
 
 	// 104. Maximum Depth of Binary Tree
 	// Company: LinkedIn Amazon Google # Alibaba Bloomberg Tencent Facebook
-	// Description: Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
-	// Solution: 1. BFS traverse until there are no further levels. 2. DFS left right recursively.
+	// Description: Given a binary tree, find its maximum depth. The maximum depth
+	// is the number of nodes along the longest path from the root node down to the
+	// farthest leaf node.
+	// Solution: 1. BFS traverse until there are no further levels. 2. DFS left
+	// right recursively.
 	public int maxDepth(TreeNode root) {
 		if (root == null) {
 			return 0;
 		}
-		
-		int depth = 0; 
+
+		int depth = 0;
 		Queue<TreeNode> queue = new LinkedList<>();
 		queue.offer(root);
-		
+
 		while (!queue.isEmpty()) {
 			int size = queue.size();
-			
+
 			for (int i = 0; i < size; i++) {
 				TreeNode node = queue.poll();
 				if (node.left != null) {
@@ -1070,43 +1073,74 @@ public class Solution {
 					queue.offer(node.right);
 				}
 			}
-			
+
 			depth++;
 		}
-		
+
 		return depth;
 	}
-	
+
 	public int maxDepth2(TreeNode root) {
 		if (root == null) {
 			return 0;
 		}
-		
+
 		return 1 + Math.max(maxDepth2(root.left), maxDepth2(root.right));
 	}
-	
+
 	// 112. Path Sum
 	// Company: Amazon # LinkedIn Google
-	// Description: Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
-	// Solution: Recursive solution, check when reach leaf, whether the sum reaches 0;
+	// Description: Given a binary tree and a sum, determine if the tree has a
+	// root-to-leaf path such that adding up all the values along the path equals
+	// the given sum.
+	// Solution: Recursive solution, check when reach leaf, whether the sum reaches
+	// 0;
 	public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null) { 
-        	return false;
-        }
-        
-        // leaf
-        if (root.left == null && root.right == null) {
-        	return root.val == sum;
-        }
-        
-        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
-    }
-	
-	// 113. Path Sum II
-	// Company: 
-	// Description:
-	// Solution:
+		if (root == null) {
+			return false;
+		}
 
+		// leaf
+		if (root.left == null && root.right == null) {
+			return root.val == sum;
+		}
+
+		return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+	}
+
+	// 113. Path Sum II
+	// Company: Amazon Facebook # Zillow Adobe Bloomberg Microsoft Yahoo
+	// Description: Given a binary tree and a sum, find all root-to-leaf paths where
+	// each path's sum equals the given sum.
+	// Solution: Extra path to track the path, backtrack to previous one, if reachs end.  	
+	public List<List<Integer>> pathSum(TreeNode root, int sum) {
+		List<List<Integer>> paths = new ArrayList<>();
+		List<Integer> path = new ArrayList<>();
+		
+		if (root == null) {
+			return paths;
+		}
+		
+		pathSumHelper(root, sum, path, paths);
+		return paths;
+	}
+	
+	private void pathSumHelper(TreeNode node, int sum, List<Integer> path, List<List<Integer>> paths) {
+		if (node == null) {
+			return;
+		}
+		path.add(node.val);
+		
+		if (node.left == null && node.right == null) {
+			if (sum == node.val) {
+				paths.add(new ArrayList<>(path));
+			}
+		}
+		
+		pathSumHelper(node.left, sum - node.val, path, paths);
+		pathSumHelper(node.right, sum - node.val, path, paths);
+		path.remove(path.size() - 1);
+	}
 	//
 	// Company:
 	// Description:
