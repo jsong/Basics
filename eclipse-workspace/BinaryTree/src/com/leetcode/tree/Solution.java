@@ -884,13 +884,14 @@ public class Solution {
 	// Company: Google Facebook # Amazon Adobe Oracle Uber Zenefits
 	// Description: Given a singly linked list where elements are sorted in
 	// ascending order, convert it to a height balanced BST.
-	// Solution: Runner method find the mid each time, and recursive to add left and right node.
+	// Solution: Runner method find the mid each time, and recursive to add left and
+	// right node.
 
 	public TreeNode sortedListToBST(ListNode head) {
 		if (head == null) {
 			return null;
 		}
-		
+
 		if (head.next == null) {
 			return new TreeNode(head.val);
 		}
@@ -898,36 +899,83 @@ public class Solution {
 		TreeNode root = new TreeNode(mid.val);
 		root.left = sortedListToBST(head);
 		root.right = sortedListToBST(mid.next);
-		
+
 		return root;
 	}
-	
+
 	// return the mid node
 	private ListNode cutInMid(ListNode head) {
 		if (head == null) {
 			return null;
 		}
-		
+
 		ListNode fast = head;
 		ListNode slow = head;
 		ListNode pre_slow = head;
-		
+
 		while (fast != null && fast.next != null) {
 			pre_slow = slow;
 			fast = fast.next.next;
 			slow = slow.next;
 		}
-		
+
 		pre_slow.next = null; // cut in mid;
 		return slow;
 	}
 
 	public class ListNode {
-	     int val;
-	     ListNode next;
-	     ListNode(int x) { val = x; }
-	 }
+		int val;
+		ListNode next;
+
+		ListNode(int x) {
+			val = x;
+		}
+	}
+
+	// 235. Lowest Common Ancestor of a Binary Search Tree
+	// Company: Microsoft Amazon Tencent LinkedIn Bloomberg # Google BlackRock
+	// Facebook
+	// Description: Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+	// Solution: 1. Recursive solution. 2. Iterative solution.
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		if (root == null) {
+			return null;
+		}
+		
+		if (Math.max(p.val, q.val) < root.val) {
+			return lowestCommonAncestor(root.left, p, q);
+		} else if (Math.min(p.val, q.val) > root.val) {
+			return lowestCommonAncestor(root.right, p, q);
+		} else {
+			return root;
+		}
+	}
 	
+	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+		while (root != null) {
+			if (Math.max(p.val, q.val) < root.val) {
+				root = root.left;
+			} else if (Math.min(p.val, q.val) > root.val) {
+				root = root.right;
+			} else {
+				return root;
+			}
+		}
+		
+		return null;
+	}
+	
+	// 230. Kth Smallest Element in a BST
+	// Company: 
+	// Description:
+	// Solution:
+
+	// 
+	// Company:
+	// Description:
+	// Solution:
+
+	// 
 	// Company:
 	// Description:
 	// Solution:
