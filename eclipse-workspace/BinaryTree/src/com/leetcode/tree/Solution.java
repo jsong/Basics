@@ -935,13 +935,14 @@ public class Solution {
 	// 235. Lowest Common Ancestor of a Binary Search Tree
 	// Company: Microsoft Amazon Tencent LinkedIn Bloomberg # Google BlackRock
 	// Facebook
-	// Description: Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+	// Description: Given a binary search tree (BST), find the lowest common
+	// ancestor (LCA) of two given nodes in the BST.
 	// Solution: 1. Recursive solution. 2. Iterative solution.
 	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 		if (root == null) {
 			return null;
 		}
-		
+
 		if (Math.max(p.val, q.val) < root.val) {
 			return lowestCommonAncestor(root.left, p, q);
 		} else if (Math.min(p.val, q.val) > root.val) {
@@ -950,7 +951,7 @@ public class Solution {
 			return root;
 		}
 	}
-	
+
 	public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
 		while (root != null) {
 			if (Math.max(p.val, q.val) < root.val) {
@@ -961,28 +962,29 @@ public class Solution {
 				return root;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	// 230. Kth Smallest Element in a BST
-	// Company: Amazon Walmart Labs TripleByte # Facebook Microsoft Bloomberg Google 
-	// Description: Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
+	// Company: Amazon Walmart Labs TripleByte # Facebook Microsoft Bloomberg Google
+	// Description: Given a binary search tree, write a function kthSmallest to find
+	// the kth smallest element in it.
 	// Solution: Inorder traverse will have the ascending.
 	private int kth = 0;
 	private int kthValue = 0;
-	
+
 	public int kthSmallest(TreeNode root, int k) {
 		kth = k;
 		inorder2(root);
 		return kthValue;
 	}
-	
+
 	private void inorder2(TreeNode node) {
 		if (node == null) {
 			return;
 		}
-		
+
 		inorder2(node.left);
 		kth--;
 		if (kth == 0) {
@@ -990,13 +992,59 @@ public class Solution {
 		}
 		inorder2(node.right);
 	}
-	
-	// 111. Minimum Depth of Binary Tree
-	// Company: 
-	// Description:
-	// Solution:
 
-	// 
+	// 111. Minimum Depth of Binary Tree
+	// Company: Facebook Amazon # Google Adobe Alibaba Goldman Sachs
+	// Description: Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+	// Solution: 1. BFS check leaf node 2. DFS check leaf node. 
+	public int minDepth(TreeNode root) {
+		int depth = 1;
+		if (root == null) {
+			return 0;
+		}
+		
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root);
+        
+		outerloop:
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			
+			for (int i = 0; i < size; i++) {
+				TreeNode node = queue.poll();
+				// if node is leaf; 
+				if (node.left == null && node.right == null) {
+					break outerloop;
+				}
+				
+				if (node.left != null) {
+					queue.offer(node.left);
+				}
+				
+				if (node.right != null) {
+					queue.offer(node.right);
+				}
+			}
+			
+			depth++;
+		}
+		
+		return depth;
+	}
+	
+	public int minDepth2(TreeNode root) {
+		return minDepth(root, root == null);
+	}
+	
+	private int minDepth(TreeNode node, boolean isLeaf) {
+		if (node == null) {
+			return isLeaf? 0: Integer.MAX_VALUE;
+		}
+		
+		return 1 + Math.min(minDepth(node.left, node.right == null), minDepth(node.right, node.left == null));
+	}
+
+	//
 	// Company:
 	// Description:
 	// Solution:
