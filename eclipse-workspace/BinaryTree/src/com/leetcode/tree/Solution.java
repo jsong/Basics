@@ -1219,11 +1219,66 @@ public class Solution {
 		}
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 129. Sum Root to Leaf Numbers
+	// Company: Facebook # Amazon
+	// Description: Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number. An example is the root-to-leaf path 1->2->3 which represents the number 123. Find the total sum of all root-to-leaf numbers.
+	// Solution: 1. Like the 113. Path Sum II, record each path, use dfs to traverse all paths from root -> leaf. 
+	// 2. DFS, start from root, sums up left and right, if meet leaf node, then add value and multiply 10.
+	public int sumNumbers2(TreeNode root) {
+		return sumhelper(root, 0);
+	}
+	
+	private int sumhelper(TreeNode node, int sum) {
+		if (node == null) {
+			return 0;
+		}
+		
+		if (node.left == null && node.right == null) {
+			return node.val + sum * 10;
+		}
+		
+		return sumhelper(node.left, sum * 10 + node.val) + sumhelper(node.right, sum * 10 + node.val);
+	}
+	
+	public int sumNumbers(TreeNode root) {
+		List<List<Integer>> paths = new ArrayList<>();
+		List<Integer> path = new ArrayList<>();
+		
+		dfsPath(root, paths, path);
+		
+		int sum = 0;
+		for (List<Integer> list: paths) {
+			// root to leaf;
+			int i = 0;
+			for (int num: list) {
+				i = i * 10 + num; 
+			}
+			
+			sum += i;
+		}
+		
+		return sum;
+    }
+	
+	private void dfsPath(TreeNode node, List<List<Integer>> paths, List<Integer> path) {
+		if (node == null) {
+			return;
+		}
+		
+		path.add(node.val);
 
+		if (node.left == null && node.right == null) {
+			paths.add(new ArrayList<>(path));
+		}
+		
+		
+		dfsPath(node.left, paths, path);
+		dfsPath(node.right, paths, path);
+		
+		path.remove(path.size() - 1);
+	}
+	
+	
 	//
 	// Company:
 	// Description:
