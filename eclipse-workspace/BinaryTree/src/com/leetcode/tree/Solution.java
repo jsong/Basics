@@ -1150,39 +1150,74 @@ public class Solution {
 	// this problem, a path is defined as any sequence of nodes from some starting
 	// node to any node in the tree along the parent-child connections. The path
 	// must contain at least one node and does not need to go through the root.
-	// Solution: Recursion, calculate left / right use global max_value to track the current 
+	// Solution: Recursion, calculate left / right use global max_value to track the
+	// current
 	// maximum value.
 	private int max_value = Integer.MIN_VALUE;
+
 	public int maxPathSum(TreeNode root) {
 		dfs(root);
 		return max_value;
 	}
-	
+
 	private int dfs(TreeNode node) {
 		if (node == null) {
 			return 0;
 		}
-		
+
 		int l = dfs(node.left);
 		int r = dfs(node.right);
 		int sum = node.val;
 		if (l > 0) {
 			sum += l;
 		}
-		
+
 		if (r > 0) {
 			sum += r;
 		}
-	
+
 		max_value = Math.max(max_value, sum);
-		
+
 		return Math.max(l, r) > 0 ? Math.max(l, r) + node.val : node.val;
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
+	// 116. Populating Next Right Pointers in Each Node
+	// Company: Google Apple # Bloomberg Microsoft Facebook.
+	// Description: Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. Initially, all next pointers are set to NULL.
+	// Solution: Constant space. Use next for next level of root, pre to record previous node.
+	
+	public void connect2(TreeLinkNode root) {
+		TreeLinkNode next = null;
+		TreeLinkNode pre = null;
+		
+		while (root != null) {
+			next = null;
+			pre = null;
+			for (; root != null; root = root.next) {
+				if (next == null) {
+					next = root.left != null ? root.left: root.right;
+				}
+				
+				if (root.left != null) {
+					if (pre != null) {
+						pre.next = root.left;
+					}
+	
+					pre = root.left;
+				}
+				
+				if (root.right != null) {
+					if (pre != null) {
+						pre.next = root.right;
+					}
+					
+					pre = root.right;
+				}
+			}
+			
+			root = next; 	// next level;
+		}
+	}
 
 	//
 	// Company:
