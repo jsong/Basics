@@ -1112,35 +1112,88 @@ public class Solution {
 	// Company: Amazon Facebook # Zillow Adobe Bloomberg Microsoft Yahoo
 	// Description: Given a binary tree and a sum, find all root-to-leaf paths where
 	// each path's sum equals the given sum.
-	// Solution: Extra path to track the path, backtrack to previous one, if reachs end.  	
+	// Solution: Extra path to track the path, backtrack to previous one, if reachs
+	// end.
 	public List<List<Integer>> pathSum(TreeNode root, int sum) {
 		List<List<Integer>> paths = new ArrayList<>();
 		List<Integer> path = new ArrayList<>();
-		
+
 		if (root == null) {
 			return paths;
 		}
-		
+
 		pathSumHelper(root, sum, path, paths);
 		return paths;
 	}
-	
+
 	private void pathSumHelper(TreeNode node, int sum, List<Integer> path, List<List<Integer>> paths) {
 		if (node == null) {
 			return;
 		}
 		path.add(node.val);
-		
+
 		if (node.left == null && node.right == null) {
 			if (sum == node.val) {
 				paths.add(new ArrayList<>(path));
 			}
 		}
-		
+
 		pathSumHelper(node.left, sum - node.val, path, paths);
 		pathSumHelper(node.right, sum - node.val, path, paths);
 		path.remove(path.size() - 1);
 	}
+
+	// 124. Binary Tree Maximum Path Sum
+	// Company: Facebook Google Microsoft Amazon # Pocket Gems Intuit Alibaba
+	// Bloomberg
+	// Description: Given a non-empty binary tree, find the maximum path sum. For
+	// this problem, a path is defined as any sequence of nodes from some starting
+	// node to any node in the tree along the parent-child connections. The path
+	// must contain at least one node and does not need to go through the root.
+	// Solution: Recursion, calculate left / right use global max_value to track the current 
+	// maximum value.
+	private int max_value = Integer.MIN_VALUE;
+	public int maxPathSum(TreeNode root) {
+		dfs(root);
+		return max_value;
+	}
+	
+	private int dfs(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+		
+		int l = dfs(node.left);
+		int r = dfs(node.right);
+		int sum = node.val;
+		if (l > 0) {
+			sum += l;
+		}
+		
+		if (r > 0) {
+			sum += r;
+		}
+	
+		max_value = Math.max(max_value, sum);
+		
+		return Math.max(l, r) > 0 ? Math.max(l, r) + node.val : node.val;
+	}
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
 	//
 	// Company:
 	// Description:
