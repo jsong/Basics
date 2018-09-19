@@ -21,7 +21,9 @@ public class Solution {
 		boolean balanced = sl.isBalanced(root);
 
 		List<TreeNode> lists = sl.generateTrees(5);
-
+		int[] nums = {1, 3, 5, 7, 9, 11};
+		SegmentTreeNode seg = sl.buildTree(nums, 0, 6);
+		System.out.println(seg.sum);
 	}
 
 	// 144. Binary Tree Preorder Traversal
@@ -1279,11 +1281,116 @@ public class Solution {
 	}
 	
 	
+	// 236. Lowest Common Ancestor of a Binary Tree
+	// Company: Facebook Amazon Microsoft LinkedIn Apple Tencent Bloomberg Zillow # Google Yahoo Uber Lyft Alibaba Oracle Tableau Goldman Sachs
+	// Description: Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+	// Solution: Recursion find whether left and right has valid, if both has valid, then return root, otherwise return not null side.
+	public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q) {
+		if (root == null || root == p || root == q) {
+			return root;
+		}
+		
+		TreeNode left = lowestCommonAncestor3(root.left, p, q);
+		TreeNode right = lowestCommonAncestor3(root.right, p, q);
+		
+		if (left != null && right != null) {
+			return root;
+		}
+		
+		return left == null? right: left;
+    }
+	
+	// ##### Segment tree
+	// 307. Range Sum Query - Mutable
+	// Company: Google # Pocket Gems Facebook
+	// Description: Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive. The update(i, val) function modifies nums by updating the element at index i to val.
+	// Solution: Use Segment Tree which has log(n) update and log(n) sum time. 
+	
+	class NumArray {
+		SegmentTreeNode root;
+	    public NumArray(int[] nums) {
+	        root = buildTree(nums, 0, nums.length);
+	    }
+	    
+	    public void update(int i, int val) {
+	        updateHelper(this.root, i, val);
+	    }
+	    
+	    public int sumRange(int i, int j) {
+	        return sumRangeHelper(this.root, i, j);
+	    }
+	}
+
+	private int sumRangeHelper(SegmentTreeNode node, int begin, int end) {
+		if (node == null || begin >= node.end || end <= node.begin) {
+			return 0;
+		}
+		
+		if (begin <= node.begin && end >= node.end) {
+			return node.sum;
+		}
+		
+		int mid = node.begin + (node.end - node.begin) / 2;
+		return sumRangeHelper(node.left, begin, Math.min(end, mid)) + sumRangeHelper(node.right, Math.max(begin, mid), end);
+	}
+	
+	private void updateHelper(SegmentTreeNode node, int i, int val) {
+		// leaf node.
+		if (node.begin == i && node.begin == node.end - 1) { 
+			node.sum = val;
+			return;
+		}
+		
+		int mid = node.begin + (node.end - node.begin) / 2;
+		
+		if (i > mid) {
+			updateHelper(node.right, i, val);
+		} else {
+			updateHelper(node.left, i, val);
+		}
+		
+		node.sum = node.left.sum + node.right.sum;
+	}
+	
+	private SegmentTreeNode buildTree(int[] nums, int begin, int end) {
+       if (nums == null || nums.length == 0 || begin >= end) {
+    	   return null;
+       }
+       
+       if (begin == end - 1) { // only one element, leaf node.
+    	   return new SegmentTreeNode(begin, end, nums[begin]);
+       }
+       
+       SegmentTreeNode root = new SegmentTreeNode(begin, end);
+       int mid = begin + (end - begin) / 2;
+       root.left = buildTree(nums, begin, mid); 
+       root.right = buildTree(nums, mid, end);
+       root.sum = root.left.sum + root.right.sum;
+       
+       return root;
+    }
+	
+	static class SegmentTreeNode {
+        private int begin;
+        private int end;
+        private int sum;
+        private SegmentTreeNode left;
+        private SegmentTreeNode right;
+
+        public SegmentTreeNode(int begin, int end, int sum) {
+            this.begin = begin;
+            this.end = end;
+            this.sum = sum;
+        }
+        public SegmentTreeNode(int begin, int end) {
+            this(begin, end, 0);
+        }
+    }
 	//
 	// Company:
 	// Description:
 	// Solution:
-
+	
 	//
 	// Company:
 	// Description:
