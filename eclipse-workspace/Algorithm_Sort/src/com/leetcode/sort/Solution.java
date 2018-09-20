@@ -47,11 +47,31 @@ public class Solution {
 	private ListNode findInsertPos(ListNode node, int val) {
 		ListNode pre = null;
 		
-		for (ListNode cur = node; cur != null && cur.val < val; pre = cur, cur = cur.next) {
+		for (ListNode cur = node; cur != null && cur.val <= val; pre = cur, cur = cur.next) {
 			
 		}
 		
 		return pre;
 	}
 
+	
+	// ## Merge Sort
+	// 88. Merge Sorted Array
+	// Company: Facebook Microsoft Amazon Indeed Baidu # Adobe Bloomberg Yelp Google Expedia Intel Quip
+	// Description: Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+	// Solution: From back to front while both the arrays indicator still > 0, choose bigger from two arrays.
+	// if ib still > 0, then we need to put it back.
+	 public void merge(int[] nums1, int m, int[] nums2, int n) {
+	       int ia = m - 1;
+	       int ib = n - 1;
+	       int ic = m + n - 1;
+	       
+	       while (ia >= 0 && ib >= 0) {
+	    	   nums1[ic--] = nums1[ia] >= nums2[ib] ? nums1[ia--]: nums2[ib--];
+	       }
+	       
+	       while (ib >= 0) {
+	    	   nums1[ic--] = nums2[ib--];
+	       }
+	 }
 }
