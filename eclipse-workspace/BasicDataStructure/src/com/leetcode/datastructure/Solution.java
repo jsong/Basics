@@ -2582,8 +2582,9 @@ public class Solution {
 		if (lists == null || lists.length == 0) {
 			return null;
 		}
-		int size = lists.length;
-		Queue<ListNode> queue = new PriorityQueue(size, new ListNodeComparator());
+//		int size = lists.length;
+		
+		PriorityQueue<ListNode> queue = new PriorityQueue(new ListNodeComparator());
 
 		for (int i = 0; i < size; i++) {
 			queue.offer(lists[i]);
@@ -2592,11 +2593,11 @@ public class Solution {
 		ListNode dummy = new ListNode(-1);
 		ListNode cur = dummy;
 
-		if (!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			ListNode n = queue.poll();
 			cur.next = n;
 			cur = n;
-			while (cur.next != null) {
+			if (cur.next != null) {
 				queue.offer(cur.next);
 			}
 		}

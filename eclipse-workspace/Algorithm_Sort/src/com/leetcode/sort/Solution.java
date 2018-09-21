@@ -1,5 +1,8 @@
 package com.leetcode.sort;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 class ListNode {
 	int val;
 	public ListNode next;
@@ -20,6 +23,23 @@ public class Solution {
 
 		Solution sl = new Solution();
 		ListNode sorted = sl.insertionSortList(head);
+		
+		// l1
+		ListNode l1 = new ListNode(1);
+		l1.next = new ListNode(4);
+		l1.next.next = new ListNode(5);
+		
+		// l2
+//		ListNode l2 = new ListNode(1);
+//		l2.next = new ListNode(3);
+//		l2.next.next = new ListNode(4);
+//		
+//		// l3
+//		ListNode l3 = new ListNode(2);
+//		l3.next = new ListNode(6);
+		
+		ListNode[] lists = {l1};
+		ListNode res = sl.mergeKLists(lists);
 		System.out.println("Insertion Sort Complexity O(n ^ 2)");
 	}
 
@@ -80,13 +100,17 @@ public class Solution {
 	}
 
 	// 21. Merge Two Sorted Lists
-	// Company: Microsoft Amazon Facebook Adobe Alibaba Tencent Warmart labs Apple Indeed Google # Uber Yahoo Baidu Yelp Bloomberg Arista Networks LinkedIn Hulu Intuit Groupon
-	// Description: Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
-	// Solution: Iterate both pointers and set cur pointers. 
+	// Company: Microsoft Amazon Facebook Adobe Alibaba Tencent Warmart labs Apple
+	// Indeed Google # Uber Yahoo Baidu Yelp Bloomberg Arista Networks LinkedIn Hulu
+	// Intuit Groupon
+	// Description: Merge two sorted linked lists and return it as a new list. The
+	// new list should be made by splicing together the nodes of the first two
+	// lists.
+	// Solution: Iterate both pointers and set cur pointers.
 	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 		ListNode dummy = new ListNode(-1);
 		ListNode cur = dummy;
-		
+
 		while (l1 != null && l2 != null) {
 			if (l1.val <= l2.val) {
 				cur.next = l1;
@@ -95,22 +119,80 @@ public class Solution {
 				cur.next = l2;
 				l2 = l2.next;
 			}
-			
+
 			cur = cur.next;
 		}
-		
+
 		while (l1 != null) {
 			cur.next = l1;
 			cur = cur.next;
 			l1 = l1.next;
 		}
-		
+
 		while (l2 != null) {
 			cur.next = l2;
 			cur = cur.next;
 			l2 = l2.next;
 		}
+
+		return dummy.next;
+	}
+
+	// 23. Merge k Sorted Lists
+	// Company:
+	// Description:
+	// Solution:
+	public ListNode mergeKLists(ListNode[] lists) {
+		if (lists == null || lists.length == 0 ) {
+			return null;
+		}
+		
+		PriorityQueue<ListNode> queue = new PriorityQueue<>(new ListNodeComparator());
+		ListNode dummy = new ListNode(-1);
+		ListNode cur = dummy;
+		for (int i = 0; i < lists.length; i++) {
+			if (lists[i] != null) { 
+				queue.offer(lists[i]);
+			}
+		}
+		
+		while (!queue.isEmpty()) {
+			ListNode node = queue.poll();
+			cur.next = node;
+			cur = cur.next;
+			
+			if (node.next != null) {
+				queue.offer(node.next);
+			}
+		}
 		
 		return dummy.next;
 	}
+	
+	public class ListNodeComparator implements Comparator<ListNode> {
+		@Override
+		public int compare(ListNode o1, ListNode o2) {
+			return o1.val - o2.val;
+		}
+	}
+
+	// 23. Merge k Sorted Lists
+	// Company:
+	// Description:
+	// Solution:
+
+	// 23. Merge k Sorted Lists
+	// Company:
+	// Description:
+	// Solution:
+
+	// 23. Merge k Sorted Lists
+	// Company:
+	// Description:
+	// Solution:
+
+	// 23. Merge k Sorted Lists
+	// Company:
+	// Description:
+	// Solution:
 }
