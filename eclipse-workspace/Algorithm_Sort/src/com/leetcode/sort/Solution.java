@@ -23,22 +23,22 @@ public class Solution {
 
 		Solution sl = new Solution();
 		ListNode sorted = sl.insertionSortList(head);
-		
+
 		// l1
 		ListNode l1 = new ListNode(1);
 		l1.next = new ListNode(4);
 		l1.next.next = new ListNode(5);
-		
+
 		// l2
-//		ListNode l2 = new ListNode(1);
-//		l2.next = new ListNode(3);
-//		l2.next.next = new ListNode(4);
-//		
-//		// l3
-//		ListNode l3 = new ListNode(2);
-//		l3.next = new ListNode(6);
-		
-		ListNode[] lists = {l1};
+		// ListNode l2 = new ListNode(1);
+		// l2.next = new ListNode(3);
+		// l2.next.next = new ListNode(4);
+		//
+		// // l3
+		// ListNode l3 = new ListNode(2);
+		// l3.next = new ListNode(6);
+
+		ListNode[] lists = { l1 };
 		ListNode res = sl.mergeKLists(lists);
 		System.out.println("Insertion Sort Complexity O(n ^ 2)");
 	}
@@ -48,7 +48,7 @@ public class Solution {
 	// Company: Apple # Adobe Alibaba Google Airbnb
 	// Description: Sort a linked list using insertion sort.
 	// Solution: Start a new dummy linked list, start from beginning, scan current
-	// linked list, check whehter cur.val
+	// linked list, check whether cur.val
 	// is bigger than dummy linked list, if not return the previous node in the
 	// dummy linked list, and append the current
 	// behind.
@@ -139,36 +139,38 @@ public class Solution {
 	}
 
 	// 23. Merge k Sorted Lists
-	// Company:
-	// Description:
-	// Solution:
+	// Company: Amazon Facebook Google Microsoft Apple Tencent Bloomberg Uber Alibaba Oracle Dropbox Paypal # 
+	// Indeed Capital One Airbnb eBay LinkedIn Baidu Adobe Snapchat VMWare IXL Lyft Coupang Nutanix TinyCo
+	// Description: Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+	// Solution: PriorityQueue Time Complexity O(N Log k), k is the number of linkedlists, N is the final element. Space Complexity
+	// O(N) vs O(k) which is the PQ space.
 	public ListNode mergeKLists(ListNode[] lists) {
-		if (lists == null || lists.length == 0 ) {
+		if (lists == null || lists.length == 0) {
 			return null;
 		}
-		
+
 		PriorityQueue<ListNode> queue = new PriorityQueue<>(new ListNodeComparator());
 		ListNode dummy = new ListNode(-1);
 		ListNode cur = dummy;
 		for (int i = 0; i < lists.length; i++) {
-			if (lists[i] != null) { 
+			if (lists[i] != null) {
 				queue.offer(lists[i]);
 			}
 		}
-		
+
 		while (!queue.isEmpty()) {
 			ListNode node = queue.poll();
 			cur.next = node;
 			cur = cur.next;
-			
+
 			if (node.next != null) {
 				queue.offer(node.next);
 			}
 		}
-		
+
 		return dummy.next;
 	}
-	
+
 	public class ListNodeComparator implements Comparator<ListNode> {
 		@Override
 		public int compare(ListNode o1, ListNode o2) {
@@ -176,10 +178,59 @@ public class Solution {
 		}
 	}
 
-	// 23. Merge k Sorted Lists
-	// Company:
-	// Description:
-	// Solution:
+	// 148. Sort List
+	// Company: Baidu Hulu # Adobe Yahoo Microsoft Alibaba Pony.ai Tencent
+	// Description: Sort a linked list in O(n log n) time using constant space complexity.
+	// Solution: Merge Sort 
+	public ListNode sortList(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		
+		ListNode middle = findMiddle(head);
+		ListNode head2 = middle.next;
+		middle.next = null; 	// cut in the middle.
+		
+		ListNode l1 = sortList(head);
+		ListNode l2 = sortList(head2);
+		
+		return mergeSort(l1, l2);
+	}
+	
+	private ListNode findMiddle(ListNode node) {
+		if (node == null) {
+			return null;
+		}
+		
+		ListNode slow = node;
+		ListNode fast = node.next;
+		
+		while (fast != null && fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		
+		return slow;
+	}
+	
+	private ListNode mergeSort(ListNode l1, ListNode l2) {
+		ListNode dummy = new ListNode(-1);
+		
+		for (ListNode p = dummy; l1 != null || l2 !=null; p = p.next) {
+			int val1 = l1 != null ? l1.val : Integer.MAX_VALUE;
+			int val2 = l2 != null ? l2.val : Integer.MAX_VALUE;
+			
+			if (val1 <= val2) {
+				p.next = l1;
+				l1 = l1.next;
+			} else {
+				p.next = l2;
+				l2 = l2.next;
+			}
+		}
+		
+		return dummy.next;
+	}
 
 	// 23. Merge k Sorted Lists
 	// Company:
