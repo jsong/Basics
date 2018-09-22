@@ -232,11 +232,32 @@ public class Solution {
 		return dummy.next;
 	}
 
-	// 23. Merge k Sorted Lists
-	// Company:
-	// Description:
-	// Solution:
-
+	// 75. Sort Colors
+	// Company: Microsoft Facebook Google Amazon Yahoo # VMWare Pocket Gems Bloomberg Flipkart Alibaba
+	// Description: Given an array with n objects colored red, white or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white and blue. Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
+	// Solution: Use left, index, right, to record the index for 0, 1, 2. 
+    public void sortColors(int[] nums) {
+    	int index = 0;
+    	int left = 0; 
+    	int right = nums.length - 1;
+    	
+    	while (index <= right) {
+    		if (nums[index] == 1) {
+    			index++;
+    		} else if (nums[index] == 0) {
+    			swap(nums, left++, index++);
+    		} else {
+    			swap(nums, right--, index);
+    		}
+    	}
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+    	int temp = nums[i];
+    	nums[i] = nums[j];
+    	nums[j] = temp;
+    }
+    
 	// 23. Merge k Sorted Lists
 	// Company:
 	// Description:
