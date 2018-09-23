@@ -2,6 +2,7 @@ package com.leetcode.sort;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 class ListNode {
 	int val;
@@ -41,6 +42,45 @@ public class Solution {
 		ListNode[] lists = { l1 };
 		ListNode res = sl.mergeKLists(lists);
 		System.out.println("Insertion Sort Complexity O(n ^ 2)");
+		int[] nums = {3, 2, 1, 5, 6, 4};
+		
+//		int p = sl.partition(nums, 0, nums.length - 1);
+		
+		sl.quickSort(nums, 0, nums.length - 1);
+		
+		System.out.println("Quick Sort");
+	}
+	
+	// O(nlogn)
+	private void quickSort(int[] nums, int i, int j) {
+		if (i < j) {
+			int p = partition(nums, i, j);
+			quickSort(nums, i, p - 1);
+			quickSort(nums, p + 1, j);
+		}
+	}
+	
+	// left is less than pivot, right is larger than pivot.
+	private int partition(int[] nums, int i, int j) {
+		int pivot = nums[i];
+		
+		while (i < j) {
+			while (i < j && nums[j] >= pivot) {
+				--j;
+			}
+			
+			nums[i] = nums[j];
+			
+			while (i < j && nums[i] <= pivot) {
+				++i;
+			}
+			
+			nums[j] = nums[i];
+		}
+		
+		nums[i] = pivot;
+		
+		return i;
 	}
 
 	// ## Insertion Sort
@@ -139,10 +179,14 @@ public class Solution {
 	}
 
 	// 23. Merge k Sorted Lists
-	// Company: Amazon Facebook Google Microsoft Apple Tencent Bloomberg Uber Alibaba Oracle Dropbox Paypal # 
-	// Indeed Capital One Airbnb eBay LinkedIn Baidu Adobe Snapchat VMWare IXL Lyft Coupang Nutanix TinyCo
-	// Description: Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
-	// Solution: PriorityQueue Time Complexity O(N Log k), k is the number of linkedlists, N is the final element. Space Complexity
+	// Company: Amazon Facebook Google Microsoft Apple Tencent Bloomberg Uber
+	// Alibaba Oracle Dropbox Paypal #
+	// Indeed Capital One Airbnb eBay LinkedIn Baidu Adobe Snapchat VMWare IXL Lyft
+	// Coupang Nutanix TinyCo
+	// Description: Merge k sorted linked lists and return it as one sorted list.
+	// Analyze and describe its complexity.
+	// Solution: PriorityQueue Time Complexity O(N Log k), k is the number of
+	// linkedlists, N is the final element. Space Complexity
 	// O(N) vs O(k) which is the PQ space.
 	public ListNode mergeKLists(ListNode[] lists) {
 		if (lists == null || lists.length == 0) {
@@ -180,46 +224,47 @@ public class Solution {
 
 	// 148. Sort List
 	// Company: Baidu Hulu # Adobe Yahoo Microsoft Alibaba Pony.ai Tencent
-	// Description: Sort a linked list in O(n log n) time using constant space complexity.
-	// Solution: Merge Sort 
+	// Description: Sort a linked list in O(n log n) time using constant space
+	// complexity.
+	// Solution: Merge Sort
 	public ListNode sortList(ListNode head) {
 		if (head == null || head.next == null) {
 			return head;
 		}
-		
+
 		ListNode middle = findMiddle(head);
 		ListNode head2 = middle.next;
-		middle.next = null; 	// cut in the middle.
-		
+		middle.next = null; // cut in the middle.
+
 		ListNode l1 = sortList(head);
 		ListNode l2 = sortList(head2);
-		
+
 		return mergeSort(l1, l2);
 	}
-	
+
 	private ListNode findMiddle(ListNode node) {
 		if (node == null) {
 			return null;
 		}
-		
+
 		ListNode slow = node;
 		ListNode fast = node.next;
-		
+
 		while (fast != null && fast.next != null) {
 			slow = slow.next;
 			fast = fast.next.next;
 		}
-		
+
 		return slow;
 	}
-	
+
 	private ListNode mergeSort(ListNode l1, ListNode l2) {
 		ListNode dummy = new ListNode(-1);
-		
-		for (ListNode p = dummy; l1 != null || l2 !=null; p = p.next) {
+
+		for (ListNode p = dummy; l1 != null || l2 != null; p = p.next) {
 			int val1 = l1 != null ? l1.val : Integer.MAX_VALUE;
 			int val2 = l2 != null ? l2.val : Integer.MAX_VALUE;
-			
+
 			if (val1 <= val2) {
 				p.next = l1;
 				l1 = l1.next;
@@ -228,42 +273,78 @@ public class Solution {
 				l2 = l2.next;
 			}
 		}
-		
+
 		return dummy.next;
 	}
 
 	// 75. Sort Colors
-	// Company: Microsoft Facebook Google Amazon Yahoo # VMWare Pocket Gems Bloomberg Flipkart Alibaba
-	// Description: Given an array with n objects colored red, white or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white and blue. Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
-	// Solution: Use left, index, right, to record the index for 0, 1, 2. 
-    public void sortColors(int[] nums) {
-    	int index = 0;
-    	int left = 0; 
-    	int right = nums.length - 1;
-    	
-    	while (index <= right) {
-    		if (nums[index] == 1) {
-    			index++;
-    		} else if (nums[index] == 0) {
-    			swap(nums, left++, index++);
-    		} else {
-    			swap(nums, right--, index);
-    		}
-    	}
+	// Company: Microsoft Facebook Google Amazon Yahoo # VMWare Pocket Gems
+	// Bloomberg Flipkart Alibaba
+	// Description: Given an array with n objects colored red, white or blue, sort
+	// them in-place so that objects of the same color are adjacent, with the colors
+	// in the order red, white and blue. Here, we will use the integers 0, 1, and 2
+	// to represent the color red, white, and blue respectively.
+	// Solution: Use left, index, right, to record the index for 0, 1, 2.
+	public void sortColors(int[] nums) {
+		int index = 0;
+		int left = 0;
+		int right = nums.length - 1;
+
+		while (index <= right) {
+			if (nums[index] == 1) {
+				index++;
+			} else if (nums[index] == 0) {
+				swap(nums, left++, index++);
+			} else {
+				swap(nums, right--, index);
+			}
+		}
+	}
+
+	private void swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+
+	// 215. Kth Largest Element in an Array
+	// Company: Facebook Amazon Tencent Microsoft Apple # Google Goldman Sachs Bloomberg Twitter Nivida LinkedIn Snapchat eBay Airbnb
+	// Description: Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+	// Solution: Time: O(n log k), Space: O(k);  
+	public int findKthLargest(int[] nums, int k) {
+        Queue<Integer> queue = new PriorityQueue<>();
+        
+        for (int num: nums) {
+        	if (queue.size() < k) {
+        		queue.offer(num);
+        	} else {
+        		int top = queue.peek();
+        		if (top < num) {
+        			queue.poll();
+        			queue.offer(num);
+        		}
+        	}
+        }
+        
+        return queue.peek();
     }
-    
-    private void swap(int[] nums, int i, int j) {
-    	int temp = nums[i];
-    	nums[i] = nums[j];
-    	nums[j] = temp;
-    }
-    
-	// 23. Merge k Sorted Lists
+	
+	//
 	// Company:
 	// Description:
 	// Solution:
 
-	// 23. Merge k Sorted Lists
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
+	// Company:
+	// Description:
+	// Solution:
+
+	//
 	// Company:
 	// Description:
 	// Solution:
