@@ -42,15 +42,19 @@ public class Solution {
 		ListNode[] lists = { l1 };
 		ListNode res = sl.mergeKLists(lists);
 		System.out.println("Insertion Sort Complexity O(n ^ 2)");
-		int[] nums = {3, 2, 1, 5, 6, 4};
-		
-//		int p = sl.partition(nums, 0, nums.length - 1);
-		
+		int[] nums = { 3, 2, 1, 5, 6, 4 };
+
+		// int p = sl.partition(nums, 0, nums.length - 1);
+
 		sl.quickSort(nums, 0, nums.length - 1);
-		
+
 		System.out.println("Quick Sort");
+
+		int[] A = { 3, 4, -1, 1 };
+		sl.bucket_sort(A);
+		System.out.println("Bucket Sort");
 	}
-	
+
 	// O(nlogn)
 	private void quickSort(int[] nums, int i, int j) {
 		if (i < j) {
@@ -59,27 +63,27 @@ public class Solution {
 			quickSort(nums, p + 1, j);
 		}
 	}
-	
+
 	// left is less than pivot, right is larger than pivot.
 	private int partition(int[] nums, int i, int j) {
 		int pivot = nums[i];
-		
+
 		while (i < j) {
 			while (i < j && nums[j] >= pivot) {
 				--j;
 			}
-			
+
 			nums[i] = nums[j];
-			
+
 			while (i < j && nums[i] <= pivot) {
 				++i;
 			}
-			
+
 			nums[j] = nums[i];
 		}
-		
+
 		nums[i] = pivot;
-		
+
 		return i;
 	}
 
@@ -91,7 +95,7 @@ public class Solution {
 	// linked list, check whether cur.val
 	// is bigger than dummy linked list, if not return the previous node in the
 	// dummy linked list, and append the current
-	// behind.
+	// behind. Time Complexity: O(n ^ 2);
 	public ListNode insertionSortList(ListNode head) {
 		ListNode dummy = new ListNode(Integer.MIN_VALUE);
 
@@ -308,31 +312,61 @@ public class Solution {
 	}
 
 	// 215. Kth Largest Element in an Array
-	// Company: Facebook Amazon Tencent Microsoft Apple # Google Goldman Sachs Bloomberg Twitter Nivida LinkedIn Snapchat eBay Airbnb
-	// Description: Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
-	// Solution: Time: O(n log k), Space: O(k);  
+	// Company: Facebook Amazon Tencent Microsoft Apple # Google Goldman Sachs
+	// Bloomberg Twitter Nivida LinkedIn Snapchat eBay Airbnb
+	// Description: Find the kth largest element in an unsorted array. Note that it
+	// is the kth largest element in the sorted order, not the kth distinct element.
+	// Solution: Time: O(n log k), Space: O(k);
 	public int findKthLargest(int[] nums, int k) {
-        Queue<Integer> queue = new PriorityQueue<>();
-        
-        for (int num: nums) {
-        	if (queue.size() < k) {
-        		queue.offer(num);
-        	} else {
-        		int top = queue.peek();
-        		if (top < num) {
-        			queue.poll();
-        			queue.offer(num);
-        		}
-        	}
-        }
-        
-        return queue.peek();
-    }
-	
-	//
-	// Company:
-	// Description:
-	// Solution:
+		Queue<Integer> queue = new PriorityQueue<>();
+
+		for (int num : nums) {
+			if (queue.size() < k) {
+				queue.offer(num);
+			} else {
+				int top = queue.peek();
+				if (top < num) {
+					queue.poll();
+					queue.offer(num);
+				}
+			}
+		}
+
+		return queue.peek();
+	}
+
+	// 41. First Missing Positive
+	// Company: Amazon DataBricks Google Adobe # Pocket Gems Alibaba Facebook Baidu Microsoft Apple
+	// Description: Given an unsorted integer array, find the smallest missing
+	// positive integer.
+	// Solution: Bucket Sort, best O(n + k), worst O(n2);
+	public int firstMissingPositive(int[] nums) {
+		bucket_sort(nums);
+		
+		for (int i = 0; i < nums.length - 1; i++) {
+			if (nums[i] != i + 1) {
+				return i + 1;
+			}
+		}
+		
+		return nums.length + 1;
+	}
+
+	private void bucket_sort(int[] A) {
+		int n = A.length;
+
+		for (int i = 0; i < n; i++) {
+			while (A[i] != i + 1) {
+				if (A[i] < 1 || A[i] > n || A[i] == A[A[i] - 1]) {
+					break;
+				}
+
+				int tmp = A[i];
+				A[i] = A[tmp - 1];
+				A[tmp - 1] = tmp;
+			}
+		}
+	}
 
 	//
 	// Company:
