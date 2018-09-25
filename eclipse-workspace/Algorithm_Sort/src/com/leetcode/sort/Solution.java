@@ -1,5 +1,7 @@
 package com.leetcode.sort;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -368,11 +370,32 @@ public class Solution {
 		}
 	}
 
-	//
-	// Company:
-	// Description:
-	// Solution:
-
+	// 274. H-Index
+	// Company: Google Alation # Facebook Bloomberg
+	// Description: Given an array of citations (each citation is a non-negative integer) of a researcher, write a function to compute the researcher's h-index.
+	// Solution: Find the first index which is greater than the reference count. 
+	public int hIndex(int[] citations) {
+      Arrays.sort(citations); 
+      reverse(citations, 0, citations.length - 1);
+   
+      for (int i = 0; i < citations.length; i++) {
+    	  if (i >= citations[i]) {
+    		  return i;
+    	  }
+      }
+      
+      return citations.length;
+    }
+	
+	private void reverse(int[] nums, int left, int right) {
+		while (left < right) {
+			int temp = nums[left];
+			nums[left] = nums[right];
+			nums[right] = temp;
+			left++;
+			right--;
+		}
+	}
 	//
 	// Company:
 	// Description:
