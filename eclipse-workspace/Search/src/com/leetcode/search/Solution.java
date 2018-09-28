@@ -45,9 +45,11 @@ public class Solution {
 	}
 
 	// 33. Search in Rotated Sorted Array
-	// Description:
-	// Company:
-	// Solution:
+	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+	// You are given a target value to search. If found in the array return its index, otherwise return -1. You may assume no duplicate exists in the array. 
+	// Your algorithm's runtime complexity must be in the order of O(log n).
+	// Company: Facebook Microsoft Google LinkedIn Bloomberg Amazon Alibaba Baidu Apple Samsung SnapChat # Palantir Tech IXL VMWare Expedia Mathworks Uber Yelp. 
+	// Solution: Binary Search based on where the mid could be.
 	public int search(int[] nums, int target) {
 		if (nums == null || nums.length == 0) {
 			return -1;
