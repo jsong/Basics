@@ -4,7 +4,91 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		Solution sl = new Solution();
+		int[] nums = { 1 };
+		int[] r = sl.searchRange(nums, 1);
+	}
 
+	// 81. Search in Rotated Sorted Array II
+	// Description: Same as 33. However, allow duplicates in array.
+	// Company: Facebook Microsoft Google LinkedIn # Alibaba Amazon
+	// Solution: Skip the duplicates, by start++. Others are the same as 33.
+	public boolean search2(int[] nums, int target) {
+		if (nums == null || nums.length == 0) {
+			return false;
+		}
+		
+		int start = 0; 
+		int end = nums.length - 1;
+		
+		while (start + 1 < end) {
+			int mid = start + (end - start) / 2;
+			if (nums[mid] == target) {
+				return true;
+			} else if (nums[start] < nums[mid]) {
+				if (target >= nums[start] && target < nums[mid]) {
+					end = mid;
+				} else {
+					start = mid;
+				}
+			} else if (nums[start] > nums[mid]) {
+				if (target > nums[mid] && target <= nums[end]) {
+					start = mid;
+				} else {
+					end = mid;
+				}
+			} else {
+				start++; // skip duplicates.
+			}
+		}
+		
+		if (nums[start] == target || nums[end] == target) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	// 61. Search for a Range (LintCode)
+	// Description: Given a sorted array of n integers, find the starting and ending
+	// position of a given target value.
+	// Company: LinkedIn
+	// Solution: Binary Search lower bound / upper bound.
+	public int[] searchRange(int[] A, int target) {
+		int lowerBound = lowerBound(A, target, 0, A.length);
+		int upperBound = upperBound(A, target, 0, A.length);
+
+		if (lowerBound == A.length || A[lowerBound] != target) {
+			return new int[] { -1, -1 };
+		}
+
+		return new int[] { lowerBound, upperBound - 1 };
+	}
+
+	private int lowerBound(int[] A, int target, int start, int end) {
+		while (start != end) {
+			int mid = start + (end - start) / 2;
+			if (target > A[mid]) {
+				start = ++mid;
+			} else {
+				end = mid;
+			}
+		}
+
+		return start;
+	}
+
+	private int upperBound(int[] A, int target, int start, int end) {
+		while (start != end) {
+			int mid = start + (end - start) / 2;
+			if (target >= A[mid]) { // upper
+				start = ++mid;
+			} else {
+				end = mid;
+			}
+		}
+
+		return start;
 	}
 
 	// 35. Search Insert Position
@@ -12,8 +96,9 @@ public class Solution {
 	// target is found. If not, return the index where it would be if it were
 	// inserted in order.
 	// Company: Google # Amazon
-	// Solution: Binary Search find the middle element, check which range it belongs
-	// to.
+	// Solution: 1. Binary Search find the middle element, check which range it
+	// belongs
+	// to.2. lower bound.
 	public int searchInsert(int[] nums, int target) {
 		int left = 0;
 		int right = nums.length - 1;
@@ -45,10 +130,14 @@ public class Solution {
 	}
 
 	// 33. Search in Rotated Sorted Array
-	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-	// You are given a target value to search. If found in the array return its index, otherwise return -1. You may assume no duplicate exists in the array. 
+	// Description: Suppose an array sorted in ascending order is rotated at some
+	// pivot unknown to you beforehand.
+	// You are given a target value to search. If found in the array return its
+	// index, otherwise return -1. You may assume no duplicate exists in the array.
 	// Your algorithm's runtime complexity must be in the order of O(log n).
-	// Company: Facebook Microsoft Google LinkedIn Bloomberg Amazon Alibaba Baidu Apple Samsung SnapChat # Palantir Tech IXL VMWare Expedia Mathworks Uber Yelp. 
+	// Company: Facebook Microsoft Google LinkedIn Bloomberg Amazon Alibaba Baidu
+	// Apple Samsung SnapChat # Palantir Tech IXL VMWare Expedia Mathworks Uber
+	// Yelp.
 	// Solution: Binary Search based on where the mid could be.
 	public int search(int[] nums, int target) {
 		if (nums == null || nums.length == 0) {
@@ -63,13 +152,13 @@ public class Solution {
 			// 1. equal. 2. mid in left 3. mid in right
 			if (target == nums[mid]) {
 				return mid;
-			} else if (nums[mid] >= nums[left]) { // 2.
+			} else if (nums[mid] > nums[left]) { // 2.
 				if (nums[left] <= target && nums[mid] > target) {
 					right = mid;
 				} else {
 					left = mid;
 				}
-			} else if (nums[mid] <= nums[right]) { // 3.
+			} else if (nums[mid] < nums[left]) { // 3.
 				if (nums[mid] < target && nums[right] >= target) {
 					left = mid;
 				} else {
@@ -88,5 +177,4 @@ public class Solution {
 
 		return -1;
 	}
-
 }
