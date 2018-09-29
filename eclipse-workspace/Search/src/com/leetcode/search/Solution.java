@@ -17,10 +17,10 @@ public class Solution {
 		if (nums == null || nums.length == 0) {
 			return false;
 		}
-		
-		int start = 0; 
+
+		int start = 0;
 		int end = nums.length - 1;
-		
+
 		while (start + 1 < end) {
 			int mid = start + (end - start) / 2;
 			if (nums[mid] == target) {
@@ -41,11 +41,11 @@ public class Solution {
 				start++; // skip duplicates.
 			}
 		}
-		
+
 		if (nums[start] == target || nums[end] == target) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -177,4 +177,112 @@ public class Solution {
 
 		return -1;
 	}
+
+	// 74. Search a 2D Matrix
+	// Description: m * n matrix. Integers in each row are sorted from left to
+	// right. The first integer of each row is greater than the last integer of the
+	// previous row.
+	// Company: Amazon Twitter # Microsoft Facebook Baidu Uber
+	// Solution: 1. find which row it belongs to, then use binary search. 2. Binary Search
+	public boolean searchMatrix(int[][] matrix, int target) {
+		if (matrix == null) {
+			return false;
+		}
+
+		int m = matrix.length;
+		if (m == 0) {
+			return false;
+		}
+
+		int n = matrix[0].length;
+		if (n == 0) {
+			return false;
+		}
+
+		int i = 0;
+		for (i = 0; i < m;) {
+			if (target >= matrix[i][0]) {
+				i++;
+			} else {
+				break;
+			}
+		}
+
+		if (i == 0) {
+			return false;
+		}
+
+		int[] nums = matrix[i - 1];
+
+		int left = 0;
+		int right = n - 1;
+
+		while (left + 1 < right) {
+			int mid = left + (right - left) / 2;
+
+			if (nums[mid] < target) {
+				left = mid;
+			} else {
+				right = mid;
+			}
+		}
+
+		if (nums[left] == target || nums[right] == target) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	public boolean searchMatrix2(int[][] matrix, int target) {
+		int m = matrix.length;
+		if (m == 0) {
+			return false;
+		}
+		
+		int n = matrix[0].length;
+		
+		// consider the matrix as whole big array.
+		int first = 0;
+		int last = m * n - 1;
+		
+		while (first + 1 < last) {
+			int mid = first + (last - first) / 2;
+			int value = matrix[mid / n] [mid % n];
+			
+			if (value == target) {
+				return true;
+			} else if (value < target) {
+				first = mid;
+			} else {
+				last = mid;
+			}
+		}
+		
+		if (matrix[first / n] [first % n] == target || matrix[last / n] [last % n] == target) {
+		    return true;
+		}
+		
+		return false;
+	}
+	//
+	//
+	//
+	//
+
+	//
+	//
+	//
+	//
+
+	//
+	//
+	//
+	//
+
+	//
+	//
+	//
+	//
+
 }
