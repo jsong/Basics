@@ -265,11 +265,34 @@ public class Solution {
 		
 		return false;
 	}
-	//
-	//
-	//
-	//
-
+	
+	// 240. Search a 2D Matrix II
+	// Description: m * n matrix, Integers in each row are sorted in ascending from left to right. Integers in each column are sorted in ascending from top to bottom.
+	// Company: Amazon Microsoft Tencent Goldman Sachs # Bloomberg Google Facebook
+	// Solution: O(m + n), Starting from right corner. Target < Corner, go col - 1, else go row + 1, until we find the value. 
+	// Can also be applied to 74. However the Binary Search could be faster if (m + n) become large.
+	public boolean searchMatrix3(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+        	return false;
+        }
+        
+        int i = 0;
+        int j = matrix[0].length - 1;
+        
+        while (i < matrix.length && j >= 0) {
+        	int value = matrix[i][j];
+        	if (target == value) {
+        		return true;
+        	} else if (target > value) {
+        		i++;
+        	} else if (target < value ) {
+        		j--;
+        	}
+        }
+        
+        return false;
+    }
+	
 	//
 	//
 	//
