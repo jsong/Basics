@@ -183,7 +183,8 @@ public class Solution {
 	// right. The first integer of each row is greater than the last integer of the
 	// previous row.
 	// Company: Amazon Twitter # Microsoft Facebook Baidu Uber
-	// Solution: 1. find which row it belongs to, then use binary search. 2. Binary Search
+	// Solution: 1. find which row it belongs to, then use binary search. 2. Binary
+	// Search
 	public boolean searchMatrix(int[][] matrix, int target) {
 		if (matrix == null) {
 			return false;
@@ -233,23 +234,23 @@ public class Solution {
 
 		return false;
 	}
-	
+
 	public boolean searchMatrix2(int[][] matrix, int target) {
 		int m = matrix.length;
 		if (m == 0) {
 			return false;
 		}
-		
+
 		int n = matrix[0].length;
-		
+
 		// consider the matrix as whole big array.
 		int first = 0;
 		int last = m * n - 1;
-		
+
 		while (first + 1 < last) {
 			int mid = first + (last - first) / 2;
-			int value = matrix[mid / n] [mid % n];
-			
+			int value = matrix[mid / n][mid % n];
+
 			if (value == target) {
 				return true;
 			} else if (value < target) {
@@ -258,50 +259,81 @@ public class Solution {
 				last = mid;
 			}
 		}
-		
-		if (matrix[first / n] [first % n] == target || matrix[last / n] [last % n] == target) {
-		    return true;
+
+		if (matrix[first / n][first % n] == target || matrix[last / n][last % n] == target) {
+			return true;
 		}
-		
+
 		return false;
 	}
-	
-	// 240. Search a 2D Matrix II
-	// Description: m * n matrix, Integers in each row are sorted in ascending from left to right. Integers in each column are sorted in ascending from top to bottom.
-	// Company: Amazon Microsoft Tencent Goldman Sachs # Bloomberg Google Facebook
-	// Solution: O(m + n), Starting from right corner. Target < Corner, go col - 1, else go row + 1, until we find the value. 
-	// Can also be applied to 74. However the Binary Search could be faster if (m + n) become large.
-	public boolean searchMatrix3(int[][] matrix, int target) {
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
-        	return false;
-        }
-        
-        int i = 0;
-        int j = matrix[0].length - 1;
-        
-        while (i < matrix.length && j >= 0) {
-        	int value = matrix[i][j];
-        	if (target == value) {
-        		return true;
-        	} else if (target > value) {
-        		i++;
-        	} else if (target < value ) {
-        		j--;
-        	}
-        }
-        
-        return false;
-    }
-	
-	//
-	//
-	//
-	//
 
-	//
-	//
-	//
-	//
+	// 240. Search a 2D Matrix II
+	// Description: m * n matrix, Integers in each row are sorted in ascending from
+	// left to right. Integers in each column are sorted in ascending from top to
+	// bottom.
+	// Company: Amazon Microsoft Tencent Goldman Sachs # Bloomberg Google Facebook
+	// Solution: O(m + n), Starting from right corner. Target < Corner, go col - 1,
+	// else go row + 1, until we find the value.
+	// Can also be applied to 74. However the Binary Search could be faster if (m +
+	// n) become large.
+	public boolean searchMatrix3(int[][] matrix, int target) {
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+			return false;
+		}
+
+		int i = 0;
+		int j = matrix[0].length - 1;
+
+		while (i < matrix.length && j >= 0) {
+			int value = matrix[i][j];
+			if (target == value) {
+				return true;
+			} else if (target > value) {
+				i++;
+			} else if (target < value) {
+				j--;
+			}
+		}
+
+		return false;
+	}
+
+	// 153. Find Minimum in Rotated Sorted Array
+	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. Find the minimum element.
+	// Company: Goldman Sachs Bloomberg Microsoft Amazon Google Salesforce # Facebook eBay Twitter Baidu.
+	// Solution: 1. O(N) compare every element. 2. BinarySearch
+	public int findMin(int[] nums) {
+		int min = Integer.MAX_VALUE;
+		
+		for (int num: nums) {
+			min = Math.min(num, min);
+		}
+		
+		return min;
+	}
+	
+	public int findMin2(int[] nums) {
+		int left = 0;
+		int right = nums.length - 1;
+		
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+			
+			if (nums[mid] < nums[right]) {
+				right = mid;
+			} else {
+				left = ++mid;
+			}
+		}
+		
+		return nums[left];
+	}
+	
+	// 154. Find Minimum in Rotated Sorted Array II
+	// Description: 
+	// Company: 
+	// Solution: 
+	
 
 	//
 	//
