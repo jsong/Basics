@@ -13,6 +13,7 @@ public class Solution {
 	// Description: Same as 33. However, allow duplicates in array.
 	// Company: Facebook Microsoft Google LinkedIn # Alibaba Amazon
 	// Solution: Skip the duplicates, by start++. Others are the same as 33.
+	// Time Complexity, Average O(LogN), Worst O(N). 
 	public boolean search2(int[] nums, int target) {
 		if (nums == null || nums.length == 0) {
 			return false;
@@ -330,10 +331,25 @@ public class Solution {
 	}
 	
 	// 154. Find Minimum in Rotated Sorted Array II
-	// Description: 
-	// Company: 
-	// Solution: 
-	
+	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. Same as 153. The array may contain duplicates.
+	// Company: Uber # Google 
+	// Solution: 1. O(N) Solution iterate the whole array. 2. O(LogN) average, worst O(N).
+    public int findMinII(int[] nums) {
+    	int left = 0;
+		int right = nums.length - 1;
+		
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+			
+			if (nums[mid] < nums[right]) {
+				right = mid;
+			} else if (nums[mid] == nums[right]){
+				right--;
+			}
+		}
+		
+		return nums[left];
+    }
 
 	//
 	//
