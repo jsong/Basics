@@ -13,7 +13,7 @@ public class Solution {
 	// Description: Same as 33. However, allow duplicates in array.
 	// Company: Facebook Microsoft Google LinkedIn # Alibaba Amazon
 	// Solution: Skip the duplicates, by start++. Others are the same as 33.
-	// Time Complexity, Average O(LogN), Worst O(N). 
+	// Time Complexity, Average O(LogN), Worst O(N).
 	public boolean search2(int[] nums, int target) {
 		if (nums == null || nums.length == 0) {
 			return false;
@@ -300,59 +300,110 @@ public class Solution {
 	}
 
 	// 153. Find Minimum in Rotated Sorted Array
-	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. Find the minimum element.
-	// Company: Goldman Sachs Bloomberg Microsoft Amazon Google Salesforce # Facebook eBay Twitter Baidu.
+	// Description: Suppose an array sorted in ascending order is rotated at some
+	// pivot unknown to you beforehand. Find the minimum element.
+	// Company: Goldman Sachs Bloomberg Microsoft Amazon Google Salesforce #
+	// Facebook eBay Twitter Baidu.
 	// Solution: 1. O(N) compare every element. 2. BinarySearch
 	public int findMin(int[] nums) {
 		int min = Integer.MAX_VALUE;
-		
-		for (int num: nums) {
+
+		for (int num : nums) {
 			min = Math.min(num, min);
 		}
-		
+
 		return min;
 	}
-	
+
 	public int findMin2(int[] nums) {
 		int left = 0;
 		int right = nums.length - 1;
-		
+
 		while (left < right) {
 			int mid = left + (right - left) / 2;
-			
+
 			if (nums[mid] < nums[right]) {
 				right = mid;
 			} else {
 				left = ++mid;
 			}
 		}
-		
+
 		return nums[left];
 	}
-	
+
 	// 154. Find Minimum in Rotated Sorted Array II
-	// Description: Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand. Same as 153. The array may contain duplicates.
-	// Company: Uber # Google 
-	// Solution: 1. O(N) Solution iterate the whole array. 2. O(LogN) average, worst O(N).
-    public int findMinII(int[] nums) {
-    	int left = 0;
+	// Description: Suppose an array sorted in ascending order is rotated at some
+	// pivot unknown to you beforehand. Same as 153. The array may contain
+	// duplicates.
+	// Company: Uber # Google
+	// Solution: 1. O(N) Solution iterate the whole array. 2. O(LogN) average, worst
+	// O(N).
+	public int findMinII(int[] nums) {
+		int left = 0;
 		int right = nums.length - 1;
-		
+
 		while (left < right) {
 			int mid = left + (right - left) / 2;
-			
+
 			if (nums[mid] < nums[right]) {
 				right = mid;
-			} else if (nums[mid] > nums[right]){
+			} else if (nums[mid] > nums[right]) {
 				left = ++mid;
 			} else {
 				right--;
 			}
 		}
-		
-		return nums[left];
-    }
 
+		return nums[left];
+	}
+
+	// 4. Median of Two Sorted Arrays
+	// Description: There are two sorted arrays nums1 and nums2 of size m and n
+	// respectively. Find the median of the two sorted arrays. The overall run time
+	// complexity should be O(log (m+n)).
+	// Company: Goldman Sachs Adobe Facebook Amazon Microsoft Tencent Google Two
+	// Sigma Baidu Alibaba NetEase VMWare Walmart Labs # Bloomberg Airbnb Uber
+	// Twitter Hulu eBay Apple Yahoo Lyft Aetion Pocket Gems
+	// Solution: Find the mid element in the final array, binary search around.
+	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+		int n = nums1.length;
+		int m = nums2.length;
+		if (n > m) { // make sure n <= m
+			return findMedianSortedArrays(nums2, nums1);
+		}
+
+		int k = (n + m + 1) / 2;
+
+		int l = 0;
+		int r = n;
+		int m1 = 0;
+		int m2 = 0;
+
+		while (l < r) {
+			m1 = l + (r - l) / 2;
+			m2 = k - m1;
+
+			if (nums1[m1] < nums2[m2 - 1]) {
+				l = m1 + 1;
+			} else {
+				r = m1;
+			}
+		}
+
+		m1 = l;
+		m2 = k - l;
+
+		int c1 = Math.max(m1 <= 0 ? Integer.MIN_VALUE : nums1[m1 - 1], m2 <= 0 ? Integer.MIN_VALUE : nums2[m2 - 1]);
+
+		if ((n + m) % 2 == 1) {
+			return c1;
+		}
+
+		int c2 = Math.min(m1 >= n ? Integer.MAX_VALUE : nums1[m1], m2 >= m ? Integer.MAX_VALUE : nums2[m2]);
+
+		return (c1 + c2) * 0.5;
+	}
 	//
 	//
 	//
