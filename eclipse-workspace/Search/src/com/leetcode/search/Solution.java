@@ -404,9 +404,28 @@ public class Solution {
 
 		return (c1 + c2) * 0.5;
 	}
-	//
-	//
-	//
-	//
+
+	// 275. H-Index II
+	// Description: Given an array of citations sorted in ascending order (each citation is a non-negative integer) of a researcher, write a function to compute the researcher's h-index.
+	// OLog(N) solve it.
+	// Company: Facebook # 
+	// Solution: citations[mid] < n - mid, the h-index needs to ++;
+	public int hIndex2(int[] citations) {
+		int n = citations.length;
+		int left = 0;
+		int right = n - 1;
+		
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+			
+			if (citations[mid] < n - mid) {
+				left = ++mid;
+			} else {
+				right = mid;
+			}
+		}
+		
+		return n - left;
+	}
 
 }
