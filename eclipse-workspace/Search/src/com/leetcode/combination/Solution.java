@@ -76,4 +76,33 @@ public class Solution {
 			path.remove(path.size() - 1);
 		}
 	}
+	
+	// 17. Letter Combinations of a Phone Number 
+	// Description: Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+	// Company: Facebook Amazon Google Microsoft Uber JPMorgan Morgan Stanley # Lyft Yelp Airbnb Apple Adobe Pinterest Square Paypal Dropbox Alibaba Symantec
+	// Solution: Time: O(3 ^ n), Space O(n). DFS, index needs to be increased to pick up the next characters, however each time i starts 0.  
+    private String[] mapping = new String[] { "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+    public List<String> letterCombinations(String digits) {
+    	List<String> res = new ArrayList<>();
+    	if (digits == null || digits.length() == 0) {
+    		return res;
+    	}
+    	
+    	dfsLetter(0, res, digits, "");
+    	
+    	return res;
+    }
+    
+    private void dfsLetter(int index, List<String> res, String digits, String s) {
+    	if (index == digits.length()) {
+    		res.add(s);
+    		return;
+    	}
+    	
+    	char character = digits.charAt(index);
+    	String mappingString = mapping[character - '0'];
+    	for (int i = 0; i < mappingString.length(); i++) {
+    		dfsLetter(index + 1, res, digits, s + mappingString.charAt(i));
+    	}
+    }
 }
