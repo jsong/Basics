@@ -103,6 +103,40 @@ public class Solution {
 		}
 	}
 
+	// 46. Permutations
+	// Description: Given a collection of distinct integers, return all possible permutations.
+	// Company: Google LinkedIn Bloomberg Facebook Amazon Microsoft Walmart Labs # Adobe Paypal Two Sigma Yahoo
+	// Solution: Time Complexity O(n!), Space O(n). Recursive find the element and add it if not been vistied yet.
+	public List<List<Integer>> permute(int[] nums) {
+			List<List<Integer>> res = new ArrayList<>();
+			List<Integer> path = new ArrayList<>();
+
+			if (nums == null || nums.length == 0) {
+					return res.add(path);
+			}
+			boolean[] visited = new boolean[nums.length];
+
+			dfspermute(visited, res, path, nums);
+
+			return res;
+	}
+
+	private void dfspermute(boolean[] visited, List<List<Integer>> res, List<Integer> path, int[] nums) {
+			if (index == nums.length) {
+					res.add(new ArrayList<Integer>(path));
+					return;
+			}
+
+			for (int i = 0; i < nums.length; i++) {
+					if (visited[i]) continue;
+					path.add(nums[i]);
+					visited[i] = true;
+					dfspermute(visited, res, path, nums);
+					visited[i] = false;
+					path.remove(path.size() - 1);
+			}
+	}
+
 	// 17. Letter Combinations of a Phone Number
 	// Description: Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
 	// Company: Facebook Amazon Google Microsoft Uber JPMorgan Morgan Stanley # Lyft Yelp Airbnb Apple Adobe Pinterest Square Paypal Dropbox Alibaba Symantec
