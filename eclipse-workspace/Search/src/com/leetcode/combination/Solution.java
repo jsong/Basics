@@ -112,7 +112,8 @@ public class Solution {
 			List<Integer> path = new ArrayList<>();
 
 			if (nums == null || nums.length == 0) {
-					return res.add(path);
+					res.add(path);
+					return res;
 			}
 			boolean[] visited = new boolean[nums.length];
 
@@ -132,6 +133,40 @@ public class Solution {
 					path.add(nums[i]);
 					visited[i] = true;
 					dfspermute(visited, res, path, nums);
+					visited[i] = false;
+					path.remove(path.size() - 1);
+			}
+	}
+
+	// 47. Permutations II
+ 	// Description: Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+	// Company: LinkedIn VMWare # Facebook
+	// Solution: During level scan, skip the same element and if that element is not visited yet. 
+	public List<List<Integer>> permuteUnique(int[] nums) {
+			List<List<Integer>> res = new ArrayList<>();
+			List<Integer> path = new ArrayList<>();
+			if (nums == null || nums.length == 0) {
+					res.add(path);
+					return res;
+			}
+			Arrays.sort(nums);
+			boolean[] visited = new boolean[nums.length];
+			permuteU(nums, res, path, visited);
+			return res;
+	}
+
+	private void permuteU(int[] nums, List<List<Integer>> res, List<Integer> path, boolean[] visited){
+			if (path.size() == nums.length) {
+					res.add(new ArrayList<>(path));
+					return;
+			}
+
+			for (int i = 0; i < nums.length; i++) {
+					if (visited[i]) continue;
+					if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) continue;
+					path.add(nums[i]);
+					visited[i] = true;
+					permuteU(nums, res, path, visited);
 					visited[i] = false;
 					path.remove(path.size() - 1);
 			}
