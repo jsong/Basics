@@ -1145,6 +1145,37 @@ public class Solution {
 		path.remove(path.size() - 1);
 	}
 
+	// 437. Path Sum III
+	// Company: Facebook Quroa # Alibaba Microsoft.
+	// Description: You are given a binary tree in which each node contains an integer value. Find the number of paths that sum to a given value. Not nessariliy from root to leaf.
+	// Solution: 1. Brutal force, 2. Use HashMap to store the previous count;
+	public int pathSum(TreeNode root, int sum) {
+			HashMap<Integer, Integer> map = new HashMap<>();
+			map.put(0, 1); // make sure the root->leaf also count;
+			return pathSum3(root, sum, 0, map);
+	}
+	private int pathSum3(TreeNode root, int curSum, int sum, HashMap<Integer, Integer> map) {
+			if (root == null) {
+				return 0;
+			}
+
+			curSum += root.val;
+			int res = 0;
+			if (map.containsKey(curSum - sum)) {
+					res = map.get(curSum - sum);
+			}
+
+			if (!map.containsKey(curSum)) {
+				map.put(curSum, 1);
+			} else {
+				map.put(curSum, map.get(curSum) + 1);
+			}
+
+			res += pathSum3(root.left, curSum, sum, map) + pathSum3(root.right, curSum, sum, map);
+			map.put(curSum, map.get(curSum) - 1);
+			return res;
+	}
+
 	// 124. Binary Tree Maximum Path Sum
 	// Company: Facebook Google Microsoft Amazon # Pocket Gems Intuit Alibaba
 	// Bloomberg
@@ -1187,11 +1218,11 @@ public class Solution {
 	// Company: Google Apple # Bloomberg Microsoft Facebook.
 	// Description: Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. Initially, all next pointers are set to NULL.
 	// Solution: Constant space. Use next for next level of root, pre to record previous node.
-	
+
 	public void connect2(TreeLinkNode root) {
 		TreeLinkNode next = null;
 		TreeLinkNode pre = null;
-		
+
 		while (root != null) {
 			next = null;
 			pre = null;
@@ -1199,24 +1230,24 @@ public class Solution {
 				if (next == null) {
 					next = root.left != null ? root.left: root.right;
 				}
-				
+
 				if (root.left != null) {
 					if (pre != null) {
 						pre.next = root.left;
 					}
-	
+
 					pre = root.left;
 				}
-				
+
 				if (root.right != null) {
 					if (pre != null) {
 						pre.next = root.right;
 					}
-					
+
 					pre = root.right;
 				}
 			}
-			
+
 			root = next; 	// next level;
 		}
 	}
@@ -1224,63 +1255,63 @@ public class Solution {
 	// 129. Sum Root to Leaf Numbers
 	// Company: Facebook # Amazon
 	// Description: Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number. An example is the root-to-leaf path 1->2->3 which represents the number 123. Find the total sum of all root-to-leaf numbers.
-	// Solution: 1. Like the 113. Path Sum II, record each path, use dfs to traverse all paths from root -> leaf. 
+	// Solution: 1. Like the 113. Path Sum II, record each path, use dfs to traverse all paths from root -> leaf.
 	// 2. DFS, start from root, sums up left and right, if meet leaf node, then add value and multiply 10.
 	public int sumNumbers2(TreeNode root) {
 		return sumhelper(root, 0);
 	}
-	
+
 	private int sumhelper(TreeNode node, int sum) {
 		if (node == null) {
 			return 0;
 		}
-		
+
 		if (node.left == null && node.right == null) {
 			return node.val + sum * 10;
 		}
-		
+
 		return sumhelper(node.left, sum * 10 + node.val) + sumhelper(node.right, sum * 10 + node.val);
 	}
-	
+
 	public int sumNumbers(TreeNode root) {
 		List<List<Integer>> paths = new ArrayList<>();
 		List<Integer> path = new ArrayList<>();
-		
+
 		dfsPath(root, paths, path);
-		
+
 		int sum = 0;
 		for (List<Integer> list: paths) {
 			// root to leaf;
 			int i = 0;
 			for (int num: list) {
-				i = i * 10 + num; 
+				i = i * 10 + num;
 			}
-			
+
 			sum += i;
 		}
-		
+
 		return sum;
     }
-	
+
 	private void dfsPath(TreeNode node, List<List<Integer>> paths, List<Integer> path) {
 		if (node == null) {
 			return;
 		}
-		
+
 		path.add(node.val);
 
 		if (node.left == null && node.right == null) {
 			paths.add(new ArrayList<>(path));
 		}
-		
-		
+
+
 		dfsPath(node.left, paths, path);
 		dfsPath(node.right, paths, path);
-		
+
 		path.remove(path.size() - 1);
 	}
-	
-	
+
+
 	// 236. Lowest Common Ancestor of a Binary Tree
 	// Company: Facebook Amazon Microsoft LinkedIn Apple Tencent Bloomberg Zillow # Google Yahoo Uber Lyft Alibaba Oracle Tableau Goldman Sachs
 	// Description: Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
@@ -1289,33 +1320,33 @@ public class Solution {
 		if (root == null || root == p || root == q) {
 			return root;
 		}
-		
+
 		TreeNode left = lowestCommonAncestor3(root.left, p, q);
 		TreeNode right = lowestCommonAncestor3(root.right, p, q);
-		
+
 		if (left != null && right != null) {
 			return root;
 		}
-		
+
 		return left == null? right: left;
     }
-	
+
 	// ##### Segment tree
 	// 307. Range Sum Query - Mutable
 	// Company: Google # Pocket Gems Facebook
 	// Description: Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive. The update(i, val) function modifies nums by updating the element at index i to val.
-	// Solution: Use Segment Tree which has log(n) update and log(n) sum time. 
-	
+	// Solution: Use Segment Tree which has log(n) update and log(n) sum time.
+
 	class NumArray {
 		SegmentTreeNode root;
 	    public NumArray(int[] nums) {
 	        root = buildTree(nums, 0, nums.length);
 	    }
-	    
+
 	    public void update(int i, int val) {
 	        updateHelper(this.root, i, val);
 	    }
-	    
+
 	    public int sumRange(int i, int j) {
 	        return sumRangeHelper(this.root, i, j);
 	    }
@@ -1325,51 +1356,51 @@ public class Solution {
 		if (node == null || begin >= node.end || end <= node.begin) {
 			return 0;
 		}
-		
+
 		if (begin <= node.begin && end >= node.end) {
 			return node.sum;
 		}
-		
+
 		int mid = node.begin + (node.end - node.begin) / 2;
 		return sumRangeHelper(node.left, begin, Math.min(end, mid)) + sumRangeHelper(node.right, Math.max(begin, mid), end);
 	}
-	
+
 	private void updateHelper(SegmentTreeNode node, int i, int val) {
 		// leaf node.
-		if (node.begin == i && node.begin == node.end - 1) { 
+		if (node.begin == i && node.begin == node.end - 1) {
 			node.sum = val;
 			return;
 		}
-		
+
 		int mid = node.begin + (node.end - node.begin) / 2;
-		
+
 		if (i > mid) {
 			updateHelper(node.right, i, val);
 		} else {
 			updateHelper(node.left, i, val);
 		}
-		
+
 		node.sum = node.left.sum + node.right.sum;
 	}
-	
+
 	private SegmentTreeNode buildTree(int[] nums, int begin, int end) {
        if (nums == null || nums.length == 0 || begin >= end) {
     	   return null;
        }
-       
+
        if (begin == end - 1) { // only one element, leaf node.
     	   return new SegmentTreeNode(begin, end, nums[begin]);
        }
-       
+
        SegmentTreeNode root = new SegmentTreeNode(begin, end);
        int mid = begin + (end - begin) / 2;
-       root.left = buildTree(nums, begin, mid); 
+       root.left = buildTree(nums, begin, mid);
        root.right = buildTree(nums, mid, end);
        root.sum = root.left.sum + root.right.sum;
-       
+
        return root;
     }
-	
+
 	static class SegmentTreeNode {
         private int begin;
         private int end;
@@ -1390,7 +1421,7 @@ public class Solution {
 	// Company:
 	// Description:
 	// Solution:
-	
+
 	//
 	// Company:
 	// Description:
