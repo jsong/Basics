@@ -1417,10 +1417,42 @@ public class Solution {
             this(begin, end, 0);
         }
     }
-	//
-	// Company:
-	// Description:
-	// Solution:
+
+	// 298. Binary Tree Longest Consecutive Sequence
+	// Company: Google # Facebook Amazon
+	// Description: Given a binary tree, find the length of the longest consecutive sequence path.
+	// The longest consecutive path need to be from parent to child (cannot be the reverse).
+	// Solution: Per each node, calculate its left and right longest and compare with the global maximum.
+	private int longestSeq = 0;
+	public int longestConsecutive(TreeNode root) {
+			consecutiveSeq(root);
+			return longestSeq;
+  }
+
+	private int consecutiveSeq(TreeNode root) {
+			if (root == null) {
+					return 0;
+			}
+
+			int left = consecutiveSeq(root.left);
+			int right = consecutiveSeq(root.right);
+			int longest = 1;
+
+			if (root.left != null && root.val == root.left.val - 1) {
+					longest = Math.max(longest, left + 1);
+			}
+
+			if (root.right != null && root.val == root.right.val - 1) {
+					longest = Math.max(longest, right + 1);
+			}
+
+			if (longest > longestSeq) {
+		       longestSeq = longest;
+		  }
+
+			return longest;
+	}
+
 
 	//
 	// Company:
