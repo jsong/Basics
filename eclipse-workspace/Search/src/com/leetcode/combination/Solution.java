@@ -11,6 +11,38 @@ public class Solution {
 
 	}
 
+	// 39. Combination Sum
+	// Description: Given a set of candidate numbers (candidates) (without duplicates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+	// Company: Airbnb Amazon Facebook IXL # Yelp Uber
+	// Solution: DFS, iterate start index, then continue to the next level with same i, until we find the target eqauls 0.
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+			List<List<Integer>> res = new ArrayList<>();
+			if (candidates == null || candidates.length == 0) {
+					return res;
+			}
+
+			Arrays.sort(candidates);
+			cSumHelper(res, new ArrayList<Integer>(), candidates, target, 0);
+			return res;
+	}
+
+	private void cSumHelper(List<List<Integer>> res, List<Integer> path, int[] candidates, int target, int index) {
+			if (0 == target) {
+					res.add(new ArrayList<Integer>(path));
+					return;
+			}
+
+			for (int i = index; i < candidates.length; i++) {
+				  if (candidates[i] > target) {
+							break;
+					}
+
+					path.add(candidates[i]);
+					cSumHelper(res, path, candidates, target - candidates[i], i);
+					path.remove(path.size() - 1);
+			}
+	}
+
 	// 78. Subsets
 	// Description: Given a set of distinct integers, nums, return all possible subsets (the power set).
 	// Company: Facebook Adobe Amazon Google # Microsoft Alibaba Lyft Uber
@@ -141,7 +173,7 @@ public class Solution {
 	// 47. Permutations II
  	// Description: Given a collection of numbers that might contain duplicates, return all possible unique permutations.
 	// Company: LinkedIn VMWare # Facebook
-	// Solution: During level scan, skip the same element and if that element is not visited yet. 
+	// Solution: During level scan, skip the same element and if that element is not visited yet.
 	public List<List<Integer>> permuteUnique(int[] nums) {
 			List<List<Integer>> res = new ArrayList<>();
 			List<Integer> path = new ArrayList<>();
