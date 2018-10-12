@@ -43,6 +43,39 @@ public class Solution {
 			}
 	}
 
+	// 40. Combination Sum II
+	// Description: Same as Combination Sum, just not allowed duplicates in the results. Besides each number may not be used once.
+	// Company: LinkedIn # Uber Snapchat
+	// Solution: Same as Combination Sum, but need to check 1. source elment has been used or not to avoid duplicate. 2. source elements whether has duplicates nums[i] and nums[i - 1]
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+		List<List<Integer>> res = new ArrayList<>();
+		if (candidates == null || candidates.length == 0) {
+				return res;
+		}
+
+		Arrays.sort(candidates);
+		boolean[] visited = new boolean[candidates.length];
+		c2SumHelper(res, new ArrayList<Integer>(), target, candidates, 0, visited);
+		return res;
+	}
+
+	private void c2SumHelper(List<List<Integer>> res, List<Integer> path, int target, int[] nums, int index, boolean[] visited) {
+		if (target == 0) {
+			res.add(new ArrayList<Integer>(path));
+			return;
+		}
+
+		for (int i = index; i < nums.length; i++) {
+			if (visited[i] || i > 0 && nums[i - 1] == nums[i] && !visited[i - 1]) continue;
+			if (nums[i] > target) break;
+			path.add(nums[i]);
+			visited[i] = true;
+			c2SumHelper(res, path, target - nums[i], nums, i, visited);
+			visited[i] = false;
+			path.remove(path.size() - 1);
+		}
+	}
+
 	// 78. Subsets
 	// Description: Given a set of distinct integers, nums, return all possible subsets (the power set).
 	// Company: Facebook Adobe Amazon Google # Microsoft Alibaba Lyft Uber
