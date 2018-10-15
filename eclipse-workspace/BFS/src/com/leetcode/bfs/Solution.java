@@ -18,7 +18,7 @@ public static void main(String[] args) {
 
 // 261. Graph Valid Tree
 // Description: Given n nodes labeled from 0 to n-1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.
-// Company: LinkedIn Facebook Amazon
+// Company: LinkedIn Facebook Amazon # Google
 // Solution: Valid Graph must comply: 1. nodes size = edges.length - 1; 2. Visit one of the starter node, we could tranverse all the other nodes. size == n;
 public boolean validTree(int n, int[][] edges) {
 								// Graph 1. nodes size = edges size - 1
