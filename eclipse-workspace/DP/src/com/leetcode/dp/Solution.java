@@ -40,7 +40,7 @@ public class Solution {
 	// eg, aab => ["aa", "b"] and ["a", "a", "b"]
 	// Solution:
 	public List<List<String>> partition(String s) {
-
+		return null;
 	}
 
 	private boolean isPalindrome(String s) {

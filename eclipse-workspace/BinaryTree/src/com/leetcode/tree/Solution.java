@@ -1,6 +1,7 @@
 package com.leetcode.tree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -1149,11 +1150,12 @@ public class Solution {
 	// Company: Facebook Quroa # Alibaba Microsoft.
 	// Description: You are given a binary tree in which each node contains an integer value. Find the number of paths that sum to a given value. Not nessariliy from root to leaf.
 	// Solution: 1. Brutal force, 2. Use HashMap to store the previous count;
-	public int pathSum(TreeNode root, int sum) {
+	public int pathSumIII(TreeNode root, int sum) {
 			HashMap<Integer, Integer> map = new HashMap<>();
 			map.put(0, 1); // make sure the root->leaf also count;
 			return pathSum3(root, sum, 0, map);
 	}
+	
 	private int pathSum3(TreeNode root, int curSum, int sum, HashMap<Integer, Integer> map) {
 			if (root == null) {
 				return 0;

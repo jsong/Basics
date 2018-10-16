@@ -12,10 +12,12 @@ public class Solution {
 	// Company: Amazon Lyft Facebook Google LinkedIn Uber Bloomberg Apple Microsoft Qualtrics Yahoo Twitter Alibaba Yelp Oracle Adobe
 	// eBay AppDynamics Goldman Sachs Affirm # DoorDash Pinterest Zillow Palantir Technologies Expedia.
 	// Solution: Iterate each node, if node is 1, then DFS it's four directions, make them as 0. Count how many 1s left.
+	private int m;
+	private int n;
 	public int numIslands(char[][] grid) {
-		int m = grid.length;
+		m = grid.length;
 		if (m == 0) return 0;
-		int n = grid[0].length;
+		n = grid[0].length;
 		if (n == 0) return 0;
 
 		int res = 0;
