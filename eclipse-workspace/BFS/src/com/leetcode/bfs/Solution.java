@@ -75,6 +75,64 @@ public class Solution {
 		return tree;
 	}
 
+	// 297. Serialize and Deserialize Binary Tree
+	// Description:
+	// Company:
+	// Solution:
+
+	// Encodes a tree to a single string.
+  public String serialize(TreeNode root) {
+		StringBuffer sb = new StringBuffer();
+		if (root == null) {
+			return sb.toString();
+		}
+
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root);
+
+		while (queue.isEmpty()) {
+				TreeNode node = queue.poll();
+				if (node == null) {
+					sb.append("null ");
+				} else {
+					sb.append(node.val + " ");
+				}
+
+				queue.offer(root.left);
+				queue.offer(root.right);
+		}
+
+		return sb.toString();
+  }
+
+	// Decodes your encoded data to tree.
+	public TreeNode deserialize(String data) {
+		if (data == null || data.length() == 0) {
+			return null;
+		}
+
+		// Get all the nodes;
+		String[] arr = data.split(" ");
+		Queue<String> queue = new LinkedList<>();
+		TreeNode root = new TreeNode(Integer.parseInt(arr[0]));
+		queue.offer(root);
+
+		for (int i = 1; i < arr.length; i++) {
+			TreeNode cur = queue.poll();
+			if (arr[i] != "null") {
+				cur.left = new TreeNode(Integer.parseInt(arr[i]));
+				queue.offer(root.left);
+			}
+
+			if (arr[++i] != "null") {
+				cur.right = new TreeNode(Integer.parseInt(arr[i]));
+				queue.offer(root.right);
+			}
+		}
+
+		return root;
+	}
+
 	// 127. Word Ladder
 	// Description:
 	// Company:
