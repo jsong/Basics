@@ -76,9 +76,9 @@ public class Solution {
 	}
 
 	// 297. Serialize and Deserialize Binary Tree
-	// Description:
-	// Company:
-	// Solution:
+	// Description: Serialize and Deserialize Binary Tree
+	// Company: Facebook Amazon LinkedIn Google Quora Microsoft Uber # Intuit Oracle VMWare Apple Yahoo
+	// Solution: BSF traverse all the nodes, append " " to seperate all the nodes. Use queue to restore the tree based on String.
 
 	// Encodes a tree to a single string.
   public String serialize(TreeNode root) {
@@ -90,16 +90,16 @@ public class Solution {
 		Queue<TreeNode> queue = new LinkedList<>();
 		queue.offer(root);
 
-		while (queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 				TreeNode node = queue.poll();
 				if (node == null) {
 					sb.append("null ");
-				} else {
-					sb.append(node.val + " ");
+					continue;
 				}
 
-				queue.offer(root.left);
-				queue.offer(root.right);
+				sb.append(node.val + " ");
+				queue.offer(node.left);
+				queue.offer(node.right);
 		}
 
 		return sb.toString();
@@ -113,20 +113,20 @@ public class Solution {
 
 		// Get all the nodes;
 		String[] arr = data.split(" ");
-		Queue<String> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
 		TreeNode root = new TreeNode(Integer.parseInt(arr[0]));
 		queue.offer(root);
 
 		for (int i = 1; i < arr.length; i++) {
 			TreeNode cur = queue.poll();
-			if (arr[i] != "null") {
+			if (!arr[i].equals("null")) {
 				cur.left = new TreeNode(Integer.parseInt(arr[i]));
-				queue.offer(root.left);
+				queue.offer(cur.left);
 			}
 
-			if (arr[++i] != "null") {
+			if (!arr[++i].equals("null")) {
 				cur.right = new TreeNode(Integer.parseInt(arr[i]));
-				queue.offer(root.right);
+				queue.offer(cur.right);
 			}
 		}
 
