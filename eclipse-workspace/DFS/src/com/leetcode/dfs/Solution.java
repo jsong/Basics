@@ -86,8 +86,47 @@ public class Solution {
 		return dfs(num, j, k, k + addition.length());
 	}
 
-	//
-	//
-	//
-	//
+	// 131. Palindrome Partitioning
+	// Description: Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+ 	// Company: Amazon # Uber
+	// Solution: DFS, like subset, continous pick the subsring (index, i + 1), leftover starts (i + 1).
+	public List<List<String>> partition(String s) {
+		List<List<String>> res = new ArrayList<>();
+
+		if (s == null || s.length() == 0) {
+			return res;
+		}
+
+		dfsP(s, 0, res, new ArrayList<String>());
+		return res;
+  }
+
+	private void dfsP(String s, int index, List<List<String>> res, List<String> path) {
+		if (index == s.length()) {
+			res.add(new ArrayList<>(path));
+			return;
+		}
+
+		for (int i = index; i < s.length(); i++) {
+			String sub = s.substring(index, i + 1);
+			if (!isPalindrome(sub)) continue;
+			path.add(sub);
+			dfsP(s, i + 1, res, path);
+			path.remove(path.size() - 1);
+		}
+	}
+
+	private boolean isPalindrome(String s) {
+		int i = 0;
+		int j = s.length() - 1;
+		while (i < j) {
+			if (s.charAt(i++) == s.charAt(j--)) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
