@@ -129,4 +129,64 @@ public class Solution {
 
 		return true;
 	}
+
+	// 62. Unique Paths
+	// Description: Robert starts from 1,1 to right corner, either move right or move down. How many paths from left corner to right corner.
+	// Company: Google Amazon Apple Alibaba # Twitter Bloomberg Facebook Yahoo
+	// Solution: 1. Naive DFS. Time Limit Exceeds. 2. DFS with Memo. 3. DP solution.
+	// Navive DFS.
+	public int uniquePaths(int m, int n) {
+			if (m < 1 || n < 1) {
+				return 0;
+			}
+
+			if (m == 1 || n == 1) {
+				return 1;
+			}
+
+			return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+	}
+
+	// DFS with Memo
+	public int uniquePaths(int m, int n) {
+		int[][] memo = new int[m + 1][n + 1];
+		memo[0][0] = 1;
+		return uniquePathsWithMemo(m, n, memo);
+	}
+
+	private int uniquePathsWithMemo(int m, int n, int[][] memo) {
+		if (m < 1 || n < 1) {
+			return 0;
+		}
+
+		if (m == 1 || n == 1) {
+			return 1;
+		}
+
+		if (memo[m][n] != 0) {
+			return memo[m][n];
+		}
+
+		int paths = uniquePathsWithMemo(m - 1, n, memo) + uniquePathsWithMemo(m, n - 1, memo);
+		memo[m][n] = paths;
+		return paths;
+	}
+
+	// DP Solution
+	public int uniquePaths(int m, int n) {
+		int[][] memo = new int[m + 1][n + 1];
+		memo[1][1] = 1;
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				if (i == 1 && j == 1) continue;
+				memo[i][j] = memo[i - 1][j] + memo[i][j - 1];
+			}
+		}
+
+		return memo[m][n];
+	}
+	//
+	//
+	//
+	//
 }
