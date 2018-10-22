@@ -159,7 +159,7 @@ public class Solution {
 			return 0;
 		}
 
-		if (m == 1 || n == 1) {
+		if (m == 1 && n == 1) {
 			return 1;
 		}
 
@@ -185,8 +185,71 @@ public class Solution {
 
 		return memo[m][n];
 	}
-	//
-	//
-	//
-	//
+
+	// 63. Unique Paths II
+	// Description: Unique with obstacles.
+	// Company: Amazon Bloomberg # Google Facebook
+	// Solution: 1. DP solution. 2. DFS with Memo solution.
+	public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+		if (obstacleGrid == null) {
+			return 0;
+		}
+
+		int m = obstacleGrid.length;
+		if (m == 0 || obstacleGrid[0].length == 0) {
+			return 0;
+		}
+		int n = obstacleGrid[0].length;
+		int[][] memo = new int[m + 1][n + 1];
+
+		if (obstacleGrid[i][j] == 0) {
+			memo[1][1] = 1;
+		}
+
+		for (int i = 1; i <= m; i++) {
+			for (int j = 1; j <= n; j++) {
+				if ((i == 1 && j == 1) || obstacleGrid[i - 1][j - 1] == 1) continue;
+				memo[i][j] = memo[i - 1][j] + memo[i][j - 1];
+			}
+		}
+
+		return memo[m][n];
+  }
+
+	public int uniquePathsWithObstacles2(int[][] obstacleGrid) {
+		if (obstacleGrid == null) {
+			return 0;
+		}
+
+		int m = obstacleGrid.length;
+		if (m == 0 || obstacleGrid[0].length == 0) {
+			return 0;
+		}
+		int n = obstacleGrid[0].length;
+		int[][] memo = new int[m + 1][n + 1];
+		return uniquePathWithObj(m, n, memo, obj);
+	}
+
+	private int uniquePathWithObj(int m, int n, int[][] memo, int[][] obj) {
+		if (m < 1 || n < 1) {
+			return 0;
+		}
+
+		if (obj[m - 1][n - 1] == 1) {
+			return 0;
+		}
+
+		if (m == 1 && n == 1) {
+			return 1;
+		}
+
+		if (memo[m][n] != 0) {
+			return memo[m][n];
+		}
+
+		int paths = uniquePathWithObj(m - 1, n, memo, obj) + uniquePathWithObj(m, n - 1, memo, obj);
+		memo[m][n] = paths;
+		return paths;
+	}
+
 }
