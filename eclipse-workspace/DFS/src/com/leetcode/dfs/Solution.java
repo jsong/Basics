@@ -1,5 +1,8 @@
 package com.leetcode.dfs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Solution {
 
 	public static void main(String[] args) {
@@ -8,6 +11,8 @@ public class Solution {
 		Solution sl = new Solution();
 		boolean addictive = sl.isAdditiveNumber(num);
 		System.out.println("is:" + addictive);
+
+		sl.solveNQueens(4);
 	}
 
 	// 200. Number of Islands
@@ -251,5 +256,71 @@ public class Solution {
 		memo[m][n] = paths;
 		return paths;
 	}
+
+	// 51. N-Queens
+	// Description: The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+	// Company: Facebook Amazon Alibaba # Apple Microsoft Rubrik Tableau
+	// Solution: DFS start for row 0, and then iterate the next col to check whether it's a valid position, if so, record it's col into row. c[row] = col;
+	// 
+	public List<List<String>> solveNQueens(int n) {
+		List<List<String>> res = new ArrayList<>();
+		int[] c = new int[n];
+		dfsQueen(c, 0, res);
+		return res;
+  }
+
+	// Main
+	private void dfsQueen(int[] c, int row, List<List<String>> res) {
+		if (row == c.length) {
+			sprinf(c, res);
+			return;
+		}
+
+		for (int i = 0; i < c.length; i++) {
+			if (isValid(c, row, i)) {
+				c[row] = i;	// chess row -> i, col -> j;
+				dfsQueen(c, row + 1, res);
+			}
+		}
+	}
+
+	// Chess always N * N
+	private void sprinf(int[] c, List<List<String>> res) {
+		List<String> path = new ArrayList<>();
+		for (int i = 0; i < c.length; i++) {
+			char[] charArray = new char[c.length];
+			Arrays.fill(charArray, '.');
+			for (int j = 0; j < c.length; j++) {
+				if (c[i] == j) {
+					charArray[j] = 'Q';
+				}
+			}
+			path.add(new String(charArray));
+		}
+
+		res.add(new ArrayList<>(path));
+	}
+
+	private boolean isValid(int[] c, int row, int col) {
+		// same col;
+		for (int i = 0; i < row; i++) {
+			if (c[i] == col) {
+				return false;
+			}
+		}
+
+		for (int i = 0; i < c.length; i++) {
+			if (Math.abs(i - row) == Math.abs(c[i] - col)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	//
+	//
+	//
+	//
 
 }
