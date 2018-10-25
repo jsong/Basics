@@ -320,13 +320,13 @@ public class Solution {
 	// Company: Facebook #
 	// Solution: Same as 51. N-Queens.
 	private int num = 0;
-     public int totalNQueens(int n) {
+  public int totalNQueens(int n) {
          // List<List<String>> res = new ArrayList<>();
  		int[] c = new int[n];
  		dfsQueen(c, 0);
  		return num;
          // return res;
-     }
+  }
 
   private void dfsQueen(int[] c, int row) {
  		if (row == c.length) {
@@ -352,4 +352,12 @@ public class Solution {
 
 		return true;
  	}
+
+	// 93. Restore IP Addresses
+	// Description: Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+	// Company: Amazon Microsoft # Snapchat Baidu
+	// Solution:
+	public List<String> restoreIpAddresses(String s) {
+		
+  }
 }
