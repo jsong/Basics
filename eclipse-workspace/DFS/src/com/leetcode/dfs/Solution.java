@@ -1,6 +1,7 @@
 package com.leetcode.dfs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Solution {
@@ -13,6 +14,9 @@ public class Solution {
 		System.out.println("is:" + addictive);
 
 		sl.solveNQueens(4);
+
+		int res = sl.totalNQueens(4);
+		System.out.println("total: " + res);
 	}
 
 	// 200. Number of Islands
@@ -261,7 +265,7 @@ public class Solution {
 	// Description: The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
 	// Company: Facebook Amazon Alibaba # Apple Microsoft Rubrik Tableau
 	// Solution: DFS start for row 0, and then iterate the next col to check whether it's a valid position, if so, record it's col into row. c[row] = col;
-	// 
+	//
 	public List<List<String>> solveNQueens(int n) {
 		List<List<String>> res = new ArrayList<>();
 		int[] c = new int[n];
@@ -301,26 +305,51 @@ public class Solution {
 		res.add(new ArrayList<>(path));
 	}
 
-	private boolean isValid(int[] c, int row, int col) {
+	private boolean isValid2(int[] c, int row, int col) {
 		// same col;
 		for (int i = 0; i < row; i++) {
-			if (c[i] == col) {
+			if (c[i] == col || Math.abs(i - row) == Math.abs(c[i] - col)) {
 				return false;
 			}
 		}
+		return true;
+	}
 
-		for (int i = 0; i < c.length; i++) {
-			if (Math.abs(i - row) == Math.abs(c[i] - col)) {
+	// 52. N-Queens II
+	// Description: Same as N-Queens I
+	// Company: Facebook #
+	// Solution: Same as 51. N-Queens.
+	private int num = 0;
+     public int totalNQueens(int n) {
+         // List<List<String>> res = new ArrayList<>();
+ 		int[] c = new int[n];
+ 		dfsQueen(c, 0);
+ 		return num;
+         // return res;
+     }
+
+  private void dfsQueen(int[] c, int row) {
+ 		if (row == c.length) {
+ 			num++;
+ 			return;
+ 		}
+
+ 		for (int i = 0; i < c.length; i++) {
+ 			if (isValid(c, row, i)) {
+ 				c[row] = i;	// chess row -> i, col -> j;
+ 				dfsQueen(c, row + 1);
+ 			}
+ 		}
+ 	}
+
+ 	private boolean isValid(int[] c, int row, int col) {
+ 		// same col;
+ 		for (int i = 0; i < row; i++) {
+			if (c[i] == col || Math.abs(i - row) == Math.abs(c[i] - col)) {
 				return false;
 			}
 		}
 
 		return true;
-	}
-
-	//
-	//
-	//
-	//
-
+ 	}
 }
