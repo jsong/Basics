@@ -356,8 +356,50 @@ public class Solution {
 	// 93. Restore IP Addresses
 	// Description: Given a string containing only digits, restore it by returning all possible valid IP address combinations.
 	// Company: Amazon Microsoft # Snapchat Baidu
-	// Solution:
+	// Solution: DFS, quite similar with the Palindrome partion problem.
 	public List<String> restoreIpAddresses(String s) {
-		
+		List<String> res = new ArrayList<>();
+		if (s == null || s.length == 0) {
+			return res;
+		}
+
+		dfsIP(0, s, new ArrayList<String>(), res);
+
+		return res;
   }
+
+	private void dfsIP(int index, String s, List<String> parts, List<String> res){
+		if (parts.size() == 4 && index == s.length) {
+			String ip = ip(parts);
+			res.add(ip);
+			return;
+		}
+		// if left length greater than the allowed size,
+		if (s.length - start > 3 * (4 - parts.size())) {
+			return;
+		}
+
+		int num = 0;
+		for (int i = index; i < index + 3 && i < s.length; i++) {
+			num = num * 10 + (s.charAt(i) - '0');
+			if (num < 0 || num > 255) continue;
+			String sub = s.subString(index, i + 1);
+			parts.add(sub);
+			dfsIP(i + 1, s, parts, res);
+			parts.remove(parts.size() - 1);
+			if (num == 0) break;	// not allow leading zero.
+		}
+	}
+
+	private String ip(List<String> parts) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < parts.length; i++) {
+			sb.append(parts.get(i));
+			if (i != parts.length - 1) {
+				sb.append(".");
+			}
+		}
+
+		return sb.toString();
+	}
 }
