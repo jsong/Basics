@@ -402,4 +402,32 @@ public class Solution {
 
 		return sb.toString();
 	}
+
+	// 39. Combination Sum
+	// Description: Given sets of sorted numbers, return whether it adds up to the target.
+	// Company: Airbnb Amazon Facebook IXL LinkedIn # Yelp Uber
+	// Solution: DFS, avoid search back, start i.
+	// Time: O(n!), space O(n);
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		List<List<Integer>> res =  new ArrayList<>();
+		cSumHelper(res, new ArrayList<Integer>(), path, target, 0, 0);
+		return res;
+	}
+
+	private void cSumHelper(List<List<Integer>> res, List<Integer> path, int target, int pathSum, int start) {
+		if (pathSum > target) {
+			return;
+		}
+
+		if (target == pathSum) {
+			res.add(new ArrayList<Integer>(path));
+			return;
+		}
+
+		for (int i = start; i < candidates.length; i++) {
+			path.add(candidates[i]);
+			cSumHelper(res, path, target, pathSum + candidates[i], i); // should not look back avoid duplicates [2, 3, 6 ,7] => [3, 2, 2] case.
+			path.remove(path.size() - 1);
+		}
+	}
 }
