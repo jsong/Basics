@@ -430,4 +430,40 @@ public class Solution {
 			path.remove(path.size() - 1);
 		}
 	}
+
+	// 40. Combination Sum II
+	// Description: Same as Combination Sum, differences is each number could not be reused.
+	// Company: LinkedIn # Uber Microsoft Snapchat
+	// Solution: DFS, use i + 1, instead of i to avoid compute twice for the same element, meanwhile use visited to remember whether we've already
+	// visited that element before.
+	// Time: O(n!), Space O(n);
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+		List<List<Integer>> res = new ArrayList<>();
+		if (candidates == null || candidates.length == 0) {
+			return res;
+		}
+		Arrays.sort(candidates);
+		boolean[] visited = new boolean[candidates.length];
+		cSumHelper2(res, new ArrayList<Integer>(), 0, target, candidates, visited);
+		return res;
+  }
+
+	private void cSumHelper2(List<List<Integer>> res, List<Integer> path, int start, int target, int[] candidates, boolean[] visited) {
+		if (target == 0) {
+			res.add(new ArrayList<>(path));
+			return;
+		}
+
+		for (int i = start, i < candidates.length; i++) {
+			if (i > 0 && !visited[i - 1] && candidates[i - 1] == candidates[i]) continue;
+			if (candidates[i] > target) {
+				break;
+			}
+			visited[i] = true;
+			path.add(candidates[i]);
+			cSumHelper2(res, path, i + 1, target - candidates[i], candidates);
+			visited[i] = false;
+			path.remove(path.size() - 1);
+		}
+	}
 }
