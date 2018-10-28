@@ -491,4 +491,29 @@ public class Solution {
 			path.remove(path.size() - 1);
 		}
 	}
+
+	// 22. Generate Parentheses
+	// Description: Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+	// Company: Amazon Google Bloomberg Microsoft Adobe Uber Aetion Walmart Labs Snapchat # Alibaba Facebook Yelp IBM Intuit Lyft Ebay Works Applications
+	// Solution: DFS, use left and right indicator for the poisition and numbers of parenthesis
+	public List<String> generateParenthesis(int n) {
+		List<String> res = new ArrayList<>();
+		parenthesisHelper(0, 0, "", res, n);
+		return res;
+  }
+
+	private void parenthesisHelper(int left, int right, String p, List<String> res, int n) {
+		if (left == n && right == n) {
+			res.add(p);
+			return;
+		}
+
+		if (left < n) {
+			parenthesisHelper(left + 1, right, p + "(", res, n);
+		}
+
+		if (right < left) {
+			parenthesisHelper(left, right + 1, p + ")", res, n);
+		}
+	}
 }
