@@ -466,4 +466,29 @@ public class Solution {
 			path.remove(path.size() - 1);
 		}
 	}
+
+	// 216. Combination Sum III
+	// Description: Given k numbers set to target n, only 1-9 could be used.
+	// Company: N/A
+	// Solution: DFS search element check whether it reaches the k size with the sum. No Duplicates allowed, so starts from i + 1.
+	// Time Complexity: O(9*8*...*(10-k)), Space Complexity: O(k)
+	public List<List<Integer>> combinationSum3(int k, int n) {
+		List<List<Integer>> res = new ArrayList<>();
+		cSumHelper3(res, k, new ArrayList<>(), n, 1);
+		return res;
+	}
+
+	private void cSumHelper3(List<List<Integer>> res, int k, List<Integer> path, int n, int index) {
+		if (path.size() == k && n == 0) {
+			res.add(new ArrayList<>(path));
+			return;
+		}
+
+		for (int i = index; i <= 9; i++) {
+			if (i > n) break;
+			path.add(i);
+			cSumHelper3(res, k, path, n - i, i + 1);
+			path.remove(path.size() - 1);
+		}
+	}
 }
