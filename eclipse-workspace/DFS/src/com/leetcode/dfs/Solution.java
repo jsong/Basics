@@ -516,4 +516,55 @@ public class Solution {
 			parenthesisHelper(left, right + 1, p + ")", res, n);
 		}
 	}
+
+	// 37. Sudoku Solver
+	// Description: Write a program to solve a Sudoku puzzle by filling the empty cells.
+	// Company: Microsoft Uber Google # Expedia Facebook Adobe Airbnb Amazon.
+	// Solution: DFS, filling a temp 1 - 9, then DFS into next possible i, j, if valid, continue, otherwise return and reset to '.'.
+	// Time: O(9 ^ 4) Space O(1);
+	public void solveSudoku(char[][] board) {
+		sudokuHelper(board);
+	}
+
+	private boolean sudokuHelper(char[][] board) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (board[i][j] == '.') {
+					for (int k = 0; k < 9; k++) {
+						board[i][j] = Character.forDigit(k + 1, 10);
+ 						if (isValid(board, i, j) && sudokuHelper(board)) {
+							return true;
+						}
+						board[i][j] = '.';
+					}
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean isValid(char[][] board, int row, int col) {
+		for (int i = 0; i < 9; i++) {
+			if (i != row && board[i][col] == board[row][col]) {
+				return false;
+			}
+		}
+
+		for (int j = 0; j < 9; j++) {
+			if (j != col && board[row][j] == board[row][col]) {
+				return false;
+			}
+		}
+
+		for (int i = 3 * (row / 3); i < 3 * (row / 3 + 1); i++) {
+			for (int j = 3 * (col / 3); j < 3 * (col / 3 + 1); j++) {
+				if ((i != row || j != col) && board[row][col] == board[i][j]) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }
