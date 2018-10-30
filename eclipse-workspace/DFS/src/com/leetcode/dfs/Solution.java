@@ -567,4 +567,39 @@ public class Solution {
 
 		return true;
 	}
+
+	// 79. Word Search
+	//
+	//
+	//
+	public boolean exist(char[][] board, String word) {
+
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[0].length; j++) {
+				if (isMatch(board, word, i, j, "")) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isMatch(char[][] board, String word, int row, int col, String path) {
+		if (path == word) {
+			return true;
+		}
+
+		if (path.length > word.length) {
+			return false;
+		}
+
+		if (row > board.length || col > board[0].length) {
+			return false;
+		}
+
+		path += board[row][col];
+
+		return isMath(board, word, row + 1, col, path) || isMath(board, word, row, col + 1, path) || isMath(board, word, row - 1, col, path) || isMath(board, word, row, col - 1, path)
+	}
 }
