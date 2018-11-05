@@ -623,4 +623,31 @@ public class Solution {
 		visited[row][col] = false;
 		return ret;
 	}
+
+	// 50. Pow(x, n)
+	// Description: Implement pow(x, n), which calculates x raised to the power n (xn).
+	// Company: Facebook Google LinkedIn Amazon Microsoft Bloomberg Alibaba Apple # VMWare eBay Baidu Two Sigma Adobe Walmart Labs
+	// Solution: Recursion to divide the n by 2 until we found the base case.
+	// Time: O(logN), Space: O(1)
+	public double myPow(double x, int n) {
+			if (n < 0) {
+				return power(1 / x, -n);
+			}
+
+			return power(x, n);
+	}
+
+	private double power(double x, int n) {
+		if (n == 0) {
+			return 1;
+		}
+
+		double ret = power(x, n / 2);
+
+		if (n % 2 == 0) {
+			return ret * ret;
+		} else {
+			return ret * ret * x;
+		}
+	}
 }
