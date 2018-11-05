@@ -17,6 +17,10 @@ public class Solution {
 
 		int res = sl.totalNQueens(4);
 		System.out.println("total: " + res);
+		char[][] words1 = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'},{'A', 'D', 'E', 'E'}};
+		char[][] words = {{'a', 'a'}};
+		boolean match = sl.exist(words, "aaa");
+		System.out.println("match: " + match);
 	}
 
 	// 200. Number of Islands
@@ -569,14 +573,15 @@ public class Solution {
 	}
 
 	// 79. Word Search
-	//
-	//
-	//
+	// Description: Given a 2D board and a word, find if the word exists in the grid.
+	// Company: Amazon Zillow Uber Facebook Bloomberg Microsoft Yahoo LinkedIn JPMorgan # Pinterest Google Lyft Walmart Labs Snapchat
+	// Solution: DFS, find in the matrix i,j start from there, and search iteratively until we reach the boundary.
+	// Time: O(n ^ 2 * m ^ 2), Space O(m * n)
 	public boolean exist(char[][] board, String word) {
-
+		boolean[][] visited = new boolean[board.length][board[0].length];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
-				if (isMatch(board, word, i, j, "")) {
+				if (isMatch(board, word, i, j, 0, visited)) {
 					return true;
 				}
 			}
@@ -585,21 +590,37 @@ public class Solution {
 		return false;
 	}
 
-	private boolean isMatch(char[][] board, String word, int row, int col, String path) {
-		if (path == word) {
+	// change path to index,
+	private boolean isMatch(char[][] board, String word, int row, int col, , int index, boolean[][] visited) {
+		// if (path.equals(word)) {
+		// 	return true;
+		// }
+
+		if (index == word.length()) {
 			return true;
 		}
 
-		if (path.length > word.length) {
+		// if (path.length() > word.length()) {
+		// 	return false;
+		// }
+
+
+		if (row >= board.length || col >= board[0].length || row < 0 || col < 0) {
 			return false;
 		}
 
-		if (row > board.length || col > board[0].length) {
+		if (visited[row][col]) {
 			return false;
 		}
 
-		path += board[row][col];
-
-		return isMath(board, word, row + 1, col, path) || isMath(board, word, row, col + 1, path) || isMath(board, word, row - 1, col, path) || isMath(board, word, row, col - 1, path)
+		if (word.charAt(index) != board[row][col]) {
+			return false;
+		}
+		// path += board[row][col];
+		// System.out.println("String:" + path);
+		visited[row][col] = true;
+		boolean ret = isMatch(board, word,  row + 1, col, index + 1, visited) || isMatch(board, word, row, col + 1, index + 1, visited) || isMatch(board, word, row - 1, col, index + 1, visited) || isMatch(board, word, row, col - 1, index + 1, visited);
+		visited[row][col] = false;
+		return ret;
 	}
 }
