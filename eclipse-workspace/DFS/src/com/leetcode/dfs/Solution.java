@@ -650,4 +650,17 @@ public class Solution {
 			return ret * ret * x;
 		}
 	}
+
+	// 69. Sqrt(x)
+	// Description: Compute and return the square root of x, where x is guaranteed to be a non-negative integer.
+	// Company: Google LinkedIn Apple Microsoft Amazon # Facebook Bloomberg Salesforce
+	// Solution: Use NewTon method
+	public int mySqrt(int x) {
+			long res = x;
+			while (res * res > x) {
+				res = (res + x / res) / 2;
+			}
+
+			return res;
+	}
 }
