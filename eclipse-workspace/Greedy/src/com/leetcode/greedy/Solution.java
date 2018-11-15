@@ -23,4 +23,27 @@ public class Solution {
 
 		return step >= nums.length;
 	}
+
+	// 45. Jump Game II
+	// Description: Given an array represent max steps, calculate the minimum steps needed to jump to last index.
+	// Company: NetEase
+	// Solution: Use last for last maxium steps been reached, if i exceeds then reapply the maxium steps will be reaching. Count ++;
+	// TimeComplexity: O(n)
+	public int jump(int[] nums) {
+		// maximum steps already reached;
+		int last = 0;
+		// maxium steps will be reached;
+		int cur = 0;
+		int steps = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (i > last) {
+				last = cur;
+				steps++;
+			}
+
+			cur = Math.max(cur, nums[i] + i);
+		}
+
+		return steps;
+	}
 }
