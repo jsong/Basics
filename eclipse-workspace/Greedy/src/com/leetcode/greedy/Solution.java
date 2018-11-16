@@ -19,7 +19,7 @@ public class Solution {
 			if (step >= nums.length) {
 				return true;
 			}
-		}
+		// }
 
 		return step >= nums.length;
 	}
@@ -48,19 +48,17 @@ public class Solution {
 	}
 
 	// 121. Best Time to Buy and Sell Stock
-	// Description:
-	// Company:
-	// Solution:
+	// Description: Given an array represent the stock price on a given day.
+	// Company: Facebook Uber Microsoft Amazon Bloomberg
+	// Solution: iterate through the array, use two pointers, i, j to maintain a interval, i, j, if j > i, then j = i;
 	public int maxProfit(int[] prices) {
-		// int buy = 1;
 		int max_profit = 0;
-		for (int i = 0, int j= i + 1; i < prices.length, j < prices.length;) {
-			if (prices[i] > prices[j]) {
-				i++;
-				j++;
+		int j = 0;
+		for (int i = 0; i < prices.length; i++) {
+			if (prices[i] < prices[j]) {
+				j = i;
 			} else {
-				max_profit = Math.max(max_profit, prices[j] - prices[i]);
-				j++;
+				max_profit = Math.max(max_profit, prices[i] - prices[j]);
 			}
 		}
 
