@@ -50,7 +50,7 @@ public class Solution {
 	// 121. Best Time to Buy and Sell Stock
 	// Description: Given an array represent the stock price on a given day.
 	// Company: Facebook Uber Microsoft Amazon Bloomberg
-	// Solution: iterate through the array, use two pointers, i, j to maintain a interval, i, j, if j > i, then j = i;
+	// Solution: iterate through the array, use two pointers, i, j to maintain a interval, i, j, if j > i, then j = i, and form a new interval
 	public int maxProfit(int[] prices) {
 		int max_profit = 0;
 		int j = 0;
@@ -63,5 +63,22 @@ public class Solution {
 		}
 
 		return max_profit;
+	}
+
+	// 122. Best Time to Buy and Sell Stock II
+	// Description: Same as 121, difference need to sum all the values up. 
+	// Company: Bloomberg
+	// Solution: Iterate the array, using two pointers sum all the result.
+	public int maxProfit(int[] prices) {
+		int profit = 0;
+		int j = 0;
+		for (int i = 0; i < prices.length; i++) {
+			if (prices[i] >= prices[j]) {
+				profit = profit + (prices[i] - prices[j]);
+			}
+			j = i;
+		}
+
+		return profit;
 	}
 }
