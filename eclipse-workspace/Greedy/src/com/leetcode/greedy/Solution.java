@@ -66,7 +66,7 @@ public class Solution {
 	}
 
 	// 122. Best Time to Buy and Sell Stock II
-	// Description: Same as 121, difference need to sum all the values up. 
+	// Description: Same as 121, difference need to sum all the values up.
 	// Company: Bloomberg
 	// Solution: Iterate the array, using two pointers sum all the result.
 	public int maxProfit(int[] prices) {
@@ -81,4 +81,28 @@ public class Solution {
 
 		return profit;
 	}
+
+	// 3. Longest Substring Without Repeating Characters
+	// Description: Given a string, find the length of the longest substring without repeating characters.
+	// Company: Amazon Bloomberg Yelp Adobe
+	// Solution: Use HashSet to record the longest substring.
+	// Time: O(n), space O(n);
+	public int lengthOfLongestSubstring(String s) {
+		HashSet<Character> set = new HashSet<>();
+		int maxLength = 0;
+		int j = 0;
+		int i = 0;
+		while (j < s.length()) {
+			if (!set.contains(s.charAt(j))) {
+				set.add(s.charAt(j++));
+				maxLength = Math.max(maxLength, set.size());
+			} else {
+				set.remove(s.charAt(i++));
+			}
+		}
+
+		return maxLength;
+	}
+
+
 }
