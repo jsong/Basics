@@ -104,5 +104,25 @@ public class Solution {
 		return maxLength;
 	}
 
+	// 330. Patching Array
+	// Description: Given an array and a target, find the minimum patches that could sum up to the specified number.
+	// Company: Google
+	// Solution: http://www.cnblogs.com/grandyang/p/5165821.html Compare missing number with the nums[i].
+	public int minPatches(int[] nums, int n) {
+		long missing = 1;
+		int i = 0;
+		int patch = 0;
+		while (missing <= n) {
+			if (i < nums.length && missing >= nums[i]) {
+				missing = missing + nums[i];
+				i++;
+			} else {
+				missing += missing;
+				patch++;
+			}
+		}
+
+		return patch;
+  }
 
 }
