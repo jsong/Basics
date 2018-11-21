@@ -107,7 +107,7 @@ public class Solution {
 	// 330. Patching Array
 	// Description: Given an array and a target, find the minimum patches that could sum up to the specified number.
 	// Company: Google
-	// Solution: http://www.cnblogs.com/grandyang/p/5165821.html Compare missing number with the nums[i].
+	// Solution: http://www.cnblogs.com/grandyang/p/5165821.html Compare missing number with the nums[i]
 	public int minPatches(int[] nums, int n) {
 		long missing = 1;
 		int i = 0;
@@ -125,4 +125,26 @@ public class Solution {
 		return patch;
   }
 
+	// 11. Container With Most Water
+	// Description: Given an array of heights, find the maximum of water could be contained in between.
+	// Company: Bloomberg
+ 	// Solution: Two pointer, left, right, calculate the maxArea until left equals right.
+	public int maxArea(int[] height) {
+		int left = 0;
+		int right = height.length - 1;
+		int maxArea = 0;
+
+		while (left < right) {
+			int distance = right - left;
+			int h = Math.min(height[left], height[right]);
+			maxArea = Math.max(maxArea, distance * h);
+			if (height[left] < height[right]) {
+					left++;
+			} else {
+					right--;
+			}
+		}
+
+		return maxArea;
+  }
 }
