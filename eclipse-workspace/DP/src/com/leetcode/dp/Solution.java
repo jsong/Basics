@@ -67,7 +67,7 @@ public class Solution {
 		int m = s.length() - 1; // maximum cut is length - 1;
 		int[] dp = new int[s.length()];
 		boolean[][] p = new boolean[s.length()][s.length()]; // starting j to i.
-		 
+
 		for (int i = 0; i < arr.length; i++) {
 			m = i;
 			for (int j = 0; j <= i; j++) {
@@ -78,7 +78,7 @@ public class Solution {
 				dp[i] = m;
 			}
 		}
-		
+
 		return dp[n];
 	}
 
@@ -153,7 +153,7 @@ public class Solution {
 	// Description: Only able to move to ADJACENT numbers.
 	// Solution:
 
-	public int minimumTotal(List<List<Integer>> triangle) {
+	public int minimumTotal2(List<List<Integer>> triangle) {
 		// row col.
 		int[][] sum = new int[triangle.size()][triangle.get(triangle.size() - 1).size()];
 		sum[0][0] = triangle.get(0).get(0);
@@ -201,6 +201,24 @@ public class Solution {
 		}
 
 		return min;
+	}
+
+	// 120. Triangle
+	// Description: Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+	// Company: Google
+	// Solution: Start from bottom to top, iterate and sum the value up.
+	// Time: O(n^2), Space O(1);
+	public int minimumTotal(List<List<Integer>> triangle) {
+		int row = triangle.size();
+		for (int i = row - 2; i >= 0; i--) {
+			for (int j = 0; j < i + 1; j++) {
+				int old = triangle.get(i).get(j);
+				int newValue = old + Math.min(triangle.get(i + 1).get(j), triangle.get(i + 1).get(j + 1));
+				triangle.get(i).set(j, newValue);
+			}
+		}
+
+		return triangle.get(0).get(0);
 	}
 
 }
