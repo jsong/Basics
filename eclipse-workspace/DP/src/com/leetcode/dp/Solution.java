@@ -31,6 +31,9 @@ public class Solution {
 		int LIS = sl.lengthOfLIS(numsLIS);
 
 		System.out.println("LIS" + LIS);
+
+		int[] arr = {2, 3, -2, 4};
+		int res = sl.maxProduct(arr);
 	}
 
 	// 131. Palindrome Partitioning
@@ -115,7 +118,7 @@ public class Solution {
 	// Company: LinkedIn
 	// Description: Find the Maximum product of the subarray.
 	// Solution: Use DP, record the minimum product along the way as well.
-	public int maxProduct(int[] nums) {
+	public int maxProduct2(int[] nums) {
 		int res = nums[0];
 		int min_local = nums[0];
 		int max_local = nums[0];
@@ -241,4 +244,26 @@ public class Solution {
 
 		return res;
 	}
+
+	// 152. Maximum Product Subarray
+	// Description: Find the contiguous max product from subarray.
+	// Company: LinkedIn
+	// Solution: Similar to 53. Maximum Subarray, however we need to track the minimum value as well.
+	// Time: O(N), space: O(1)
+	public int maxProduct(int[] nums) {
+		int local_max = nums[0];
+		// Integer.MIN_VALUE;
+		int local_min = nums[0];
+		// Integer.MAX_VALUE;
+		int res = local_max;
+
+		for (int i = 1; i < nums.length; i++) {
+			int temp = local_max;
+			local_max = Math.max(Math.max(local_max * nums[i], nums[i]), nums[i] * local_min);
+			local_min = Math.min(Math.min(local_min * nums[i], nums[i]), temp * nums[i]);
+			res = Math.max(local_max, res);
+		}
+
+		return res;
+  }
 }
