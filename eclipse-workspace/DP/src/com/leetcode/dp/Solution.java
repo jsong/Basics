@@ -221,4 +221,24 @@ public class Solution {
 		return triangle.get(0).get(0);
 	}
 
+	// 53. Maximum Subarray
+	// Description: Find the contiguous subarray which contribute to the most sum
+	// Company:
+	// Solution: DP, dp[i] = dp[i - 1] + num[i];
+	// Time: O(N) space O(N)
+	public int maxSubArray(int[] nums) {
+		int n = nums.length;
+		int[] f = new int[n];
+		f[0] = nums[0];
+		for (int i = 1; i < n; i++) {
+			f[i] = Math.max(f[i - 1] + nums[i], nums[i]);
+		}
+
+		int res = Integer.MIN_VALUE;
+		for (int i = 0; i < n; i++) {
+			res = Math.max(f[i]);
+		}
+
+		return res;
+	}
 }
