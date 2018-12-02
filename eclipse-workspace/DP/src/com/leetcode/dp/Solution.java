@@ -270,7 +270,7 @@ public class Solution {
 	// 300. Longest Increasing Subsequence
 	// Description: Given a array, find the longest increasing subsequence, return the length.
 	// Company: LinkedIn
-	// Solution: f(n) = Max(f(n - 1) + 1, f(n))
+	// Solution: f(i) = Max(f(j) + 1, f(i))
 	public int lengthOfLIS(int[] nums) {
 		int size = nums.length;
 
