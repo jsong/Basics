@@ -92,7 +92,7 @@ public class Solution {
 	// Solution: Two loops, use i for the starter element, and then j start from i +
 	// 1, track the latter element and count.
 	// [10, 9, 2, 5, 3, 7, 101, 18]
-	public int lengthOfLIS(int[] nums) {
+	public int lengthOfLIS2(int[] nums) {
 		if (nums.length <= 1) {
 			return nums.length;
 		}
@@ -266,4 +266,36 @@ public class Solution {
 
 		return res;
   }
+
+	// 300. Longest Increasing Subsequence
+	// Description: Given a array, find the longest increasing subsequence, return the length.
+	// Company: LinkedIn
+	// Solution: f(n) = Max(f(n - 1) + 1, f(n))
+	public int lengthOfLIS(int[] nums) {
+		int size = nums.length;
+
+		if (size <= 1) {
+        return size;
+    }
+
+		int[] f = new int[size];
+		Arrays.fill(f, 1);
+    int max = 1;
+
+		for (int i = 1; i < size; i++) {
+			for (int j = 0; j < i; j++) {
+				if (nums[j] < nums[i]) {
+					f[i] = Math.max(f[i], f[j] + 1);
+				}
+			}
+        max = Math.max(f[i], max);
+		}
+
+		// debug purpose
+    for (int i = 0; i < size; i ++ ){
+        System.out.println("fn:" + f[i]);
+    }
+
+		return max;
+	}
 }
