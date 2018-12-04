@@ -34,6 +34,10 @@ public class Solution {
 
 		int[] arr = {2, 3, -2, 4};
 		int res = sl.maxProduct(arr);
+
+		String s = "aab";
+		int cut = sl.minCut2(s);
+
 	}
 
 	// 131. Palindrome Partitioning
@@ -298,4 +302,32 @@ public class Solution {
 
 		return max;
 	}
+
+	// 132. Palindrome Partitioning II
+	// Description: Given a string, find the minimum cut, so that each substring will be the palindrome.
+	// Company: N/A
+	// Solution: 1. Use cache to store the status of palindrome. 2. DP[i] indicate the cut needed for position i.
+	public int minCut(String s) {
+		// cache for j to i whether it's palindrome.
+		int size = s.length();
+		boolean [][] p = new boolean[size][size];
+		// position i, indicate the minimum cut.
+		int[] dp = new int[size];
+		// maximum cut is length - 1;
+		int minCut = size - 1;
+		for (int i = 0; i < size; i++) {
+			minCut = i;
+			// substring self is a palindrome as well.
+			for (int j = 0; j <= i; j++) {
+				if (s.charAt(j) == s.charAt(i) && ((j + 1 > i - 1) || p[j + 1][i - 1])) {
+					p[j][i] = true;
+					minCut = (j == 0 ? 0 : Math.min(minCut, dp[j - 1] + 1));
+				}
+				dp[i] = minCut;
+			}
+		}
+
+		return dp[size - 1];
+  }
+
 }
