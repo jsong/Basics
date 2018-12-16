@@ -333,15 +333,26 @@ public class Solution {
 
 	// 85. Maximal Rectangle
 	// Description: Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
-	// Company:
-	// Solution:
+	// Company: Facebook 
+	// Solution: Similar with 84. Largest Rectangle in Histogram, just need to keep current hight[j] increasing, if matrix[i][j] is 1.
 	public int maximalRectangle(char[][] matrix) {
 		int res = 0;
+
+		if(matrix==null || matrix.length==0 || matrix[0].length==0)
+		{
+			return 0;
+		}
+
+
+		int col = matrix[0].length;
+		int[] height = new int[col + 1];
 		for (int i = 0; i < matrix.length; i++) {
-			int row = matrix[0].length;
-			int[] height = new int[row + 1];
-			for (int j = 0; j < row; j++){
+			col = matrix[i].length;
+			// int[] height = new int[col + 1];
+
+			for (int j = 0; j < col; j++){
 				height[j] = (matrix[i][j] == '0' ? 0: height[j] + 1);
+							// System.out.println("col:" + j + "height[j]:" + height[j]);
 			}
 			res = Math.max(res, maxArea(height));
 		}
@@ -350,20 +361,22 @@ public class Solution {
   }
 
 	private int maxArea(int[] height) {
-		int res = 0;
-		Stack<Integer> stack = new Stack<Integer>();
-		// height
-		for (int i = 0; i < height.length; i++) {
-			if (stack.empty() || height[stack.peek()] <= height[i]) {
-				stack.push(i);
-			} else {
-				int tmp = stack.peek();
-				stack.pop();
-				res = height[tmp] * (stack.empty() ? i: (i - stack.peek() - 1));
+			int res = 0;
+			Stack<Integer> stack = new Stack<Integer>();
+			// height
+			for (int i = 0; i < height.length; i++) {
+				if (stack.empty() || height[stack.peek()] <= height[i]) {
+					stack.push(i);
+	    	} else {
+					int tmp = stack.peek();
+					stack.pop();
+					res = Math.max(res, height[tmp] * (stack.empty() ? i: (i - stack.peek() - 1)));
+	                // System.out.println("res:" + res);
+	        i--;
+				}
 			}
-		}
 
-		return res;
+			return res;
 	}
 
 }
