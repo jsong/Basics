@@ -333,7 +333,7 @@ public class Solution {
 
 	// 85. Maximal Rectangle
 	// Description: Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
-	// Company: Facebook 
+	// Company: Facebook
 	// Solution: Similar with 84. Largest Rectangle in Histogram, just need to keep current hight[j] increasing, if matrix[i][j] is 1.
 	public int maximalRectangle(char[][] matrix) {
 		int res = 0;
@@ -378,5 +378,25 @@ public class Solution {
 
 			return res;
 	}
+
+	// 188. Best Time to Buy and Sell Stock IV
+	// Company: N/A
+	// Description:
+	// Solution:
+	public int maxProfit(int k, int[] prices) {
+		int[] l = new int[k + 1];
+		int[] g = new int[k + 1];
+
+		for (int i = 1; i < prices.length; i++) {
+			for (int j = k; j >= 1; j--) {
+				int diff = prices[i] - prices[i - 1];
+				l[j] = Math.max(g[j] + Math.max(0, diff), l[j] + diff);
+				g[j] = Math.max(g[j - 1], l[j]);
+			}
+		}
+
+		// maximum k transaction
+		return g[k];
+  }
 
 }
