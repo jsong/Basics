@@ -390,13 +390,19 @@ public class Solution {
 		for (int i = 1; i < prices.length; i++) {
 			for (int j = k; j >= 1; j--) {
 				int diff = prices[i] - prices[i - 1];
-				l[j] = Math.max(g[j] + Math.max(0, diff), l[j] + diff);
-				g[j] = Math.max(g[j - 1], l[j]);
+				l[j] = Math.max(g[j - 1] + Math.max(0, diff), l[j] + diff);
+				g[j] = Math.max(g[j], l[j]);
 			}
 		}
 
 		// maximum k transaction
 		return g[k];
   }
+
+	// 309. Best Time to Buy and Sell Stock with Cooldown
+	// Company:
+	// Description:
+	// Solution:
+	
 
 }
