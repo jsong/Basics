@@ -400,9 +400,59 @@ public class Solution {
   }
 
 	// 309. Best Time to Buy and Sell Stock with Cooldown
+	// Company: Google.
+	// Description:
+	// Solution: Use seperate array to record buy, sell, cooldown,
+	// buy[i] indicates that if you buy on given i day, the max profit.
+	// Eventually it comes to buy and sell, which only depends on i - 1 and i - 2
+	// So it could reduce the space.
+	public int maxProfit(int[] prices) {
+
+  }
+
+	// 97. Interleaving String
 	// Company:
 	// Description:
-	// Solution:
-	
+	// Solution: DP, core idea is current state is decided by previous state.
+	// Draw two dimentional array to illustrate.
+	// f[i][j] = f[i - 1][j] && s1[i - 1] == s3[i - 1 + j] || f[i][j - 1] && s2[j - 1] == s3[j - 1 + i]
+	public boolean isInterleave(String s1, String s2, String s3) {
+
+  }
+
+	// 87. Scramble String
+	// Company: n/a
+	// Description:
+	// Solution: 1. Recursion split s1 and s2, if s1 and s2 are scrambled string, then it must exists
+	// at some point i, left side of s1 and s2, right side of s1 and s2 are scrambled string. 
+	public boolean isScramble(String s1, String s2)
+	{
+			if (s1.length != s2.length) return false;
+			if (s1.equals(s2)) return true;
+			String s1Sorted = sortString(s1);
+			String s2Sorted = sortString(s2);
+			if (!s1Sorted.equals(s2Sorted)) return false;
+
+			for (int i = 1; i < s1.length; i++) {
+				String s11 = s1.substring(0, i);
+				String s12 = s1.substring(i);
+				String s21 = s2.substring(0, i);
+				String s22 = s2.substring(i);
+				if (isScramble(s11, s21) && isScramble(s12, s22)) return true;
+				s21 = s2.substring(s2.length - i);
+				s22 = s2.substring(0, s2.length - i);
+				if (isScramble(s11, s21) && isScramble(s12, s22)) return true;
+			}
+
+			return false;
+	}
+
+	private String sortString(String s) {
+		char sArray[] = s.toCharArray();
+    // sort tempArray
+    Arrays.sort(sArray);
+    // return new sorted string
+    return new String(sArray);
+	}
 
 }
