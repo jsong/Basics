@@ -424,7 +424,7 @@ public class Solution {
 	// Company: n/a
 	// Description:
 	// Solution: 1. Recursion split s1 and s2, if s1 and s2 are scrambled string, then it must exists
-	// at some point i, left side of s1 and s2, right side of s1 and s2 are scrambled string. 
+	// at some point i, left side of s1 and s2, right side of s1 and s2 are scrambled string.
 	public boolean isScramble(String s1, String s2)
 	{
 			if (s1.length != s2.length) return false;
@@ -455,4 +455,17 @@ public class Solution {
     return new String(sArray);
 	}
 
+	// 64. Minimum Path Sum
+	// Description:
+	// Company:
+	// Solution:
+	public int minPathSum(int[][] grid) {
+
+  }
+
+	// 72. Edit Distance
+	// Description:
+	// Company:
+	// Solution:
+	
 }
