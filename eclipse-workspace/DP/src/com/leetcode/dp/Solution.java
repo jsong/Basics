@@ -2,6 +2,8 @@ package com.leetcode.dp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
@@ -37,7 +39,13 @@ public class Solution {
 		int res = sl.maxProduct(arr);
 
 		String s = "aab";
-		int cut = sl.minCut2(s);
+//		int cut = sl.minCut2(s);
+		s = "leetcode";
+		List<String> list = new ArrayList<String>();
+		list.add("leet");
+		list.add("code");
+		boolean wBreak = sl.wordBreak(s, list);
+
 
 	}
 
@@ -467,5 +475,40 @@ public class Solution {
 	// Description:
 	// Company:
 	// Solution:
-	
+
+	// 139. Word Break
+	// Description:
+	// Company:
+	// Solution: 1. Use DFS and memo equivlent to DP. 
+	public boolean wordBreak(String s, List<String> wordDict) {
+		HashSet set = new HashSet();
+		for (String word: wordDict)
+		{
+			set.add(word);
+		}
+
+		HashMap<Integer, Boolean> map = new HashMap<>();
+
+		return helper(s, 0, set, map);
+	}
+
+	private boolean helper(String s, int start, HashSet set, HashMap map)
+	{
+		if (start >= s.length()) return true;
+		if (map.containsKey(start)) return (boolean) map.get(start);
+
+		for (int i = start + 1; i <= s.length(); i++)
+		{
+			if (set.contains(s.substring(start, i)) && helper(s, i, set, map))
+			{
+				map.put(start, true);
+				return true;
+			}
+		}
+
+		map.put(start, false);
+
+		return false;
+	}
+
 }
