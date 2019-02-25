@@ -479,7 +479,7 @@ public class Solution {
 	// 139. Word Break
 	// Description:
 	// Company:
-	// Solution: 1. Use DFS and memo equivlent to DP. 
+	// Solution: 1. Use DFS and memo equivlent to DP.
 	public boolean wordBreak(String s, List<String> wordDict) {
 		HashSet set = new HashSet();
 		for (String word: wordDict)
@@ -510,5 +510,31 @@ public class Solution {
 
 		return false;
 	}
+
+	// 174. Dungeon Game
+	// Company: Microsoft
+	// Description:
+	// Solution:
+	public int calculateMinimumHP(int[][] dungeon) {
+
+  }
+
+	// 198. House Robber
+	// Company: LinkedIn Airbnb
+	// Description:
+	// Solution: 1. DP dp[i] = max(dp[i - 1], h[i] + dp[i - 2]).
+	// 2. odd vs even position.
+
+
+	// 213. House Robber II
+	// Company: Microsoft
+	// Description:
+	// Solution: Circle, max[(0, size - 1), (1, size)] then use House Robber I solution.
+
+	// 337. House Robber III
+	// Company:
+	// Description:
+	// Solution: 1. DFS + cache. max(root.val + val, dfs(root.left) + dfs(root.right))
+
 
 }
