@@ -536,5 +536,30 @@ public class Solution {
 	// Description:
 	// Solution: 1. DFS + cache. max(root.val + val, dfs(root.left) + dfs(root.right))
 
+	// 303. Range Sum Query - Immutable
+	// Company: Palantir
+	// Description:
+	// Solution: 1. DP, store the previous sum according to the index. Then subtract i from j + 1 is the final result.
+	class NumArray {
+		public NumArray(int[] nums) {
+			f = new int[nums.length + 1];
+
+			for (int i = 1; i <= nums.length; i++)
+			{
+				f[i] = nums[i - 1] + f[i - 1];
+			}
+	 }
+
+	 public int sumRange(int i, int j) {
+		 return f[j + 1] - f[i];
+	 }
+
+		private int[] f; // f[i] indicate the sum(0, i);
+};
+
+	// 304. Range Sum Query 2D - Immutable
+	// Company:
+	// Description:
+	// Solution: Similar to 303, need to find out the sum for [i, j] which starts from [0, 0];  
 
 }
