@@ -27,4 +27,24 @@ public class Solution {
 	public boolean isPowerOfTwo2(int n) {
 		return n > 0 && ((n&(n - 1)) == 0);
 	}
+
+	// 190. Reverse Bits
+	// Company:
+	// Description:
+	// Solution:
+	// you need treat n as an unsigned value
+  public int reverseBits(int n) {
+    int res = 0;
+		for (int i = 0; i < 32; ++i) {
+			if ((n & 1) == 1) {
+				res = (res << 1) + 1;
+			} else {
+				res = res << 1;
+			}
+			n = n >> 1;
+		}
+
+		return res;
+  }
+
 }
