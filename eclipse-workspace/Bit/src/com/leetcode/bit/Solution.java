@@ -47,4 +47,30 @@ public class Solution {
 		return res;
   }
 
+	// 187. Repeated DNA Sequences
+	// Company: LinkedIn
+	// Description:
+	// Solution: TODO Memory profiling. 
+	public List<String> findRepeatedDnaSequences(String s) {
+		HashMap<String, Integer> map = new HashMap<>();
+		HashSet<String> set = new HashSet<>();
+		for (int i = 0; i < s.length() - 9; i++)
+		{
+			String key = s.substring(i, i + 10); // 10 bits in total.
+			if (map.containsKey(key))
+			{
+				map.put(key, map.get(key) + 1);
+				set.add(key);
+			}
+			else
+			{
+				map.put(key, 1);
+			}
+		}
+
+		List<String> arr = new ArrayList<String>(set);
+
+		return arr;
+  }
+
 }
