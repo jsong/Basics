@@ -17,6 +17,7 @@ public class Solution {
 	// Company: Amazon
 	// Description: Given an integer, write a function to determine if it is a power of two.
 	// Solution: 1. % 2 until 0 or 1; 2. Highest bit should be 1, minus 1 other bits will be 1, bit& them to check whether it become 0.
+	// 3. Count the number of 1s in n, cnt should be 1;
 	public boolean isPowerOfTwo(int n) {
 		if (n == 2 || n == 1) {
 				 return true;
@@ -129,7 +130,7 @@ public class Solution {
 		return res;
 	}
 
-	//137. Single Number II
+	// 137. Single Number II
 	// Company:
 	// Description:
 	// Solution:
@@ -137,4 +138,17 @@ public class Solution {
 
   }
 
+	// 268. Missing Number
+	// Company: Facebook Bloomberg Microsoft
+	// Description:
+	// Solution: 
+	public int missingNumber(int[] nums) {
+		int res = 0;
+		for (int i = 0; i < nums.length; i++)
+		{
+			res ^= (i + 1) ^ nums[i];
+		}
+
+		return res;
+	}
 }
