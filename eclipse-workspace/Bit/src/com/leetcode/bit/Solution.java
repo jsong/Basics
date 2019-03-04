@@ -141,7 +141,7 @@ public class Solution {
 	// 268. Missing Number
 	// Company: Facebook Bloomberg Microsoft
 	// Description:
-	// Solution: 
+	// Solution: XOR on the missing number all paired nums will be 0 eventually.
 	public int missingNumber(int[] nums) {
 		int res = 0;
 		for (int i = 0; i < nums.length; i++)
@@ -151,4 +151,30 @@ public class Solution {
 
 		return res;
 	}
+
+	// 318. Maximum Product of Word Lengths
+	// Company: Google
+	// Description:
+	// Solution: mapping each word to mask[i], if mask[i] & mask[j] == 0
+	// then update the res.
+	public int maxProduct(String[] words) {
+		int[] mask = new int[words.length];
+		for (int i = 0; i < words.length; i++)
+		{
+			for (char c: words[i].toCharArray())
+			{
+				mask[i] |= 1 << (c - 'a');
+			}
+
+			for (int j = 0; j < i; j++)
+			{
+				if (mask[i] & mask[j] == 0)
+				{
+					res = Math.max(res, word[i].length() * word[j].length());
+				}
+			}
+		}
+
+		return res;
+  }
 }
