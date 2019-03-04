@@ -202,4 +202,28 @@ public class Solution {
 			return false;
 		}
   }
+
+	// 201. Bitwise AND of Numbers Range
+	// Company:
+	// Description:
+	// Solution: 1. Time limit exceeds. 2. Find the common parts between m and n.
+	public int rangeBitwiseAnd(int m, int n) {
+		int mask = Integer.MAX_VALUE;
+		while ((m & mask) != (n & mask))
+		{
+			mask = mask << 1;
+		}
+
+		return m & mask;
+  }
+
+	public int rangeBitwiseAnd(int m, int n) {
+		int res = m;
+		for (int i = m + 1; i <=n; i++)
+		{
+			res &= i;
+		}
+
+		return res;
+  }
 }
