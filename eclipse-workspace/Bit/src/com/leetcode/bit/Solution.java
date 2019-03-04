@@ -177,4 +177,29 @@ public class Solution {
 
 		return res;
   }
+
+	// 326. Power of Three
+	// Company: Google
+	// Description:
+	// Solution: 1. Recursion
+	public boolean isPowerOfThree(int n) {
+		if (n == 0)
+		{
+			return false;
+		}
+
+		if (n == 1 || n == 3)
+		{
+			return true;
+		}
+
+		if (n % 3 == 0)
+		{
+			return isPowerOfThree(n / 3);
+		}
+		else
+		{
+			return false;
+		}
+  }
 }
