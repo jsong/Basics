@@ -74,7 +74,7 @@ public class Solution {
 
 			return num == 1;
 		}
-		
+
 		public boolean isUgly(int num) {
 			if (num == 0)
 			{
@@ -111,4 +111,28 @@ public class Solution {
 
 			return false;
 		}
+
+		// 264. Ugly Number II
+		// Company:
+		// Description:
+		// Solution:
+		public int nthUglyNumber(int n) {
+
+    }
+
+		// 313. Super Ugly Number
+		// Company: Google
+		// Description:
+		// Solution:
+		public int nthSuperUglyNumber(int n, int[] primes) {
+
+    }
+
+		// 166. Fraction to Recurring Decimal
+		// Company:
+		// Description:
+		// Solution:
+		public String fractionToDecimal(int numerator, int denominator) {
+			
+	 	}
 }
