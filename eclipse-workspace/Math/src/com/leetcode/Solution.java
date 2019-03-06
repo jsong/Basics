@@ -26,7 +26,7 @@ public class Solution {
 		// 202. Happy Number
 		// Company:
 		// Description:
-		// Solution:
+		// Solution: If not happy number, then there will be a loop.
 		public boolean isHappy(int n) {
 			HashSet<Integer> set = new HashSet<>();
 			while (n != 1)
@@ -45,4 +45,70 @@ public class Solution {
 
 			return n == 1;
     }
+
+		// 263. Ugly Number
+		// Company:
+		// Description:
+		// Solution: 1. Recursion to check whether number could be divided into 2, 3, 5.
+		// 2. Non-Recursion
+		public boolean isUgly2(int num) {
+			while (num >= 2)
+			{
+				if (num % 2 == 0)
+				{
+						num /= 2;
+				}
+				else if (num % 3 == 0)
+				{
+					num /= 3;
+				}
+				else if (num % 5 == 0)
+				{
+					num /= 5;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			return num == 1;
+		}
+		
+		public boolean isUgly(int num) {
+			if (num == 0)
+			{
+				return false;
+			}
+
+			if (num == 1)
+			{
+				return true;
+			}
+
+			return helper(num);
+	 	}
+
+		private boolean helper(int n)
+		{
+			if (n == 2 || n == 3 || n == 5)
+			{
+				return true;
+			}
+
+			if (n % 2 == 0)
+			{
+				return helper(n / 2);
+			}
+			else if (n % 3 == 0)
+			{
+				return helper(n / 3);
+			}
+			else if (n % 5 == 0)
+			{
+				return helper(n / 5);
+			}
+
+			return false;
+		}
 }
