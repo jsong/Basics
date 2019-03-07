@@ -138,25 +138,18 @@ public class Solution {
 	 	}
 
 		// 172. Factorial Trailing Zeroes
-		// Company:
+		// Company: Bloomberg
 		// Description:
-		// Solution:
-		// Need to consider overflow case, like 30!.
+		// Solution: Consider how many 5s could a number contribute, for eg, 1...N, if
+		// N = 10, means it could contribute two 5s. Since 5 = 1 * 5, 10 = 2 * 5;
 		public int trailingZeroes(int n) {
-				long res = 1;
-        int zero = 0;
+				int res = 0;
+				while (n > 0)
+				{
+						res += n / 5;
+						n /= 5;
+				}
 
-        for (int i = 1; i <= n; i++)
-        {
-            res = res * i;
-        }
-
-        while ((res % 10) == 0)
-        {
-            zero++;
-            res = res / 10;
-        }
-
-        return zero;
+				return res;
     }
 }
