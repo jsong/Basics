@@ -129,10 +129,34 @@ public class Solution {
     }
 
 		// 166. Fraction to Recurring Decimal
+		// Company: IXL Google
+		// Description:
+		// Solution:
+		// How to handle the recurring number is the key.
+		public String fractionToDecimal(int numerator, int denominator) {
+
+	 	}
+
+		// 172. Factorial Trailing Zeroes
 		// Company:
 		// Description:
 		// Solution:
-		public String fractionToDecimal(int numerator, int denominator) {
-			
-	 	}
+		// Need to consider overflow case, like 30!.
+		public int trailingZeroes(int n) {
+				long res = 1;
+        int zero = 0;
+
+        for (int i = 1; i <= n; i++)
+        {
+            res = res * i;
+        }
+
+        while ((res % 10) == 0)
+        {
+            zero++;
+            res = res / 10;
+        }
+
+        return zero;
+    }
 }
