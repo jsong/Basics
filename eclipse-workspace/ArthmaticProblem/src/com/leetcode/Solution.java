@@ -58,4 +58,12 @@ public class Solution {
 		}
 		return true;
   }
+
+	// 57. Insert Interval
+	// Company: LinkedIn Facebook Google
+	// Description:
+	// Solution: Use cur indicator inside the intervals. Compare it against the newInterval.
+	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+
+  }
 }
