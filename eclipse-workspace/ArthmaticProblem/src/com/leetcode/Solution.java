@@ -66,4 +66,20 @@ public class Solution {
 	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
 
   }
+
+	// 56. Merge Interval
+	// Company: LinkedIn Google Facebook Microsoft Bloomberg Yelp Twitter
+	// Description: LinkedIn Google Facebook Microsoft Bloomberg Yelp Twitter
+	// Solution:
+	public List<Interval> merge(List<Interval> intervals) {
+
+	}
+
+	// 76. Minimum Window Substring
+	// Company: LinkedIn Facebook Snapchat Uber
+	// Description:
+	// Solution:
+	public String minWindow(String s, String t) {
+		
+  }
 }
