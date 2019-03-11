@@ -80,6 +80,11 @@ public class Solution {
 	// Description:
 	// Solution:
 	public String minWindow(String s, String t) {
-		
+
   }
+
+	// 43. Multiply Strings
+	// Company: Twitter Facebook
+	// Description:
+	// Solution:
 }
