@@ -87,4 +87,49 @@ public class Solution {
 	// Company: Twitter Facebook
 	// Description:
 	// Solution:
+	public String multiply(String num1, String num2) {
+
+	}
+
+	// 30. Substring with Concatenation of All Words
+	// Company:
+	// Description:
+	// Solution:
+	public List<Integer> findSubstring(String s, String[] words) {
+
+  }
+
+	// 118. Pascal's Triangle
+	// Company:
+	// Description:
+	// Solution: Draw a picture, with triangle.
+	public List<List<Integer>> generate(int numRows) {
+		List<List<Integer>> res = new ArrayList<>();
+
+		for (int i = 0; i < numRows; i++)
+		{
+			List<Integer> row = new ArrayList<>();
+			for (int j = 0; j <=i; j++)
+			{
+				if (j == 0 || j == i)
+				{
+					row.add(1);
+				}
+				else
+				{
+					row.add(res.get(i - 1).get(j) + res.get(i - 1).get(j - 1));
+				}
+			}
+
+			res.add(row);
+		}
+
+		return res;
+	}
+
+	//
+	//
+	//
+	//
+
 }
