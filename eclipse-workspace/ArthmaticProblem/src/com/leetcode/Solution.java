@@ -127,9 +127,12 @@ public class Solution {
 		return res;
 	}
 
-	//
-	//
-	//
-	//
+	// 119. Pascal's Triangle II
+	// Company: Mathworks Amazon
+	// Description: How to only use O(k) space?
+	// Solution:
+	public List<Integer> getRow(int rowIndex) {
+
+  }
 
 }
