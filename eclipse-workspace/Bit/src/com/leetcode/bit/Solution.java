@@ -11,6 +11,14 @@ public class Solution {
 		Solution sl = new Solution();
 		List<String> res = sl.findRepeatedDnaSequences("AAAAAAAAAAAAA");
 		System.out.println("Repeat: " + res);
+		
+		int j = 2;
+		if (--j > 1) 
+		{
+			System.out.println("j:" + j);
+		}
+		
+		System.out.println("j updated: " + j);
 	}
 
 	// 231. Power of Two
