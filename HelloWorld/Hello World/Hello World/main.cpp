@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
 
@@ -140,16 +141,60 @@ int gcd(int m, int n)
 void reverseWords(string &s) {
     int storeIndex = 0, n = s.size();
     reverse(s.begin(), s.end());
+    std::cout << "s: " << s << "\n";
     for (int i = 0; i < n; ++i) {
         if (s[i] != ' ') {
             if (storeIndex != 0) s[storeIndex++] = ' '; // make sure we only add one space in between.
             int j = i; // i when the words starts.
             while (j < n && s[j] != ' ') s[storeIndex++] = s[j++]; // j is the end of the words index.
+            // i may not be zero, due to the leading zeroes. so storeIndex - (j - i);
             reverse(s.begin() + storeIndex - (j - i), s.begin() + storeIndex);
             i = j;
         }
     }
     s.resize(storeIndex);
+}
+
+// 186 Reverse Words in a String II
+string reverseWordsII(string &str) {
+    reverse(str.begin(), str.end());
+    int n = str.size();
+    for (int i = 0, j = 0; i < n; i = j + 1)
+    {
+        for (j = i; j < n; j++)
+        {
+            if (str[j] == ' ' ) break;
+        }
+
+        reverse(str.begin() + i, str.begin() + j);
+    }
+    
+    return str;
+}
+
+// 215. Kth Largest Element in an Array
+int findKthLargest(vector<int>& nums, int k) {
+    // C++ p_q largest on top.
+    // Java p_q smallest on top.
+    priority_queue<int, vector<int>, greater<int>> q;
+    
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (q.size() < k)
+        {
+            q.push(nums[i]);
+        }
+        else
+        {
+            if (q.top() < nums[i])
+            {
+                q.pop();
+                q.push(nums[i]);
+            }
+        }
+    }
+    
+    return q.top();
 }
 
 int main(int argc, const char * argv[]) {
@@ -206,9 +251,15 @@ int main(int argc, const char * argv[]) {
     
     std::cout << "k updated: " << k << std::endl;
     std::cout << "Maximum: GCD" << g << std::endl;
-    string h = "hello  world";
-    reverseWords(h);
-    std::cout << "reverse: " << h << "\n";
+    string h1 = "  hello  world!  ";
+    reverseWords(h1);
+    
+    string h2 = "hello world";
+    string rev2 = reverseWordsII(h2);
+    
+    std::cout << "reverse: " << h1 << "\n";
+    vector<int> findK = {3, 2, 1, 5, 6, 4};
+    int kth = findKthLargest(findK, 2);
     
     return 0;
 }
