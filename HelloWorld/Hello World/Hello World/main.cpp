@@ -11,6 +11,7 @@
 #include <string>
 #include <unordered_map>
 #include <queue>
+#include <sstream>      // std::istringstream
 
 using namespace std;
 
@@ -136,9 +137,19 @@ int gcd(int m, int n)
     return n == 0? m: gcd(n, m % n);
 }
 
+// 151. Reverse Words in a String
+// Solution 1:
+void reverseWordsI(string &s) {
+    istringstream is(s);
+    string tmp;
+    is >> s;
+    while(is >> tmp) s = tmp + " " + s;
+    if(!s.empty() && s[0] == ' ') s = "";
+}
 
 // C++ no extra cost on space.
-void reverseWords(string &s) {
+// Solution 2
+void reverseWords(string s) {
     int storeIndex = 0, n = s.size();
     reverse(s.begin(), s.end());
     std::cout << "s: " << s << "\n";
@@ -154,6 +165,20 @@ void reverseWords(string &s) {
     }
     s.resize(storeIndex);
 }
+
+void reverseManual(int left, int right, string& s)
+{
+    while (left < right)
+    {
+        char temp = s[left];
+        s[left] = s[right];
+        s[right] = temp;
+        left++;
+        right--;
+    }
+}
+
+
 
 // 186 Reverse Words in a String II
 string reverseWordsII(string &str) {
@@ -195,6 +220,56 @@ int findKthLargest(vector<int>& nums, int k) {
     }
     
     return q.top();
+}
+
+// 658. Find K Closest Elements
+vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+    while (arr.size() > k)
+    {
+        if (x - arr.front() <= arr.back() - x)
+        {
+            arr.pop_back();
+        }
+        else
+        {
+            arr.erase(arr.begin());
+        }
+    }
+    
+    return arr;
+}
+
+// 34. Find First and Last Position of Element in Sorted Array
+vector<int> searchRange(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+    vector<int> res;
+    
+    // find lower bound.
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+        if (nums[mid] < target)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid - 1;
+        }
+    }
+    
+    if (nums[left] == target)
+    {
+        res.clear();
+        res.push_back(left); // first index
+        while (nums[left] == target)
+        {
+            left++;
+        }
+        res.push_back(left);
+    }
+    return res;
 }
 
 int main(int argc, const char * argv[]) {
@@ -255,11 +330,18 @@ int main(int argc, const char * argv[]) {
     reverseWords(h1);
     
     string h2 = "hello world";
+    reverseManual(0, h2.size() - 1, h2);
+    
     string rev2 = reverseWordsII(h2);
     
     std::cout << "reverse: " << h1 << "\n";
     vector<int> findK = {3, 2, 1, 5, 6, 4};
     int kth = findKthLargest(findK, 2);
-    
+    vector<int> kNearest = {0, 0, 1, 2, 3, 3, 4, 7, 7, 8};
+    vector<int> r = findClosestElements(kNearest, 3, 5);
+    //{5,7,7,8,8,10}
+    vector<int> range = {5,7,7,8,8,10};
+    range = {};
+    searchRange(range, 0);
     return 0;
 }
