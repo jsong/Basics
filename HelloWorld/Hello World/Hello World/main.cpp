@@ -243,12 +243,17 @@ vector<int> findClosestElements(vector<int>& arr, int k, int x) {
 vector<int> searchRange(vector<int>& nums, int target) {
     int left = 0;
     int right = nums.size() - 1;
-    vector<int> res;
-    
-    // find lower bound.
+    int index = -1;
+    // find the match
     while (left <= right)
     {
         int mid = left + (right - left) / 2;
+        if (nums[mid] == target)
+        {
+            index = mid;
+            break;
+        }
+        
         if (nums[mid] < target)
         {
             left = mid + 1;
@@ -259,17 +264,49 @@ vector<int> searchRange(vector<int>& nums, int target) {
         }
     }
     
-    if (nums[left] == target)
+    if (index == -1)
     {
-        res.clear();
-        res.push_back(left); // first index
-        while (nums[left] == target)
-        {
-            left++;
-        }
-        res.push_back(left);
+        return {-1, -1};
     }
-    return res;
+    
+    // expand range with two pointer.
+    int lower = index;
+    int upper = index;
+    
+    while (nums[lower] == target) {
+        lower--;
+        if (lower < 0) break;
+    }
+    
+    while (nums[upper] == target) {
+        upper++;
+        if (upper >= nums.size()) break;
+    }
+    
+    return {lower + 1, upper - 1};
+}
+
+int lower_bound(vector<int>& nums, int target) {
+    int l = 0, r = nums.size() - 1;
+    while (l <= r) {
+        int mid = (r-l)/2+l;
+        if (nums[mid] < target)
+            l = mid+1;
+        else
+            r = mid-1;
+    }
+    return l;
+}
+
+// 34. Find First and Last Position of Element in Sorted Array
+// 2nd solution
+vector<int> searchRange2(vector<int>& nums, int target) {
+    int idx1 = lower_bound(nums, target);
+    int idx2 = lower_bound(nums, target+1)-1;
+    if (idx1 < nums.size() && nums[idx1] == target)
+        return {idx1, idx2};
+    else
+        return {-1, -1};
 }
 
 int main(int argc, const char * argv[]) {
