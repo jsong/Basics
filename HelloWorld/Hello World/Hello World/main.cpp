@@ -309,6 +309,22 @@ vector<int> searchRange2(vector<int>& nums, int target) {
         return {-1, -1};
 }
 
+
+// 161. One Edit Distance
+bool isOneEditDistance(string s, string t) {
+    return false;
+}
+
+// 286. Walls and Gates
+void wallsAndGates(vector<vector<int>>& rooms) {
+    
+}
+
+// 325. Maximum Size Subarray Sum Equals k
+int maxSubArrayLen(vector<int> &nums, int k) {
+    return 0;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
 //    std::cout << "Hello, World!\n";
