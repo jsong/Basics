@@ -9,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <string>
+#include <vector>
 
 class Info
 {
@@ -45,6 +46,12 @@ int main()
     const auto copy_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(copy_end - copy_start);
 //    std::cout << "copy access takes " << copy_duration.count() << " nanoseconds" << std::endl;
     printf("2: %lld \n", copy_duration.count());
+
+    std::vector<int> v = {1, 2, 3};
+    for (int i = 0; i < v.size(); i++)
+    {
+        std::cout << "i: " << i << v[i] << "\n";
+    }
 
     return 0;
 }
