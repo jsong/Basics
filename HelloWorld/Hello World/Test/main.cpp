@@ -9,6 +9,8 @@
 #include <iostream>
 #include <chrono>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
 class Info
 {
@@ -45,6 +47,25 @@ int main()
     const auto copy_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(copy_end - copy_start);
 //    std::cout << "copy access takes " << copy_duration.count() << " nanoseconds" << std::endl;
     printf("2: %lld \n", copy_duration.count());
+    using namespace std;
+    vector<int> v = {1, 2, 3};
+    unordered_map<int, vector<int>> map;
+    map[v[0]].push_back(0);
 
+    if (map.count(v[0]))
+    {
+        map[v[0]].push_back(0);
+    }
+    else
+    {
+        map[v[0]].push_back(0);
+    }
+    
+    vector<int> vr = map[1];
+    if (vr.size() > 0)
+    {
+        std::cout << "size: " << vr.size() << "\n";
+    }
+    
     return 0;
 }

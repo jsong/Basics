@@ -320,11 +320,40 @@ void wallsAndGates(vector<vector<int>>& rooms) {
     
 }
 
+// ####
 // 325. Maximum Size Subarray Sum Equals k
 int maxSubArrayLen(vector<int> &nums, int k) {
     return 0;
 }
 
+// Above Core Algorithm similar to 303. Range Sum Query - Immutable
+
+// 377. Combination Sum IV
+
+// 398. Random Pick Index
+unordered_map<int, vector<int>> map;
+Solution(vector<int>& nums) {
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (map.count(nums[i]))
+        {
+            map[nums[i]].push_back(i);
+        }
+        else
+        {
+            map[nums[i]].push_back(i);
+        }
+    }
+}
+
+int pick(int target) {
+    vector<int> candidates = map[target];
+    int randIndex = rand() % candidates.size();
+    return candidates[randIndex];
+}
+
+
+// ####
 int main(int argc, const char * argv[]) {
     // insert code here...
 //    std::cout << "Hello, World!\n";
@@ -396,5 +425,10 @@ int main(int argc, const char * argv[]) {
     vector<int> range = {5,7,7,8,8,10};
     range = {};
     searchRange(range, 0);
+    
+    // unordered_map
+    using namespace std;
+    unordered_map<string, int> map;
+    
     return 0;
 }
