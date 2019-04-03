@@ -67,5 +67,11 @@ int main()
         std::cout << "size: " << vr.size() << "\n";
     }
     
+    std::vector<int> v = {1, 2, 3};
+    for (int i = 0; i < v.size(); i++)
+    {
+        std::cout << "i: " << i << v[i] << "\n";
+    }
+
     return 0;
 }

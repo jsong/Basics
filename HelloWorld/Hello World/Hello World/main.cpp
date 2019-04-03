@@ -352,8 +352,32 @@ int pick(int target) {
     return candidates[randIndex];
 }
 
+void helper(int sum, vector<int>& nums, int target, int& count) {
+    if (sum == target)
+    {
+        count++;
+        return;
+    }
+    else if (sum > target)
+    {
+        return;
+    }
+    
+    for (int i = 0; i < nums.size(); i++)
+    {
+        helper(nums[i] + sum, nums, target, count);
+    }
+}
 
-// ####
+
+// 377. Combination Sum IV
+int combinationSum4(vector<int>& nums, int target) {
+    int count = 0;
+    helper(0, nums, target, count);
+    
+    return count;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
 //    std::cout << "Hello, World!\n";
@@ -425,10 +449,12 @@ int main(int argc, const char * argv[]) {
     vector<int> range = {5,7,7,8,8,10};
     range = {};
     searchRange(range, 0);
-    
     // unordered_map
     using namespace std;
     unordered_map<string, int> map;
     
+    vector<int> arr = {1, 2, 3};
+    int cRes = combinationSum4(arr, 32);
+    std::cout << "Combination: " << cRes << "\n";
     return 0;
 }
