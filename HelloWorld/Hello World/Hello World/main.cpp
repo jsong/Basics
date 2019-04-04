@@ -328,30 +328,7 @@ int maxSubArrayLen(vector<int> &nums, int k) {
 
 // Above Core Algorithm similar to 303. Range Sum Query - Immutable
 
-// 377. Combination Sum IV
-
-// 398. Random Pick Index
-unordered_map<int, vector<int>> map;
-Solution(vector<int>& nums) {
-    for (int i = 0; i < nums.size(); i++)
-    {
-        if (map.count(nums[i]))
-        {
-            map[nums[i]].push_back(i);
-        }
-        else
-        {
-            map[nums[i]].push_back(i);
-        }
-    }
-}
-
-int pick(int target) {
-    vector<int> candidates = map[target];
-    int randIndex = rand() % candidates.size();
-    return candidates[randIndex];
-}
-
+// #######
 void helper(int sum, vector<int>& nums, int target, int& count) {
     if (sum == target)
     {
@@ -377,6 +354,60 @@ int combinationSum4(vector<int>& nums, int target) {
     
     return count;
 }
+
+// ######
+
+// 243. Shortest Word Distance
+int shortestWordDistance(vector<string>& words, string word1, string word2) {
+    int pos1, pos2;
+    int distance = INT_MAX;
+    
+    for (int i = 0; i < words.size(); i++)
+    {
+        if (words[i] == word1)
+        {
+            pos1 = i;
+        }
+        
+        if (words[i] == word2)
+        {
+            pos2 = i;
+        }
+        
+        distance = min(distance, abs(pos1 - pos2));
+    }
+    
+    return distance;
+}
+
+// 245. Shortest Word Distance III
+int shortestWordDistanceIII(vector<string>& words, string word1, string word2) {
+    return 0;
+}
+
+// 398. Random Pick Index
+// 1. unordered_map to store the nums with index, find the key with all possible indexes. Rand pick
+// 2. vector solution, TODO
+class Solution {
+private:
+    unordered_map<int, vector<int>> vmap = {};
+public:
+    Solution(vector<int>& nums) {
+        for (int i = 0; i < nums.size(); i++)
+        {
+            {
+                vmap[nums[i]].push_back(i);
+            }
+        }
+    }
+    
+    int pick(int target) {
+        const vector<int>& candidates = vmap[target];
+        int randIndex = rand() % candidates.size();
+        return candidates[randIndex];
+    }
+};
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -453,8 +484,12 @@ int main(int argc, const char * argv[]) {
     using namespace std;
     unordered_map<string, int> map;
     
-    vector<int> arr = {1, 2, 3};
-    int cRes = combinationSum4(arr, 32);
+    vector<int> arr = {1,2,3,3,3};
+    int cRes = combinationSum4(arr, 10);
     std::cout << "Combination: " << cRes << "\n";
+    
+    Solution* obj = new Solution(arr);
+    int param_1 = obj->pick(3);
+
     return 0;
 }
