@@ -359,7 +359,7 @@ int combinationSum4(vector<int>& nums, int target) {
 
 // 243. Shortest Word Distance
 int shortestWordDistance(vector<string>& words, string word1, string word2) {
-    int pos1, pos2;
+    int pos1 = -1, pos2 = -1;
     int distance = INT_MAX;
     
     for (int i = 0; i < words.size(); i++)
@@ -374,13 +374,19 @@ int shortestWordDistance(vector<string>& words, string word1, string word2) {
             pos2 = i;
         }
         
-        distance = min(distance, abs(pos1 - pos2));
+        if (pos1 != -1 && pos2 != -1)
+        {
+            distance = min(distance, abs(pos1 - pos2));
+        }
     }
     
     return distance;
 }
 
-// 245. Shortest Word Distance III
+// 244. Shortest Word Distance II
+
+
+// 245. Shortest Word Distance III, words1 and words2 are allow to be same.
 int shortestWordDistanceIII(vector<string>& words, string word1, string word2) {
     return 0;
 }
