@@ -383,11 +383,33 @@ int shortestWordDistance(vector<string>& words, string word1, string word2) {
     return distance;
 }
 
-// 244. Shortest Word Distance II
-
+// 244. Shortest Word Distance II, query may be used as much as possible.
+int shortestWordDistanceII(vector<string>& words, string word1, string word2)
+{
+    int distance = INT_MAX;
+    unordered_map<string, vector<int>> map;
+    
+    for (int i = 0; i < words.size(); i++)
+    {
+        map[words[i]].push_back(i);
+    }
+    
+    vector<int> pos1 = map[word1];
+    vector<int> pos2 = map[word2];
+    int m = 0, n = 0;
+    
+    while(m < pos1.size() && n < pos2.size())
+    {
+        distance = min(distance, abs(pos1[m] - pos2[n]));
+        pos1[m] < pos2[n] ? m++ : n++;
+    }
+    
+    return distance;
+}
 
 // 245. Shortest Word Distance III, words1 and words2 are allow to be same.
-int shortestWordDistanceIII(vector<string>& words, string word1, string word2) {
+int shortestWordDistanceIII(vector<string>& words, string word1, string word2)
+{
     return 0;
 }
 
