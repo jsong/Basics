@@ -410,7 +410,37 @@ int shortestWordDistanceII(vector<string>& words, string word1, string word2)
 // 245. Shortest Word Distance III, words1 and words2 are allow to be same.
 int shortestWordDistanceIII(vector<string>& words, string word1, string word2)
 {
-    return 0;
+    int p1 = -1, p2 = -1, t = -1, distance = INT_MAX;
+    
+    for (int i = 0; i < words.size(); i++)
+    {
+        t = p1;
+        if (words[i] == word1)
+        {
+            p1 = i;
+        }
+        if (words[i] == word2)
+        {
+            p2 = i;
+        }
+        
+        if (p1 != -1 && p2 != -1)
+        {
+            if (word1 != word2) // 
+            {
+                distance = min(distance, abs(p1 - p2));
+            }
+            else
+            {
+                if (t != -1 && t != p1) // make, tree... , after first iteration, t == p1, when at tree.
+                {
+                    distance = min(distance, abs(p1 - t));
+                }
+            }
+        }
+    }
+
+    return distance;
 }
 
 // 398. Random Pick Index
