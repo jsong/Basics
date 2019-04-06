@@ -179,7 +179,6 @@ void reverseManual(int left, int right, string& s)
 }
 
 
-
 // 186 Reverse Words in a String II
 string reverseWordsII(string &str) {
     reverse(str.begin(), str.end());
@@ -426,7 +425,7 @@ int shortestWordDistanceIII(vector<string>& words, string word1, string word2)
         
         if (p1 != -1 && p2 != -1)
         {
-            if (word1 != word2) // 
+            if (word1 != word2) //
             {
                 distance = min(distance, abs(p1 - p2));
             }
@@ -465,6 +464,33 @@ public:
         return candidates[randIndex];
     }
 };
+
+// 339. Nested List Weight Sum
+class NestedInteger // avoid compile error, fake class.
+{
+public:
+    bool isInteger(){return 0;};
+    vector<NestedInteger> getList(){vector<NestedInteger> r; return r;};
+    int getInteger(){return 0;};
+};
+
+int helper(const vector<NestedInteger>& nestedList, int level)
+{
+    int res = 0;
+    for (NestedInteger a: nestedList)
+    {
+        res += a.isInteger()? a.getInteger() * level: helper(a.getList(), level + 1);
+    }
+    
+    return res;
+}
+
+int depthSum(const vector<NestedInteger>& nestedList) {
+    // Write your code here
+    return helper(nestedList, 1);
+}
+
+// 364. Nested List Weight Sum II
 
 
 int main(int argc, const char * argv[]) {
