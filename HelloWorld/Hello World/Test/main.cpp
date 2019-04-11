@@ -67,11 +67,24 @@ int main()
         std::cout << "size: " << vr.size() << "\n";
     }
     
-    std::vector<int> v = {1, 2, 3};
-    for (int i = 0; i < v.size(); i++)
+    std::vector<int> vv = {1, 2, 3};
+    for (int i = 0; i < vv.size(); i++)
     {
-        std::cout << "i: " << i << v[i] << "\n";
+        std::cout << "i:" << vv[i] << "\n";
     }
 
+    for (int i = 0; i < 5; i++)
+    {
+        std::cout << "::" << (1 << 5) << "\n";
+    }
+    
+    int a = 5;
+    int b = 3;
+    int c = a | b;
+    std::cout << "c: " << c << "\n";
+    for (int i = 0; i < 6; i++)
+    {
+        std:: cout << (1 << i) << "\n";
+    }
     return 0;
 }
