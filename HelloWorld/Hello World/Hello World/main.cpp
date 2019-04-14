@@ -540,6 +540,29 @@ vector<int> largestValues(TreeNode* root) {
     return level;
 }
 
+// 525. Contiguous Array if left...mid...right, if right == left, means the mid sums up to 0, which we could calculate what's the length. 
+int findMaxLength(vector<int>& nums) {
+    unordered_map<int, int> sum_index = {{0, -1}};
+    int res = 0;
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        sum += nums[i] == 0 ? -1: 1;
+        if (sum_index.count(sum))
+        {
+            res = max(res, i - sum_index[sum]);
+        }
+        else
+        {
+            sum_index[sum] = i;
+        }
+    }
+    
+    return res;
+}
+
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
 //    std::cout << "Hello, World!\n";
