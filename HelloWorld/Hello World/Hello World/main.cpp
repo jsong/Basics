@@ -9,9 +9,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stack>
 #include <unordered_map>
 #include <queue>
 #include <sstream>      // std::istringstream
+
 
 using namespace std;
 
@@ -540,7 +542,7 @@ vector<int> largestValues(TreeNode* root) {
     return level;
 }
 
-// 525. Contiguous Array if left...mid...right, if right == left, means the mid sums up to 0, which we could calculate what's the length. 
+// 525. Contiguous Array. if left...mid...right, if right == left, means the mid sums up to 0, which we could calculate what's the length.
 int findMaxLength(vector<int>& nums) {
     unordered_map<int, int> sum_index = {{0, -1}};
     int res = 0;
@@ -561,6 +563,95 @@ int findMaxLength(vector<int>& nums) {
     return res;
 }
 
+// 529. Minesweeper
+vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+    vector<vector<char>> res;
+    return res;
+}
+
+// 537. Complex Number Multiplication
+string complexNumberMultiply(string a, string b) {
+    return "";
+}
+
+// 553. Optimal Division
+string optimalDivision(vector<int>& nums) {
+    string res;
+    
+    if (nums.size() == 0)
+    {
+        return "";
+    }
+    
+    res = nums[0];
+    
+    if (nums.size() == 1)
+    {
+        return res;
+    }
+    
+    if (nums.size() == 2)
+    {
+        return res + "/" + to_string(nums[1]);
+    }
+    
+    res += "/(";
+    
+    for (int i = 1; i < nums.size(); i++)
+    {
+        res += to_string(nums[i]);
+        res +="/";
+    }
+    
+    res +=")";
+    return res;
+}
+
+// 554. Brick Wall
+int leastBricks(vector<vector<int>>& wall) {
+    return 0;
+}
+
+// 621. Task Scheduler
+int leastInterval(vector<char>& tasks, int n) {
+    return 0;
+}
+
+// 636. Exclusive Time of Functions
+vector<int> exclusiveTime(int n, vector<string>& logs) {
+    vector<int> res(n, 0);
+    stack<int> funcs;
+    int preTime = 0;
+    
+    for (string log: logs)
+    {
+        int found1 = log.find(":");
+        int found2 = log.find_last_of(":");
+        int idx = stoi(log.substr(0, found1));
+        string type = log.substr(found1 + 1, found2 - found1 - 1);
+        int time = stoi(log.substr(found2 + 1));
+        
+        if (funcs.size() > 0)
+        {
+            res[funcs.top()] += time - preTime;
+        }
+        preTime = time;
+        
+        if (type == "start")
+        {
+            funcs.push(idx);
+        }
+        else
+        {
+            int t = funcs.top();
+            funcs.pop();
+            res[t]++;
+            preTime++;
+        }
+    }
+    
+    return res;
+}
 
 
 int main(int argc, const char * argv[]) {
