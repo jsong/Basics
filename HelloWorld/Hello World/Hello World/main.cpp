@@ -659,6 +659,60 @@ string solveEquation(string equation) {
     return "";
 }
 
+// 646. Maximum Length of Pair Chain
+// pairs could be in any order. *Sort it first.
+// Solution 1: Time Limit exceeds. Two inner & outter loop
+// Solution 2: Greedy, sort and use stack.
+int findLongestChain2(vector<vector<int>>& pairs) {
+    sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) {
+            return a[1] < b[1];
+    });
+    stack<vector<int>> s;
+    
+    for (auto pair: pairs)
+    {
+        if (s.empty())
+        {
+            s.push(pair);
+        }
+        else
+        {
+            if (s.top()[1] < pair[0])
+            {
+                s.push(pair);
+            }
+        }
+    }
+    
+    return s.size();
+}
+
+int findLongestChain1(vector<vector<int>>& pairs) {
+    int res = 0;
+    sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) {
+            return a[1] < b[1];
+    });
+
+    for (int i = 0; i < pairs.size(); i++)
+    {
+        int cur = 0;
+        vector<int> pair = pairs[i];
+        for (int j = i + 1; j < pairs.size(); j++)
+        {
+            vector<int> pointer = pairs[j];
+            if (pointer[0] > pair[1])
+            {
+                cur++;
+                pair = pointer;
+            }
+        }
+        
+        res = max(res, cur);
+    }
+    
+    return res;
+}
+
 // 670. Maximum Swap
 int maximumSwap(int num)
 {
@@ -706,6 +760,10 @@ int maximumSwap2(int num) {
     return atoi(res.c_str());
 }
 
+// 673. Number of Longest Increasing Subsequence
+int findNumberOfLIS(vector<int>& nums) {
+    return 0;
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...
