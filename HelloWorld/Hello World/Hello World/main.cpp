@@ -653,6 +653,59 @@ vector<int> exclusiveTime(int n, vector<string>& logs) {
     return res;
 }
 
+// 640. Solve the Equation
+string solveEquation(string equation) {
+    
+    return "";
+}
+
+// 670. Maximum Swap
+int maximumSwap(int num)
+{
+    string s = to_string(num);
+    int maxDigit = -1;
+    int maxPos = -1;
+    int swapPos = -1;
+    for (int i = 0; i < s.size(); i++)
+    {
+        maxDigit = s[i];
+        for (int j = i + 1; j < s.size(); j++)
+        {
+            if (s[j] >= maxDigit) // find the last index which could be greater than the firstmost one.
+            {
+                maxDigit = s[j];
+                maxPos = j;
+            }
+        }
+        
+        if (maxDigit != s[i])
+        {
+            swapPos = i;
+            break;
+        }
+    }
+    
+    // swap the index.
+    if (swapPos != -1)
+        swap(s[swapPos], s[maxPos]);
+    
+    return atoi(s.c_str());
+}
+
+int maximumSwap2(int num) {
+    string s = to_string(num);
+    priority_queue<int> q(s.begin(),s.end());
+    
+    string res;
+    while (!q.empty())
+    {
+        res.append(to_string(q.top() - 48));
+        q.pop();
+    }
+    
+    return atoi(res.c_str());
+}
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
@@ -736,5 +789,13 @@ int main(int argc, const char * argv[]) {
     Solution* obj = new Solution(arr);
     int param_1 = obj->pick(3);
 
+    // 9193 will fail.
+    int maxi = maximumSwap(9973);
+    
+    std::cout << "Max:" << maxi << "\n";
+    
+    std::string test_swap = "1234";
+    swap(test_swap[0], test_swap[3]);
+    std::cout << "Swap: " << test_swap << "\n";
     return 0;
 }
