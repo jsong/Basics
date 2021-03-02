@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		8EF541672237863400B660F9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EF541662237863400B660F9 /* main.cpp */; };
-		AF886B50224ECFB900F71A26 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF886B4F224ECFB900F71A26 /* main.cpp */; };
+		AF37CABF25ED6A3200297A89 /* bfs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF37CABE25ED6A3200297A89 /* bfs.cpp */; };
+		AF886B50224ECFB900F71A26 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF886B4F224ECFB900F71A26 /* main.cpp */; settings = {COMPILER_FLAGS = "-fno-elide-constructors"; }; };
+		AFCDE6C325DE126500AB64C4 /* MinHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,20 +25,22 @@
 		};
 		AF886B4B224ECFB900F71A26 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8EF541632237863400B660F9 /* Hello World */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Hello World"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EF541662237863400B660F9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AF37CABE25ED6A3200297A89 /* bfs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bfs.cpp; sourceTree = "<group>"; };
 		AF886B4D224ECFB900F71A26 /* Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF886B4F224ECFB900F71A26 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MinHeap.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			isa = PBXGroup;
 			children = (
 				8EF541662237863400B660F9 /* main.cpp */,
+				AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */,
+				AF37CABE25ED6A3200297A89 /* bfs.cpp */,
 			);
 			path = "Hello World";
 			sourceTree = "<group>";
@@ -168,6 +174,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF37CABF25ED6A3200297A89 /* bfs.cpp in Sources */,
+				AFCDE6C325DE126500AB64C4 /* MinHeap.cpp in Sources */,
 				8EF541672237863400B660F9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,6 +306,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-elide-constructors",
+				);
+				OTHER_LDFLAGS = "-fno-elide-constructors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -306,6 +319,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fno-elide-constructors",
+				);
+				OTHER_LDFLAGS = "-fno-elide-constructors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

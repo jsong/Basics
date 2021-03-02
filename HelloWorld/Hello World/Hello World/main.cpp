@@ -180,7 +180,6 @@ void reverseManual(int left, int right, string& s)
     }
 }
 
-
 // 186 Reverse Words in a String II
 string reverseWordsII(string &str) {
     reverse(str.begin(), str.end());
@@ -191,7 +190,7 @@ string reverseWordsII(string &str) {
         {
             if (str[j] == ' ' ) break;
         }
-
+        
         reverse(str.begin() + i, str.begin() + j);
     }
     
@@ -440,7 +439,7 @@ int shortestWordDistanceIII(vector<string>& words, string word1, string word2)
             }
         }
     }
-
+    
     return distance;
 }
 
@@ -500,10 +499,10 @@ int depthSum(const vector<NestedInteger>& nestedList) {
 
 // 515. Find Largest Value in Each Tree Row  -- BFS
 struct TreeNode {
-      int val;
-      TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 vector<int> largestValues(TreeNode* root) {
@@ -541,6 +540,29 @@ vector<int> largestValues(TreeNode* root) {
     
     return level;
 }
+
+vector<TreeNode*> unihelper(int start, int end) {
+    if (start > end) return {nullptr};
+    vector<TreeNode*> res;
+    for (int i = start; i <= end; ++i) {
+        auto left = unihelper(start, i - 1), right = unihelper(i + 1, end);
+        for (auto a : left) {
+            for (auto b : right) {
+                TreeNode *node = new TreeNode(i);
+                node->left = a;
+                node->right = b;
+                res.push_back(node);
+            }
+        }
+    }
+    return res;
+}
+
+vector<TreeNode*> generateTrees(int n) {
+    if (n == 0) return {};
+    return unihelper(1, n);
+}
+
 
 // 525. Contiguous Array. if left...mid...right, if right == left, means the mid sums up to 0, which we could calculate what's the length.
 int findMaxLength(vector<int>& nums) {
@@ -665,7 +687,7 @@ string solveEquation(string equation) {
 // Solution 2: Greedy, sort and use stack.
 int findLongestChain2(vector<vector<int>>& pairs) {
     sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) {
-            return a[1] < b[1];
+        return a[1] < b[1];
     });
     stack<vector<int>> s;
     
@@ -690,9 +712,9 @@ int findLongestChain2(vector<vector<int>>& pairs) {
 int findLongestChain1(vector<vector<int>>& pairs) {
     int res = 0;
     sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) {
-            return a[1] < b[1];
+        return a[1] < b[1];
     });
-
+    
     for (int i = 0; i < pairs.size(); i++)
     {
         int cur = 0;
@@ -712,6 +734,7 @@ int findLongestChain1(vector<vector<int>>& pairs) {
     
     return res;
 }
+
 
 // 670. Maximum Swap
 int maximumSwap(int num)
@@ -760,21 +783,321 @@ int maximumSwap2(int num) {
     return atoi(res.c_str());
 }
 
+// 663. Equal Tree Partition
+bool checkEqualTree(TreeNode* root) {
+    
+    return false;
+}
+
 // 673. Number of Longest Increasing Subsequence
 int findNumberOfLIS(vector<int>& nums) {
+    int res = 0, mx = 0, n = nums.size();
+    vector<int> len(n, 1), cnt(n, 1);
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (nums[i] <= nums[j]) continue;
+            std::cout << "i:" << i << ":" << nums[i] << "\n";
+            std::cout << "j:" << j << ":" << nums[j] << "\n";
+            if (len[i] == len[j] + 1) cnt[i] += cnt[j];
+            else if (len[i] < len[j] + 1) {
+                len[i] = len[j] + 1;
+                cnt[i] = cnt[j];
+            }
+        }
+        if (mx == len[i]) res += cnt[i];
+        else if (mx < len[i]) {
+            mx = len[i];
+            res = cnt[i];
+        }
+    }
+    return res;
+}
+
+// 300. Longest Increasing Subsequence
+int lengthOfLIS(vector<int>& nums) {
+    
     return 0;
 }
 
+// 674. Longest Continuous Increasing Subsequence
+int findLengthOfLCIS(vector<int>& nums) {
+    int res = 1;
+    int counter = 1;
+    
+    for (int i = 0; i < nums.size() - 1; i++)
+    {
+        if (nums[i] < nums[i + 1])
+        {
+            counter++;
+            res = max(counter, res);
+        }
+        else
+        {
+            counter = 1;
+        }
+    }
+    
+    return res;
+}
+
+
+// 694. Number of Distinct Islands
+// number of islands
+
+//
+// 714. Best Time to Buy and Sell Stock with Transaction Fee
+// DP, need to consider hold as well.
+
+// 721. Accounts Merge
+// Adjust matrix
+
+// 725. Split Linked List in Parts
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+vector<ListNode*> splitListToParts(ListNode* root, int k) {
+    int count = 0;
+    vector<ListNode*> res;
+    ListNode *head = root; // copy or
+    
+    if (root == nullptr)
+    {
+        while (k-- > 0) {
+            res.push_back(nullptr);
+        }
+        
+        return res;
+    }
+    
+    while (head != nullptr)
+    {
+        ++count;
+        head = head->next;
+    }
+    head = root;
+    
+    if (count < k)
+    {
+        while (k > 0)
+        {
+            if (count > 0)
+            {
+                ListNode *temp = new ListNode(head->val);
+                //                ListNode node(2);  // C++ object re-use?
+                res.push_back(temp);
+                head = head->next;
+            }
+            else
+            {
+                res.push_back(nullptr);
+            }
+            count--;
+            k--;
+        }
+    }
+    else
+    {
+        int firstPart = count / k + count - (count / k) * k;
+        ListNode *root1 = new ListNode(0);
+        root1->next = root;
+        
+        while (firstPart > 0)
+        {
+            firstPart--;
+            root1 = root1->next;
+        }
+        head = root1->next; // validate
+        root1->next = nullptr;
+        res.push_back(root);
+        
+        while (head != nullptr)
+        {
+            ListNode *temp = head;
+            int kCount = count / k;
+            while (--kCount > 0)
+            {
+                temp = temp->next;
+            }
+            
+            ListNode *next = temp->next;
+            temp->next = nullptr;
+            res.push_back(head);
+            head = next;
+        }
+    }
+    
+    return res;
+}
+
+
+// whether target is anagram
+bool isAnagrams(unordered_map<char, int> table, string target)
+{
+    int count = target.size();
+    for (int i = 0; i < target.size(); i++)
+    {
+        if (table.count(target[i]) > 0)
+        {
+            table[target[i]]--;
+            if (table[target[i]] < 0)
+            {
+                break;
+            }
+            
+            count--;
+        }
+    }
+    
+    return count == 0;
+}
+
+vector<int> findAnagrams(string s, string p) {
+    unordered_map<char, int> table;
+    vector<int> indexes;
+    for (int i = 0; i < p.size(); i++)
+    {
+        table[p[i]]++;
+    }
+    
+    for (int i = 0; i <= s.size() - p.size(); i++)
+    {
+        if (isAnagrams(table, s.substr(i, p.size())))
+        {
+            indexes.push_back(i);
+        }
+    }
+    
+    return indexes;
+}
+
+/**
+ *  Two pointers problem.
+ */
+
+// 3. Longest Substring Without Repeating Characters
+int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> map;
+    int i = 0, j = 0, result = 0;
+    while (j < s.length()) {
+        if (map.find(s[j]) == map.end())
+        {
+            map[s[j]] = j;
+            result = max(result, j - i + 1);
+            j++;
+        }
+        else
+        {
+            map.erase(s[i++]);
+        }
+    }
+    
+    return result;
+}
+
+int lengthOfLongestSubstringTwoDistinct(string s) {
+    int res = 0, left = 0;
+    unordered_map<char, int> m;
+    for (int i = 0; i < s.size(); ++i) {
+        ++m[s[i]];
+        while (m.size() > 2) {
+            if (--m[s[left]] == 0) m.erase(s[left]);
+            ++left;
+        }
+        res = max(res, i - left + 1);
+    }
+    return res;
+}
+
+void printV(vector<int>& v) {
+    std::cout << "{";
+    for (auto i: v) {
+        std::cout << i << ",";
+    }
+    std::cout << "}\n";
+}
+
+// key algorithm for quick sort, return the position of pivot
+// arr[] = {10, 80, 30, 90, 40, 50, 70}
+int partition(vector<int>& v, int low, int high) {
+    int pivot = v[high];
+    int left = low;
+    int right = high - 1;
+    
+    while (left < right) {
+        if (v[left] > pivot && v[right] < pivot) {
+            swap(v[left++], v[right--]);
+        }
+        if (v[left] < pivot) left++;
+        if (v[right] > pivot) right--;
+        // debug
+        printV(v);
+    }
+    
+    swap(v[high], v[left]);
+    return left;
+}
+
+void quicksort(vector<int>& v, int low, int high) {
+    if (low < high) {
+        int idx = partition(v, low, high);
+        quicksort(v, low, idx -1);
+        quicksort(v, idx + 1, high);
+    }
+}
+
+/**
+ *  DP problem.
+ */
+
+class abc
+{
+public:
+    int a;
+    std::string b;
+};
+
+
+/*
 int main(int argc, const char * argv[]) {
+    vector<int> qs = {10, 80, 30, 90, 40, 50, 70};
+    
+    for (auto i: qs) {
+        std::cout << i << "\n";
+    }
+    
+    
+    int idx = partition(qs, 0, qs.size() - 1);
+    
+    
+    string longestsubstring = "abcabcbb";
+    int len = lengthOfLongestSubstring(longestsubstring);
+    
+    std::vector<abc> vb;
+    abc a;
+    a.a = 10;
+    a.b = "10";
+    vb.push_back(a);
+    a.a = 20;
+    std::cout << vb[0].a << std::endl; // copy of const reference. C++ 11 introduce std::move. https://stackoverflow.com/questions/2275076/is-stdvector-copying-the-objects-with-a-push-back
+    std::cout << a.a << std::endl;
+    
+    string source = "cbaebabacd";
+    string t = "abc";
+    vector<int> pos = findAnagrams(source, t);
+    
+    
     // insert code here...
-//    std::cout << "Hello, World!\n";
+    //    std::cout << "Hello, World!\n";
     vector<string> words = {"foo", "bar"};
-//    vector<int> res1 = findSubstring("barfoothefoobarman", words);
+    //    vector<int> res1 = findSubstring("barfoothefoobarman", words);
     vector<int> res2 = findSubstring("foofoothefoobarman", words);
     vector<int> row = getRow(3);
     int up = 0, down = 3, left = 0, right = 3;
     vector<int> loop;
-//    vector<vector<int>> vec(m, vector<int> (n, 0));
+    //    vector<vector<int>> vec(m, vector<int> (n, 0));
     vector<string> full = {"What","must","be","acknowledgment","shall","be"};
     
     vector<string> res = fullJustify(full, 16);
@@ -797,17 +1120,17 @@ int main(int argc, const char * argv[]) {
     
     while (true) {
         for (int i = 0; i < 3; i++) loop.push_back(i);
-//        {
-//            std::cout << "i:" << i << std::endl;
-//            loop.push_back(i);
-//
-//        }
+        //        {
+        //            std::cout << "i:" << i << std::endl;
+        //            loop.push_back(i);
+        //
+        //        }
         if (loop.size() > 2) break;
         
         std::cout << "up:" << up << std::endl;
         if (++up > down) break;
     }
-
+    
     // 0 and a, a and 0, both gcd are a.
     int g = gcd(8, 0);
     
@@ -846,7 +1169,7 @@ int main(int argc, const char * argv[]) {
     
     Solution* obj = new Solution(arr);
     int param_1 = obj->pick(3);
-
+    
     // 9193 will fail.
     int maxi = maximumSwap(9973);
     
@@ -855,5 +1178,49 @@ int main(int argc, const char * argv[]) {
     std::string test_swap = "1234";
     swap(test_swap[0], test_swap[3]);
     std::cout << "Swap: " << test_swap << "\n";
+    
+    vector<int> v = {2,5,3};
+    int l = findNumberOfLIS(v);
+    std::cout << "lis:" << l << "\n";
+    
+    ListNode root(1);
+    //    ListNode node1(2);
+    //    ListNode node2(3);
+    //    ListNode node3(4);
+    //    ListNode node4(5);
+    //    ListNode node5(6);
+    //    ListNode node6(7);
+    //    ListNode node7(8);
+    //    ListNode node8(9);
+    //    ListNode node9(10);
+    
+    //    root.next = &node1;
+    //    root.next->next = &node2;
+    //    root.next->next->next = &node3;
+    //    root.next->next->next->next = &node4;
+    //    root.next->next->next->next->next = &node5;
+    //    root.next->next->next->next->next->next = &node6;
+    //    root.next->next->next->next->next->next->next = &node7;
+    //    root.next->next->next->next->next->next->next->next = &node8;
+    //    root.next->next->next->next->next->next->next->next->next = &node9;
+    
+    splitListToParts(&root, 3);
+    int i = 3;
+    int j = 3 + (i < 3);
+    std::cout << "j:" << j << "\n";
+    
+    unordered_map<char, int> table;
+    
+    // initialize frequency table for t
+    for(char c : t){
+        table[c]++;
+    }
+    
+    string sam = "eceba";
+    lengthOfLongestSubstringTwoDistinct(sam);
+    
+    
+    generateTrees(3);
     return 0;
 }
+*/
