@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8EF541672237863400B660F9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EF541662237863400B660F9 /* main.cpp */; };
 		AF37CABF25ED6A3200297A89 /* bfs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF37CABE25ED6A3200297A89 /* bfs.cpp */; };
+		AF44A09125F7FB2C00C4217A /* dfs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF44A09025F7FB2C00C4217A /* dfs.cpp */; };
 		AF886B50224ECFB900F71A26 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF886B4F224ECFB900F71A26 /* main.cpp */; settings = {COMPILER_FLAGS = "-fno-elide-constructors"; }; };
 		AFCDE6C325DE126500AB64C4 /* MinHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		8EF541632237863400B660F9 /* Hello World */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Hello World"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EF541662237863400B660F9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AF37CABE25ED6A3200297A89 /* bfs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bfs.cpp; sourceTree = "<group>"; };
+		AF44A09025F7FB2C00C4217A /* dfs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dfs.cpp; sourceTree = "<group>"; };
 		AF886B4D224ECFB900F71A26 /* Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF886B4F224ECFB900F71A26 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MinHeap.cpp; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		8EF541652237863400B660F9 /* Hello World */ = {
 			isa = PBXGroup;
 			children = (
+				AF44A09025F7FB2C00C4217A /* dfs.cpp */,
 				8EF541662237863400B660F9 /* main.cpp */,
 				AFCDE6C225DE126500AB64C4 /* MinHeap.cpp */,
 				AF37CABE25ED6A3200297A89 /* bfs.cpp */,
@@ -175,6 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF37CABF25ED6A3200297A89 /* bfs.cpp in Sources */,
+				AF44A09125F7FB2C00C4217A /* dfs.cpp in Sources */,
 				AFCDE6C325DE126500AB64C4 /* MinHeap.cpp in Sources */,
 				8EF541672237863400B660F9 /* main.cpp in Sources */,
 			);
