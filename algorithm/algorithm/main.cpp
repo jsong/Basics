@@ -134,10 +134,10 @@ vector<string> fullJustify(vector<string> &words, int L) {
     return res;
 }
 
-int gcd(int m, int n)
-{
-    return n == 0? m: gcd(n, m % n);
-}
+//int gcd(int m, int n)
+//{
+//    return n == 0? m: gcd(n, m % n);
+//}
 
 // 151. Reverse Words in a String
 // Solution 1:
@@ -978,7 +978,7 @@ vector<int> findAnagrams(string s, string p) {
  */
 
 // 3. Longest Substring Without Repeating Characters
-int lengthOfLongestSubstring(string s) {
+int lengthOfLongestSubstring2(string s) {
     unordered_map<char, int> map;
     int i = 0, j = 0, result = 0;
     while (j < s.length()) {

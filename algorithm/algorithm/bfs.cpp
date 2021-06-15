@@ -11,6 +11,7 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -113,18 +114,19 @@ int countComponents(int n, vector<pair<int, int> >& edges) {
 
 
 // 207. Course Schedule
-// detect rings in the directed graph, use in to track the 0
-// TODO: dfs
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-    // adjacent matrix
-    vector<vector<int>> g (numCourses);
-    vector<int> in(numCourses, 0);
-
-    for (auto v: prerequisites) {
-        g[v[1]].push_back(v[0]);
-        ++in[v[0]];
+// dfs solution
+bool dfsCourses(vector<int> visited, const vector<vector<int>>& g, int i) {
+    if (visited[i] == -1) return false;
+    visited[i] = -1;
+    for (auto course: g[i]) {
+        if (!dfsCourses(visited, g, course)) return false;
     }
+    
+    visited[i] = 1;
+    return true;
+}
 
+bool bfsCourses(vector<int>& in, const vector<vector<int>>& g, int numCourses) {
     queue<int> q;
     for (int i = 0; i < numCourses; i++) {
         if (in[i] == 0) {
@@ -133,12 +135,12 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     }
 
     while(!q.empty()) {
-        int p = q.front(); 
+        int p = q.front();
         q.pop();
         vector<int> neighbours = g[p];
         for (auto a: neighbours) {
             --in[a];
-            // MARK: this is important, draw a graph. 2->1-><-0, 
+            // MARK: this is important, draw a graph. 2->1-><-0,
             if (in[a] == 0) q.push(a);
         }
     }
@@ -148,6 +150,22 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     }
 
     return true;
+}
+
+// detect rings in the directed graph, use in to track the 0
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    // adjacent matrix
+    vector<vector<int>> g (numCourses);
+    vector<int> in(numCourses, 0); // bfs will use
+    vector<int> visited(numCourses, 0);
+    
+    for (auto v: prerequisites) {
+        g[v[1]].push_back(v[0]);
+        ++in[v[0]];
+    }
+
+//    return bfsCourses(in, g, numCourses);
+    return dfsCourses(visited, g, 0);
 }
 
 // 210. Course Schedule II
@@ -243,6 +261,40 @@ Node* cloneGraph(Node* node) {
     // return dfs
 }
 
+ int shortestPathLength(vector<vector<int>>& graph) {
+        int n = graph.size(), target = 0, res = 0;
+        unordered_set<string> visited;
+        queue<pair<int, int>> q;
+        for (int i = 0; i < n; ++i) {
+        	int mask = (1 << i);
+        	target |= mask;
+        	visited.insert(to_string(mask) + "-" + to_string(i));
+        	q.push({mask, i});
+        }
+        
+        while (!q.empty()) {
+        	for (int i = q.size(); i > 0; --i) {
+                cout << "i:" << i << "\n";
+        		auto cur = q.front(); q.pop();
+                cout << "cur: " << cur.first << ": " << cur.second << "\n";
+        		if (cur.first == target) return res;
+        		for (int next : graph[cur.second]) {
+        			int path = cur.first | (1 << next);
+        			string str = to_string(path) + "-" + to_string(next);
+                    cout << "visited: " << str << "\n";
+        			if (visited.count(str)) continue;
+        			visited.insert(str);
+        			q.push({path, next});
+        		}
+        	}
+            cout << "queue: " << q.size() << "\n";
+        	++res;
+        }
+        return -1;
+    }
+
+
+/*
 int main()
 {
     // matrix test
@@ -251,17 +303,31 @@ int main()
     
     vector<vector<int>> v{{3,1,2},{0,0,4},{7,6,5}};
     int r = cutOffTree(v);
-//    vector<pair<int, int>> p = {{0, 1}, {1,2}, {3,4}};
+    //vector<pair<int, int>> p = {{0, 1}, {1,2}, {3,4}};
     vector<pair<int, int>> p = {{0, 1}, {1, 2}, {2, 3}, {2, 4}};
     int c = countComponents(5, p);
     cout << "connected Graph: " << c << "\n";
     
     // Course schedule
     vector<vector<int>> courses {{1, 0},{1, 2}, {0, 1}};
-    bool f = canFinish(3, courses);
+    vector<vector<int>> failedCourses {{0,10},{3,18},{5,5},{6,11},{11,14},{13,1},{15,1},{17,4}};
+    bool f = canFinish(20, failedCourses);
     courses = {{1,0}};
     // Course shedule II
     vector<int> order = findOrder(2, courses);
     cout << "Course Schedule finish: " << f << "\n";
     std::cout << "Hello BFS\n";
+    
+    vector<vector<int>> graph {{1, 2, 3}, {0}, {0}, {0}};
+    vector<vector<int>> sgraph {{1}, {0, 2} , {1}};
+    int rr = shortestPathLength(sgraph);
+    cout << "Shortest path all nodes: " << rr << "\n";
+    vector <int> init {1, 2, 3};
+    for (int i = 0; i < init.size(); i++) {
+        cout << "i: " << init[i] << "\n";
+        if (i == 1) {
+            init.push_back(4);
+        }
+    }
 }
+*/
