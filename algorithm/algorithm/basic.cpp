@@ -113,16 +113,16 @@ std::string bitRep(int a) {
     return res;
 }
 
-string shortestPalindrome(string s) {
-    int i = 0, n = s.size();
-    for (int j = n - 1; j >= 0; --j) {
-        if (s[i] == s[j]) ++i;
-    }
-    if (i == n) return s;
-    string rem = s.substr(i);
-    reverse(rem.begin(), rem.end());
-    return rem + shortestPalindrome(s.substr(0, i)) + s.substr(i);
-}
+//string shortestPalindrome(string s) {
+//    int i = 0, n = s.size();
+//    for (int j = n - 1; j >= 0; --j) {
+//        if (s[i] == s[j]) ++i;
+//    }
+//    if (i == n) return s;
+//    string rem = s.substr(i);
+//    reverse(rem.begin(), rem.end());
+//    return rem + shortestPalindrome(s.substr(0, i)) + s.substr(i);
+//}
 
 std::string opEqual(string a) {
     string s = "hello";
@@ -264,8 +264,62 @@ string findReplaceString(string s, vector<int>& indexes, vector<string>& sources
         return res;
     }
 
+
+vector<int> findSubstring(string s, vector<string>& words) {
+    vector<int> res;
+    int n = words.size();
+    int len = 0;
+    // make sure it contains any word
+    if (n > 0) {
+        len = words[0].size();
+    }
+    unordered_map<string, int> m;
+    // actual words;
+    int act = n;
+    for (auto w: words) {
+        if (m.find(w) != m.end()) {
+            act--;
+        }
+        m[w]++;
+    }
+    
+    unordered_map<string, int> copy = m;
+    int loop = s.size() - n * len;
+    
+    for (int i = 0; i <= loop; i++) {
+        string sub = s.substr(i, n * len);
+        cout << "sub: " << sub << "len: " << sub.size() << "\n";
+        
+        m = copy;
+        int counter = act;
+        for (int j = 0; j < sub.size(); j += len) {
+            string ss = sub.substr(j, len);
+            if (m.find(ss) != m.end()) {
+                m[ss]--;
+                
+                if (m[ss] == 0) {
+                    counter--;
+                    if (counter == 0) {
+                        // we found a match.
+                        res.push_back(i);
+                    }
+                }
+            }
+        }
+    }
+    
+    return res;
+}
+
+/*
 int main()
 {
+    vector<string> ssr {"a", "a"};
+    // {"fooo","barr","wing","ding","wing"};
+    string ssss = "a";
+    // "lingmindraboofooowingdingbarrwingmonkeypoundcake";
+    vector<int> rrr = findSubstring(ssss, ssr);
+    
     vector<int> sq {-4, -1, 0, 3, 10};
     sortedSquares(sq);
 	vector<int> indexes {0, 2};
@@ -415,3 +469,4 @@ int main()
     // cout << "bit mask: " << vv << "\n";
     return 0;
 }
+ */

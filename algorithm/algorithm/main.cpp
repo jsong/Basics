@@ -13,11 +13,11 @@
 #include <unordered_map>
 #include <queue>
 #include <sstream>      // std::istringstream
-
+#include "common.h"
 
 using namespace std;
 
-vector<int> findSubstring(string s, vector<string>& words) {
+vector<int> findSubstring2(string s, vector<string>& words) {
     vector<int> res;
     if (s.empty() || words.empty()) return res;
     int n = words.size(), m = words[0].size();
@@ -852,12 +852,6 @@ int findLengthOfLCIS(vector<int>& nums) {
 // Adjust matrix
 
 // 725. Split Linked List in Parts
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
-};
-
 vector<ListNode*> splitListToParts(ListNode* root, int k) {
     int count = 0;
     vector<ListNode*> res;

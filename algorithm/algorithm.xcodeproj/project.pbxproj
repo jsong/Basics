@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF33605726B095F90030AA33 /* ListNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF33605626B095F90030AA33 /* ListNode.cpp */; };
 		AF811B1826782B7B00EA0E87 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF811B1726782B7B00EA0E87 /* main.cpp */; };
 		AF811B2426782BA700EA0E87 /* basic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF811B1F26782BA700EA0E87 /* basic.cpp */; };
 		AF811B2526782BA700EA0E87 /* dfs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF811B2026782BA700EA0E87 /* dfs.cpp */; };
@@ -28,6 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AF33605626B095F90030AA33 /* ListNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListNode.cpp; sourceTree = "<group>"; };
 		AF811B1426782B7B00EA0E87 /* algorithm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = algorithm; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF811B1726782B7B00EA0E87 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AF811B1F26782BA700EA0E87 /* basic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = basic.cpp; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		AF811B1626782B7B00EA0E87 /* algorithm */ = {
 			isa = PBXGroup;
 			children = (
+				AF33605626B095F90030AA33 /* ListNode.cpp */,
 				AF811B1F26782BA700EA0E87 /* basic.cpp */,
 				AF811B2126782BA700EA0E87 /* bfs.cpp */,
 				AF811B2026782BA700EA0E87 /* dfs.cpp */,
@@ -135,6 +138,7 @@
 			files = (
 				AF811B2526782BA700EA0E87 /* dfs.cpp in Sources */,
 				AF811B2426782BA700EA0E87 /* basic.cpp in Sources */,
+				AF33605726B095F90030AA33 /* ListNode.cpp in Sources */,
 				AF811B2726782BA700EA0E87 /* graph.cpp in Sources */,
 				AF811B1826782B7B00EA0E87 /* main.cpp in Sources */,
 				AF811B2826782BA700EA0E87 /* MinHeap.cpp in Sources */,
