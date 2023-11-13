@@ -169,7 +169,7 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
 }
 
 // 210. Course Schedule II
-vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+vector<int> findOrder2(int numCourses, vector<vector<int>>& prerequisites) {
     vector<int> v;
     vector<int> in(numCourses, 0);
     vector<vector<int>> g(numCourses);

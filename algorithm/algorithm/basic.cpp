@@ -247,23 +247,49 @@ string findReplaceString(string s, vector<int>& indexes, vector<string>& sources
     return res;
 }
 
- vector<int> sortedSquares(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> res(n);
-        int i = 0, j = n - 1;
-        for (int k = n - 1; k >= 0; k--) {
-            if (abs(nums[i]) >= abs(nums[j])) {
-                res[k] = abs(nums[i]) * abs(nums[i]);
-                i++;
+
+bool checkSubarraySum(vector<int>& nums, int k) {
+    std::unordered_map<int, int> m;  // mod, index
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i++) {
+        sum += nums[i];
+        int t = sum % k;
+        if (m.count(t)) {
+            if (i - m[t] > 1) {
+                return true;
+            }
+        } else {
+            m[t] = i;
+        }
+    }
+    
+    return false;
+    
+}
+
+
+bool isPalindrome(string s) {
+    int i = 0, j = s.size() - 1;
+    while (i < j) {
+        if (std::isalnum(s[i]) && std::isalnum(s[j])) {
+            if (std::tolower(s[i]) != std::tolower(s[j])) {
+                return false;
             } else {
-                res[k] = abs(nums[j]) * abs(nums[j]);
+                i++;
                 j--;
             }
+        } else if (std::isalnum(s[i]) && !std::isalnum(s[j])) {
+            j--;
+        } else if (!std::isalnum(s[i]) && std::isalnum(s[j])) {
+            i++;
+        } else {
+            i++;
+            j--;
         }
-        
-        return res;
     }
-
+    
+    return true;
+}
 
 vector<int> findSubstring(string s, vector<string>& words) {
     vector<int> res;
@@ -305,6 +331,21 @@ vector<int> findSubstring(string s, vector<string>& words) {
                     }
                 }
             }
+}
+}
+}
+
+vector<int> sortedSquares(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> res(n);
+    int i = 0, j = n - 1;
+    for (int k = n - 1; k >= 0; k--) {
+        if (abs(nums[i]) >= abs(nums[j])) {
+            res[k] = abs(nums[i]) * abs(nums[i]);
+            i++;
+        } else {
+            res[k] = abs(nums[j]) * abs(nums[j]);
+            j--;
         }
     }
     
@@ -319,23 +360,82 @@ int main()
     string ssss = "a";
     // "lingmindraboofooowingdingbarrwingmonkeypoundcake";
     vector<int> rrr = findSubstring(ssss, ssr);
+=======
+struct AA {
+    AA(std::string a): _a(a){}
+    std::string _a;
+};
+
+void printAA (AA const& a) {
+    cout << a._a;
+}
+
+/*
+int main()
+{
+    stack<char> stackSample;
+    std::unordered_map<char, int> mymap = {{'}', 1}, {')', 2}, {']', 3}};
+    for (auto iter: mymap) {
+        cout << iter.first << "->" << iter.second;
+    }
+    
+    std::cout << "stackSample: " << stackSample.top() << "\n";
+    
+    vector<int> vvv {23,2,6,4,7};
+    cout << checkSubarraySum(vvv, 6);
+    
+    cout << isPalindrome("A man, a plan, a canal: Panama");
+    
+    int a1 = 8;
+    while (a1 > 0) {
+        cout << a1 << "\n";
+        a1 = a1 >> 1;
+    }
+    int b1 = 1;
+    int c1 = a1 & b1;
+    cout << c1;
+    
+    vector<AA> vAA;
+    AA aao("default");
+    vAA.push_back(aao);
+    for (int i = 0; i < vAA.size(); i++) {
+        vAA[i]._a = "changed";
+    }
+    cout << aao._a << "\n";
+    
+    //    AA *ap = new AA("default");
+    //    printf("variable A is at address: %p\n", &ap);
+    ////    cout << ap<<"\n";
+    //    // what's being copied.
+    //    vAA.push_back(ap);
+    //    for (int i = 0; i < vAA.size(); i++) {
+    //        vAA[i]->_a = "changed";
+    //        printf("variable B is at address: %p\n", vAA[0]);
+    ////        cout << vAA[i]->_a << "\n";
+    //    }
+    //    ap->_a = "changed";
+    //    cout << ap->_a << "\n";
+    //    for (int i = 0; i < vAA.size(); i++) {
+    //        cout << vAA[i]->_a;
+    //    }
+>>>>>>> Stashed changes
     
     vector<int> sq {-4, -1, 0, 3, 10};
     sortedSquares(sq);
-	vector<int> indexes {0, 2};
-	vector<string> sources {"ab", "cd"};
-	vector<string> targets {"eee", "fff"};
-	string sss = findReplaceString("abcd", indexes, sources, targets);
-	cout << sss << "\n";
- 
+    vector<int> indexes {0, 2};
+    vector<string> sources {"ab", "cd"};
+    vector<string> targets {"eee", "fff"};
+    string sss = findReplaceString("abcd", indexes, sources, targets);
+    cout << sss << "\n";
+    
     vector<int> twoSum {3, 3};
-	unordered_map<int, int> mTwo;
-	for (int i = 0; i < twoSum.size(); i++) {
-		mTwo[twoSum[i]] = i;
-	}
-
-	cout << mTwo.size() << ": map size\n";
- 
+    unordered_map<int, int> mTwo;
+    for (int i = 0; i < twoSum.size(); i++) {
+        mTwo[twoSum[i]] = i;
+    }
+    
+    cout << mTwo.size() << ": map size\n";
+    
     vector<string> words = {"apple", "app"};
     string order = "worldabcefghijkmnpqstuvxyz";
     bool al = isAlienSorted(words, order);
@@ -469,4 +569,4 @@ int main()
     // cout << "bit mask: " << vv << "\n";
     return 0;
 }
- */
+*/

@@ -1,0 +1,15 @@
+//
+//  SceneDelegate.h
+//  SampleiOS
+//
+//  Created by Song, Jian on 8/28/21.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
+
+@property (strong, nonatomic) UIWindow * window;
+
+@end
+
